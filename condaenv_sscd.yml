@@ -1,0 +1,14 @@
+name: sscd
+
+dependencies:
+  # - python==3.7
+  # - pip
+  - Pillow
+  # - matplotlib
+  # - opencv
+  # - pip:
+    # - Pillow
+    # - tensorflow==2.1.0rc1
+    # - lxml
+    # - tqdm
+    # - -e .
