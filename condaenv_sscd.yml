@@ -1,9 +1,11 @@
 name: sscd
 
 dependencies:
-  # - python==3.7
+  - python==3.7
   # - pip
   - Pillow
+  - tqdm
+  - jupyterlab
   # - matplotlib
   # - opencv
   # - pip:
