@@ -162,7 +162,12 @@ def main():
         
     args = vars(args_parser.parse_args())
            
-    # --- Create destination directories
+    
+    # --------------------------------- #
+    # --        Housekeeping        --- #
+    # --------------------------------- #  
+    
+    # -- Create destination directories
     
     # scale jpeg images
     scales_jpegs_dir = os.path.join(args["output_dir"], "jpegs", "scales")
@@ -172,7 +177,13 @@ def main():
     transects_jpegs_dir = os.path.join(args["output_dir"], "jpegs", "transects")
     os.makedirs(transects_jpegs_dir, exist_ok=True)
     
-    # --- Convert image files to jpeg format and saving them in the destination directory
+    
+    
+    # --------------------------------------- #
+    # --    Circuli detection pipeline    --- #
+    # --------------------------------------- #  
+    
+    ## - 1. Convert image files to jpeg format and write them to ~/<output_dir>/jpegs/scales
     convert_to_jpeg(args["img_dir"], scales_jpegs_dir)
     
     
