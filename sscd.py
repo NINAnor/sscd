@@ -28,38 +28,110 @@ import glob
 from pathlib import Path
 
 # installed packages/libraries
-from PIL import Image   # installed from pip, following https://pillow.readthedocs.io/en/latest/installation.html#basic-installation
+from PIL import Image
 from tqdm import tqdm
 
+import concurrent.futures
 
 
+# def convert_to_jpeg(input_imgs_dir, output_imgs_dir):
+    
+#     """
+#     Converts images located within the directory into jpeg format.
+
+#     :param input_imgs_dir: path to directory where image files are located. 
+#         Input formats accepted: TIFF, PGN and JPG. 
+#         Jpeg files are simply copied to the output directory
+#     :param output_imgs_dir: path directory where jpeg image files should be written
+#     :return: 0 to indicate successful completion
+#     """
+        
+#     # --- list image pathfiles in input directory
+#     types = ('*.tif', '*.tiff', '*.png', '*.jpg') # file types accepted
+#     img_filepaths = []
+#     for ftype in types:
+#         img_filepaths.extend(glob.glob(input_imgs_dir + "/" + ftype))
+        
+#     if len(img_filepaths) == 0:
+#         raise Exception('No images of type TIFF or PNG found in input folder')
+    
+#     for f in tqdm(img_filepaths, ascii = True, ncols = 150,
+#                   desc = "Converting images files to jpeg format"):
+#         im = Image.open(f)
+#         name = Path(f).stem
+#         outfile = os.path.join(output_imgs_dir, name + '.jpg')
+#         im.save(outfile, 'JPEG', quality=95)
+        
+#     return 0
+
+
+
+# ------------------------------------------------------------------------------
+def convert2jpeg(img_input_filepath, img_output_filepath):
+    """
+    Converts image to jpeg format.
+
+    Parameters
+    ----------
+    img_input_filepath : str
+        filepath to image file to be converted.
+    img_output_filepath : str
+        filepath to write the converted image.
+
+    Returns
+    -------
+    None.
+    
+    """
+    
+    im = Image.open(img_input_filepath)
+    im.save(img_output_filepath, 'JPEG', quality=95)
+    
+    
+    
+# ------------------------------------------------------------------------------
 def convert_to_jpeg(input_imgs_dir, output_imgs_dir):
     
     """
     Converts images located within the directory into jpeg format.
-
-    :param input_imgs_dir: path to directory where image files are located. 
-        Input formats accepted: TIFF, PGN and JPG. 
-        Jpeg files are simply copied to the output directory
-    :param output_imgs_dir: path directory where jpeg image files should be written
-    :return: 0 to indicate successful completion
+    
+    Parameters
+    ----------
+    input_imgs_dir : str
+        path to directory where image files are located. Input formats accepted: 
+            TIFF, PGN and JPG. Jpeg files are simply copied to the output 
+            directory
+    output_imgs_dir : str
+        path directory where jpeg image files should be written
+        
+        
+    Returns
+    -------
+    0 to indicate successful completion
+    
     """
-        
-    # --- list image pathfiles in input directory
-    types = ('*.tif', '*.png', '*.jpg') # file types accepted
-    img_filepaths = []
+
+    # --- list image pathfiles in input directory with tiff and png formats
+    types = ('*.tif', '*.tiff', '*.png', '*.jpg') # file types accepted
+    img_input_fpaths = []
     for ftype in types:
-        img_filepaths.extend(glob.glob(input_imgs_dir + "/" + ftype))
+        img_input_fpaths.extend(glob.glob(input_imgs_dir + "/" + ftype))
         
-    if len(img_filepaths) == 0:
+    
+    if len(img_input_fpaths) == 0:
         raise Exception('No images of type TIFF or PNG found in input folder')
     
-    for f in tqdm(img_filepaths, ascii = True, ncols = 150,
-                  desc = "Converting images files to jpeg format"):
-        im = Image.open(f)
-        name = Path(f).stem
-        outfile = os.path.join(output_imgs_dir, name + '.jpg')
-        im.save(outfile, 'JPEG', quality=95)
+    
+    # generate output filepaths for converted images
+    img_output_fpaths = [os.path.join(output_imgs_dir, Path(name).stem + '.jpg') 
+                         for name in img_input_fpaths]
+    
+    # use a ProcessPoolExecutor to convert the  images in parallel
+    with concurrent.futures.ProcessPoolExecutor() as executor:
+        # use the executor to map the converting function to the iterable of input paths
+        list(tqdm(executor.map(convert2jpeg, img_input_fpaths, img_output_fpaths),
+                  total=len(img_input_fpaths), ascii = True, ncols = 150, 
+                  desc = "Converting images to jpeg format"))
         
     return 0
 
@@ -67,8 +139,9 @@ def convert_to_jpeg(input_imgs_dir, output_imgs_dir):
 
 
 
-
+# ------------------------------------------------------------------------------
 def main():
+       
     
     # parse the command line arguments
     args_parser = argparse.ArgumentParser()
@@ -88,9 +161,7 @@ def main():
     )
         
     args = vars(args_parser.parse_args())
-       
-    
-    
+           
     # --- Create destination directories
     
     # scale jpeg images
@@ -101,19 +172,15 @@ def main():
     transects_jpegs_dir = os.path.join(args["output_dir"], "jpegs", "transects")
     os.makedirs(transects_jpegs_dir, exist_ok=True)
     
-    #breakpoint()
     # --- Convert image files to jpeg format and saving them in the destination directory
     convert_to_jpeg(args["img_dir"], scales_jpegs_dir)
     
     
     
-    #tiff_to_jpeg(img_dir, scale_jpegs_dir, quality = quality)
-    
-    
     
 # ------------------------------------------------------------------------------
 if __name__ == "__main__":
-   
+    __spec__ = None
     main()    
     
     
