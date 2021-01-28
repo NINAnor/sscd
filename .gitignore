@@ -1,2 +1,10 @@
 
 .ipynb_checkpoints/SSCD Tutorial-checkpoint.ipynb
+data/yoloV3_checkpoints/focus_detector/yolov3_train_190.tf.index
+data/yoloV3_checkpoints/focus_detector/yolov3_train_190.tf.data-00001-of-00002
+data/yoloV3_checkpoints/focus_detector/yolov3_train_190.tf.data-00000-of-00002
+data/yoloV3_checkpoints/focus_detector/checkpoints_metadata.txt
+SSCD.egg-info/dependency_links.txt
+SSCD.egg-info/PKG-INFO
+SSCD.egg-info/SOURCES.txt
+SSCD.egg-info/top_level.txt
