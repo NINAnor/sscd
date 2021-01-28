@@ -21,85 +21,95 @@ Usage:
 
 """
 
-# built-in modules
+# import built-in modules
 import argparse
 import os
 import glob
 from pathlib import Path
+import concurrent.futures
 
-# installed packages/libraries
+# import installed packages/libraries
 from PIL import Image
 from tqdm import tqdm
 
-import concurrent.futures
+
+# import local modules
+from sscd_libs.detection import detect
 
 
-# def convert_to_jpeg(input_imgs_dir, output_imgs_dir):
-    
-#     """
-#     Converts images located within the directory into jpeg format.
 
-#     :param input_imgs_dir: path to directory where image files are located. 
-#         Input formats accepted: TIFF, PGN and JPG. 
-#         Jpeg files are simply copied to the output directory
-#     :param output_imgs_dir: path directory where jpeg image files should be written
-#     :return: 0 to indicate successful completion
-#     """
-        
-#     # --- list image pathfiles in input directory
-#     types = ('*.tif', '*.tiff', '*.png', '*.jpg') # file types accepted
-#     img_filepaths = []
-#     for ftype in types:
-#         img_filepaths.extend(glob.glob(input_imgs_dir + "/" + ftype))
-        
-#     if len(img_filepaths) == 0:
-#         raise Exception('No images of type TIFF or PNG found in input folder')
-    
-#     for f in tqdm(img_filepaths, ascii = True, ncols = 150,
-#                   desc = "Converting images files to jpeg format"):
-#         im = Image.open(f)
-#         name = Path(f).stem
-#         outfile = os.path.join(output_imgs_dir, name + '.jpg')
-#         im.save(outfile, 'JPEG', quality=95)
-        
-#     return 0
+
+import logging
+#import sys
+
+
+# ------------------------------------------------------------------------------
+# set up a basic, global _logger which will write to the console
+logging.basicConfig(
+    level=logging.INFO,
+    #filename='sscd.log', filemode='w',
+    format='%(levelname)s (%(asctime)s): %(message)s',
+    #format= '%(levelname)s:%(module)s (%(asctime)s): %(message)s ',
+    datefmt="%Y-%m-%d %H:%M:%S",
+)
+logger = logging.getLogger(__name__)
+
+
+# # ------------------------------------------------------------------------------
+
+# # ---------------------------------------------------------------------------------
+# # Create logger
+# logger = logging.getLogger()
+# logger.setLevel(logging.DEBUG)
+
+# # Create STDERR handler
+# handler = logging.StreamHandler(sys.stderr)
+# # ch.setLevel(logging.DEBUG)
+
+# # Create formatter and add it to the handler
+# # formatter = logging.Formatter('%(levelname)s (%(asctime)s): %(message)s', #'%(name)s - %(levelname)s - %(asctime)s - %(message)s', 
+# #                               datefmt="%Y-%m-%d %H:%M:%S")
+# formatter = logging.Formatter('%(asctime)s: %(message)s', #'%(name)s - %(levelname)s - %(asctime)s - %(message)s', 
+#                               datefmt="%Y-%m-%d %H:%M:%S")
+# handler.setFormatter(formatter)
+
+# # Set STDERR handler as the only handler 
+# logger.handlers = [handler]
+# # ---------------------------------------------------------------------------------
 
 
 
 # ------------------------------------------------------------------------------
-def convert2jpeg(img_input_filepath, img_output_filepath):
+def tiff_to_jpg(tiff_input_filepath, jpg_output_filepath):
     """
-    Converts image to jpeg format.
+    Converts a tiff image to jpeg format.
 
     Parameters
     ----------
-    img_input_filepath : str
-        filepath to image file to be converted.
-    img_output_filepath : str
-        filepath to write the converted image.
-
-    Returns
-    -------
-    None.
+    tiff_input_filepath : str
+        filepath to tiff image file to be converted.
+    jpg_output_filepath : str
+        filepath to write the jpeg image.
     
     """
     
-    im = Image.open(img_input_filepath)
-    im.save(img_output_filepath, 'JPEG', quality=95)
+    im = Image.open(tiff_input_filepath)
+    im.save(jpg_output_filepath, 'JPEG', quality=95)
+    
     
     
     
 # ------------------------------------------------------------------------------
-def convert_to_jpeg(input_imgs_dir, output_imgs_dir):
+def images_tiff_to_jpeg(input_imgs_dir, output_imgs_dir):
     
     """
-    Converts images located within the directory into jpeg format.
+    Wrapper to convert tiff images located within the directory into jpeg format.
     
     Parameters
     ----------
     input_imgs_dir : str
         path to directory where image files are located. Input formats accepted: 
-            TIFF, PGN and JPG. Jpeg files are simply copied to the output 
+            TIFF, TIF and JPG. Jpeg files are simply copied to the output 
             directory
     output_imgs_dir : str
         path directory where jpeg image files should be written
@@ -111,27 +121,29 @@ def convert_to_jpeg(input_imgs_dir, output_imgs_dir):
     
     """
 
-    # --- list image pathfiles in input directory with tiff and png formats
-    types = ('*.tif', '*.tiff', '*.png', '*.jpg') # file types accepted
+    # --- list image pathfiles in input directory with tiff (or jpg) formats
+    types = ('*.tif', '*.tiff', '*.jpg') # file types accepted
     img_input_fpaths = []
     for ftype in types:
         img_input_fpaths.extend(glob.glob(input_imgs_dir + "/" + ftype))
         
-    
+    # Raise exception if there are no valid images present in input directory
     if len(img_input_fpaths) == 0:
-        raise Exception('No images of type TIFF or PNG found in input folder')
-    
-    
-    # generate output filepaths for converted images
+        #raise ValueError('No images of type TIFF or PNG found in input folder')
+        raise Exception('No images of type TIFF found in input folder')
+        
+    # --- generate output filepaths for converted images
     img_output_fpaths = [os.path.join(output_imgs_dir, Path(name).stem + '.jpg') 
                          for name in img_input_fpaths]
     
     # use a ProcessPoolExecutor to convert the  images in parallel
     with concurrent.futures.ProcessPoolExecutor() as executor:
+        
+        logger.info("Converting %d images to jpeg format", len(img_input_fpaths))
+        
         # use the executor to map the converting function to the iterable of input paths
-        list(tqdm(executor.map(convert2jpeg, img_input_fpaths, img_output_fpaths),
-                  total=len(img_input_fpaths), ascii = True, ncols = 150, 
-                  desc = "Converting images to jpeg format"))
+        list(tqdm(executor.map(tiff_to_jpg, img_input_fpaths, img_output_fpaths),
+                  total=len(img_input_fpaths), ascii = True, ncols = 120))
         
     return 0
 
@@ -139,12 +151,39 @@ def convert_to_jpeg(input_imgs_dir, output_imgs_dir):
 
 
 
+
+
+
+
+# def detect_focus(scale_img_dir, class_names, weights, input_height, input_width, 
+#                  det_output_dir, yolo_score_threshold):    
+
+#     """
+#     Parameters
+#     ----------
+#     input_imgs_dir : str
+#         path to directory where image files are located. Input formats accepted: 
+#             TIFF, PGN and JPG. Jpeg files are simply copied to the output 
+#             directory
+    
+#      Returns
+#     -------
+    
+    
+#     """
+    
+
+
+
+
+
+
 # ------------------------------------------------------------------------------
 def main():
-       
     
     # parse the command line arguments
-    args_parser = argparse.ArgumentParser()
+    args_parser = argparse.ArgumentParser(
+        description='*** DESCRIPTION TO DO ***')
     args_parser.add_argument(
         "--img_dir",
         dest= "img_dir",
@@ -157,7 +196,7 @@ def main():
         dest= "output_dir",
         required=True,
         type=str,
-        help="directory path where all outputs will be stored",
+        help="directory path where outputs will be stored",
     )
         
     args = vars(args_parser.parse_args())
@@ -177,18 +216,40 @@ def main():
     transects_jpegs_dir = os.path.join(args["output_dir"], "jpegs", "transects")
     os.makedirs(transects_jpegs_dir, exist_ok=True)
     
+    # focus detections
+    focus_detections_dir = os.path.join(args["output_dir"], "detections", "focus")
+    os.makedirs(focus_detections_dir, exist_ok=True)
     
-    
+    # scale images with focus detections
+    focus_detection_images_dir = os.path.join(focus_detections_dir, "detection_images")
+    os.makedirs(focus_detection_images_dir, exist_ok=True)
+        
     # --------------------------------------- #
     # --    Circuli detection pipeline    --- #
     # --------------------------------------- #  
     
     ## - 1. Convert image files to jpeg format and write them to ~/<output_dir>/jpegs/scales
-    convert_to_jpeg(args["img_dir"], scales_jpegs_dir)
+    images_tiff_to_jpeg(
+        args["img_dir"], 
+        scales_jpegs_dir
+        )
     
     
+    #breakpoint()
+    #print("here in main again")
     
-    
+    ## - 2. Focus detection    
+    logger.info("Gearing up focus detector")
+    detect(img_dir = scales_jpegs_dir, 
+           det_dir = focus_detections_dir, 
+           det_img_dir = focus_detection_images_dir,
+           weights = './data/yoloV3_checkpoints/focus_detector/yolov3_train_190.tf', 
+           classes_file = './data/scales_label.names',
+           input_width=1376, 
+           input_height=1376
+           )
+    logger.info("Finished focus detection")
+
 # ------------------------------------------------------------------------------
 if __name__ == "__main__":
     __spec__ = None
