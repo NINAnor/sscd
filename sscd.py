@@ -132,27 +132,6 @@ def images_tiff_to_jpeg(input_imgs_dir, output_imgs_dir):
 
 
 
-# def detect_focus(scale_img_dir, class_names, weights, input_height, input_width, 
-#                  det_output_dir, yolo_score_threshold):    
-
-#     """
-#     Parameters
-#     ----------
-#     input_imgs_dir : str
-#         path to directory where image files are located. Input formats accepted: 
-#             TIFF, PGN and JPG. Jpeg files are simply copied to the output 
-#             directory
-    
-#      Returns
-#     -------
-    
-    
-#     """
-    
-
-
-
-
 
 
 # ------------------------------------------------------------------------------
