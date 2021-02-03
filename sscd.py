@@ -138,6 +138,11 @@ def clean_output_dir(dir_path):
 
 
 
+# ------------------------------------------------------------------------------
+def boolean_string(s):
+    if s not in {'False', 'True'}:
+        raise ValueError('Not a valid boolean string')
+    return s == 'True'
 
 
 
@@ -163,12 +168,29 @@ def main():
         type=str,
         help="directory path where outputs will be stored",
     )
+    args_parser.add_argument(
+        "--dets_separate_files",
+        dest= "dets_separate_files",
+        required=False,
+        type=boolean_string,
+        default = False,
+        help="Require detections in each image to be saved in separate files",
+    )
+    args_parser.add_argument(
+        "--plot_detections",
+        dest= "plot_detections",
+        required=False,
+        type=boolean_string,
+        default = True,
+        help="Plot images with detections?",
+    )
         
     args = vars(args_parser.parse_args())
-           
+    
+    
     
     # --------------------------------- #
-    # --        Housekeeping        --- #
+    # --      File Management       --- #
     # --------------------------------- #  
     
     # --- Clean output directory of all subdirectories and files from a previous run
@@ -206,15 +228,20 @@ def main():
         )
        
     #breakpoint()
+            
     ## - 2. Focus detection    
     logger.info("Gearing up focus detector")
     detect(img_dir = scales_jpegs_dir, 
            det_dir = focus_detections_dir, 
-           det_img_dir = focus_detection_images_dir,
+           #det_img_dir = focus_detection_images_dir,
            weights = './data/yoloV3_checkpoints/focus_detector/yolov3_train_190.tf', 
            classes_file = './data/scales_label.names',
            input_width=1376, 
-           input_height=1376
+           input_height=1376,
+           dets_save_apart = args["dets_separate_files"], 
+           plot_dets = args["plot_detections"], 
+           fig_w = 35, 
+           fig_h = 30
            )
     logger.info("Finished focus detection")
 
