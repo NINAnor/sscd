@@ -55,29 +55,6 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 
-# # ------------------------------------------------------------------------------
-
-# # ---------------------------------------------------------------------------------
-# # Create logger
-# logger = logging.getLogger()
-# logger.setLevel(logging.DEBUG)
-
-# # Create STDERR handler
-# handler = logging.StreamHandler(sys.stderr)
-# # ch.setLevel(logging.DEBUG)
-
-# # Create formatter and add it to the handler
-# # formatter = logging.Formatter('%(levelname)s (%(asctime)s): %(message)s', #'%(name)s - %(levelname)s - %(asctime)s - %(message)s', 
-# #                               datefmt="%Y-%m-%d %H:%M:%S")
-# formatter = logging.Formatter('%(asctime)s: %(message)s', #'%(name)s - %(levelname)s - %(asctime)s - %(message)s', 
-#                               datefmt="%Y-%m-%d %H:%M:%S")
-# handler.setFormatter(formatter)
-
-# # Set STDERR handler as the only handler 
-# logger.handlers = [handler]
-# # ---------------------------------------------------------------------------------
-
-
 
 # ------------------------------------------------------------------------------
 def tiff_to_jpg(tiff_input_filepath, jpg_output_filepath):
