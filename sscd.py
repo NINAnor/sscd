@@ -175,7 +175,6 @@ def main():
     clean_output_dir(args["output_dir"])
            
     # -- Create destination directories
-    
     # scale jpeg images
     scales_jpegs_dir = os.path.join(args["output_dir"], "jpegs", "scales")
     os.makedirs(scales_jpegs_dir, exist_ok=True)
@@ -188,9 +187,13 @@ def main():
     focus_detections_dir = os.path.join(args["output_dir"], "detections", "focus")
     os.makedirs(focus_detections_dir, exist_ok=True)
     
-    # scale images with focus detections
-    focus_detection_images_dir = os.path.join(focus_detections_dir, "detection_images")
-    os.makedirs(focus_detection_images_dir, exist_ok=True)
+    # # scale images with focus detections
+    # if args["plot_detections"]:
+    #     focus_detection_images_dir = os.path.join(focus_detections_dir, "detection_images")
+    #     os.makedirs(focus_detection_images_dir, exist_ok=True)
+    # else:
+    #     focus_detection_images_dir = None
+       
         
     # --------------------------------------- #
     # --    Circuli detection pipeline    --- #
@@ -201,11 +204,8 @@ def main():
         args["img_dir"], 
         scales_jpegs_dir
         )
-    
-    
+       
     #breakpoint()
-    #print("here in main again")
-    
     ## - 2. Focus detection    
     logger.info("Gearing up focus detector")
     detect(img_dir = scales_jpegs_dir, 
