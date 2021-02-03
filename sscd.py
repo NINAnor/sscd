@@ -27,6 +27,8 @@ import os
 import glob
 from pathlib import Path
 import concurrent.futures
+import shutil
+
 
 # import installed packages/libraries
 from PIL import Image
@@ -126,6 +128,13 @@ def images_tiff_to_jpeg(input_imgs_dir, output_imgs_dir):
 
 
 
+# ------------------------------------------------------------------------------
+def clean_output_dir(dir_path):
+    
+    try:
+        shutil.rmtree(dir_path)
+    except OSError as e:
+        print("Error: %s : %s" % (dir_path, e.strerror))
 
 
 
@@ -162,6 +171,9 @@ def main():
     # --        Housekeeping        --- #
     # --------------------------------- #  
     
+    # --- Clean output directory of all subdirectories and files from a previous run
+    clean_output_dir(args["output_dir"])
+           
     # -- Create destination directories
     
     # scale jpeg images
