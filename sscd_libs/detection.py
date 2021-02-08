@@ -236,8 +236,9 @@ def detect(img_dir, det_dir, weights=None, classes_file=None,
     # --- setting up yoloV3's model structure
     yolo = YoloV3(width=input_width, height=input_height, classes=1, 
                   yolo_max_boxes = yolo_max_boxes, 
-                  yolo_score_threshold= yolo_score_threshold)
+                  yolo_score_threshold = yolo_score_threshold)
     
+        
     # --- load weights
     yolo.load_weights(weights).expect_partial()
     logger.info('weights loaded')

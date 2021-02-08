@@ -25,7 +25,8 @@ Usage:
 import argparse
 import os
 import shutil
-import multiprocessing
+import glob
+#import multiprocessing
 
 # import local modules
 from sscd_libs.detection import detect
@@ -126,6 +127,30 @@ def main():
     
     #breakpoint()
     
+    
+    # --------------------------------------- #
+    # --               Checks             --- #
+    # --------------------------------------- #  
+    
+    # -- Check if weights are placed correctly
+    # Focus detector
+    if len(glob.glob("./data/yoloV3_checkpoints/focus_detector/*.index")) == 0:
+        raise FileNotFoundError("Checkpoint files for focus detector not found."
+                                "Please check README.md file and follow instructions on how to set up yolo weights")
+    elif len(glob.glob("./data/yoloV3_checkpoints/focus_detector/*.index")) > 1:
+        raise IOError("Too many checkpoint files found for the focus detector model (only one set of checkpoints expected)."
+                      "Please check README file and follow instructions on how to set up yolo weights")
+        
+    # circuli detector    
+    if len(glob.glob("./data/yoloV3_checkpoints/circuli_detector/*.index")) == 0:
+        raise FileNotFoundError("Checkpoint files for circuli detector not found."
+                                "Please check README.md file and follow instructions on how to set up yolo weights")
+    elif len(glob.glob("./data/yoloV3_checkpoints/circuli_detector/*.index")) > 1:
+        raise IOError("Too many checkpoint files found for the circuli detector model ((only one of checkpoints expected)."
+                      "Please check README file and follow instructions on how to set up yolo weights")
+    
+    
+    
     # --------------------------------- #
     # --      File Management       --- #
     # --------------------------------- #  
@@ -149,6 +174,8 @@ def main():
     circuli_detections_dir = os.path.join(args["output_dir"], "detections", "circuli")
     os.makedirs(circuli_detections_dir, exist_ok=True)
     
+    
+
     
     # --------------------------------------- #
     # --    Circuli detection pipeline    --- #
