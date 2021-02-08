@@ -8,3 +8,8 @@ SSCD.egg-info/dependency_links.txt
 SSCD.egg-info/PKG-INFO
 SSCD.egg-info/SOURCES.txt
 SSCD.egg-info/top_level.txt
+*.pyc
+*.pyc
+data/yoloV3_checkpoints/circuli_detector/yolov3_train_22.tf.data-00000-of-00002
+data/yoloV3_checkpoints/circuli_detector/yolov3_train_22.tf.data-00001-of-00002
+data/yoloV3_checkpoints/circuli_detector/yolov3_train_22.tf.index
