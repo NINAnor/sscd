@@ -3,7 +3,7 @@ name: sscd
 dependencies:
   - python==3.7
   - pip
-  - Pillow
+  - Pillow==4.2.1
   - tqdm
   - jupyterlab
   - matplotlib
