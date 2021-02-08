@@ -127,6 +127,8 @@ def draw_detections(img, dets, output_dir, draw_gt = False, gtInSeparatePlot = F
     ax.imshow(img)
     ax.axis('off')
     
+    #breakpoint()
+    
     # draw bounding boxes, centers and confidence score of each detection
     for index, row in dets.iterrows():
          
@@ -155,9 +157,11 @@ def draw_detections(img, dets, output_dir, draw_gt = False, gtInSeparatePlot = F
             ax.text(det_center[0], det_center[1]-2, index+1, fontsize = 'small', 
                     c = "white", ha = "center", va = "bottom")
         
-        plt.savefig(os.path.join(output_dir, dets["img_id"][0] + "_detections.jpg"),
-                    bbox_inches='tight', pad_inches=0)
-        plt.close(fig)   
+
+    plt.savefig(os.path.join(output_dir, dets["img_id"][0] + "_detections.jpg"),
+                bbox_inches='tight', pad_inches=0)
+        
+    plt.close(fig)   
 
         
         
@@ -200,7 +204,9 @@ def unpack_for_string(s, sep = ' '):
 
 # ------------------------------------------------------------------------------
 def detect(img_dir, det_dir, weights=None, classes_file=None, 
-           input_width=None, input_height=None, dets_save_apart = False, 
+           input_width=None, input_height=None, 
+           yolo_score_threshold = 0.5, yolo_max_boxes = 100, 
+           dets_save_apart = False, 
            plot_dets = True, fig_w = 25, fig_h = 20):
     
     """
@@ -221,16 +227,16 @@ def detect(img_dir, det_dir, weights=None, classes_file=None,
         det_img_dir = os.path.join(det_dir, "detection_images")
         os.makedirs(det_img_dir, exist_ok=True)
 
-    
-    
+        
     # --- prepare GPU infrastructure (if present)
     physical_devices = tf.config.experimental.list_physical_devices('GPU')
     for physical_device in physical_devices:
           tf.config.experimental.set_memory_growth(physical_device, True)
     
     # --- setting up yoloV3's model structure
-    # yolo = YoloV3(classes=1)
-    yolo = YoloV3(width=input_width, height=input_height, classes=1)
+    yolo = YoloV3(width=input_width, height=input_height, classes=1, 
+                  yolo_max_boxes = yolo_max_boxes, 
+                  yolo_score_threshold= yolo_score_threshold)
     
     # --- load weights
     yolo.load_weights(weights).expect_partial()
@@ -312,7 +318,7 @@ def detect(img_dir, det_dir, weights=None, classes_file=None,
                        f'\nImage(s) with no detections saved to {no_det_img_dir}')
       
     
-    # option to save detections in each image separately
+    # option to save detections separately for each image id
     if dets_save_apart: 
         det_subdir = os.path.join(det_dir, "dets_img_id")
         os.makedirs(det_subdir, exist_ok=True)

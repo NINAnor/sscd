@@ -282,7 +282,7 @@ def get_transects(focus_bbox, transect_degrees, img_filepath, output_dir):
         
     img_id = Path(img_filepath).stem
 
-    breakpoint()
+    #breakpoint()
     
     for angle_deg in transect_degrees:     
                

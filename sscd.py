@@ -146,7 +146,10 @@ def main():
     focus_detections_dir = os.path.join(args["output_dir"], "detections", "focus")
     os.makedirs(focus_detections_dir, exist_ok=True)
     
-        
+    circuli_detections_dir = os.path.join(args["output_dir"], "detections", "circuli")
+    os.makedirs(circuli_detections_dir, exist_ok=True)
+    
+    
     # --------------------------------------- #
     # --    Circuli detection pipeline    --- #
     # --------------------------------------- #  
@@ -174,6 +177,9 @@ def main():
            fig_h = 30
            )
     logger.info("Finished focus detection")
+    logger.info("Focus detection outputs saved to %s", focus_detections_dir)
+    
+    
     ## --- 3. Extract transect images off the detected focus
     
     # convert to list of dictionaries (1 per focus detection)
@@ -190,8 +196,37 @@ def main():
     logger.info("Finished extracting transect images")
     logger.info("Transect images saved to %s", transects_jpegs_dir)
     
-    ## --- 4. circuli detection
     
+    ## --- 4. circuli detections (model for non-padded images, for conf thresh of 0.3)
+    logger.info("Gearing up circuli detector")
+    circuli_dets = detect(
+        img_dir = transects_jpegs_dir, 
+        det_dir = circuli_detections_dir, 
+        weights = './data/yoloV3_checkpoints/circuli_detector/yolov3_train_22.tf', 
+        classes_file = './data/scale_transects_label.names',
+        input_width = 3904, 
+        input_height = 64,
+        yolo_score_threshold = 0.3, 
+        yolo_max_boxes = 150, 
+        dets_save_apart = args["dets_separate_files"], 
+        plot_dets = args["plot_detections"], 
+        fig_w = 100, 
+        fig_h = 5
+        )
+    
+    logger.info("Finished circuli detection")
+    logger.info("Circuli detection outputs saved to %s", circuli_detections_dir)
+    
+    
+    # ## --- 5. calculate circuli spacings 
+    # #circuli_dets
+    # circuli_dets["x_center"] = (circuli_dets["xmin"]+circuli_dets["xmax"])/2
+    # circuli_dets["y_center"] = (circuli_dets["ymin"]+circuli_dets["ymax"])/2
+    # circuli_dets["spacing_px"] = circuli_dets.groupby('img_id', group_keys=False).apply(lambda x: x.x_center.diff())
+    # circuli_dets["spacing_micron"] = (circuli_dets['spacing_px']*1000)/372  # based on direct measurement (372px/mm) from a scale image, of the same magnitude, with a 1mm scale-indicator
+    # circuli_dets['circuli_nr'] = circuli_dets.groupby('img_id').cumcount()
+
+
 
 # ------------------------------------------------------------------------------
 if __name__ == "__main__":
