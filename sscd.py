@@ -28,9 +28,15 @@ import shutil
 
 # import local modules
 from sscd_libs.detection import detect
+from sscd_libs.data_processing import (
+    images_tiff_to_jpeg,
+    get_transects
+    )
+
+import logging
 
 
-
+from tqdm import tqdm
 
 
 
@@ -76,17 +82,26 @@ def main():
         description='*** DESCRIPTION TO DO ***')
     args_parser.add_argument(
         "--img_dir",
-        dest= "img_dir",
+        #dest= "img_dir",
         required=True,
         type=str,
         help="directory path containing scale image files. Expects .tif images",
     )
     args_parser.add_argument(
         "--output_dir",
-        dest= "output_dir",
+        #dest= "output_dir",
         required=True,
         type=str,
         help="directory path where outputs will be stored",
+    )
+    args_parser.add_argument(
+        "--transect_angles",
+        #dest= "transect_angles",
+        required=False,
+        type=int,
+        nargs='+',
+        default = [0, 45, 90, 135, 180],
+        help="choice of angle(s) for radial transects relative to focus, in degrees",
     )
     args_parser.add_argument(
         "--dets_separate_files",
@@ -164,6 +179,24 @@ def main():
            fig_h = 30
            )
     logger.info("Finished focus detection")
+    ## --- 3. Extract transect images off the detected focus
+    
+    # convert to list of dictionaries (1 per focus detection)
+    focus_dets_dicts = focus_dets.to_dict("records")
+    
+    logger.info("Extracting images of radial transects from focus in %d scales", len(focus_dets_dicts))
+    for focus_bbx in tqdm(focus_dets_dicts, ascii=True, ncols=120):
+        
+        get_transects(focus_bbox = focus_bbx, 
+                      transect_degrees = args["transect_angles"],
+                      img_filepath = os.path.join(scales_jpegs_dir, focus_bbx['img_id'] + '.jpg'), 
+                      output_dir = transects_jpegs_dir)
+    
+    logger.info("Finished extracting transect images")
+    logger.info("Transect images saved to %s", transects_jpegs_dir)
+    
+    ## --- 4. circuli detection
+    
 
 # ------------------------------------------------------------------------------
 if __name__ == "__main__":
