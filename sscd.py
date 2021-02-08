@@ -25,6 +25,7 @@ Usage:
 import argparse
 import os
 import shutil
+import multiprocessing
 
 # import local modules
 from sscd_libs.detection import detect
@@ -105,7 +106,7 @@ def main():
     )
     args_parser.add_argument(
         "--dets_separate_files",
-        dest= "dets_separate_files",
+        #dest= "dets_separate_files",
         required=False,
         type=boolean_string,
         default = False,
@@ -113,7 +114,7 @@ def main():
     )
     args_parser.add_argument(
         "--plot_detections",
-        dest= "plot_detections",
+        #dest= "plot_detections",
         required=False,
         type=boolean_string,
         default = True,
@@ -123,6 +124,7 @@ def main():
     args = vars(args_parser.parse_args())
     
     
+    #breakpoint()
     
     # --------------------------------- #
     # --      File Management       --- #
@@ -144,19 +146,12 @@ def main():
     focus_detections_dir = os.path.join(args["output_dir"], "detections", "focus")
     os.makedirs(focus_detections_dir, exist_ok=True)
     
-    # # scale images with focus detections
-    # if args["plot_detections"]:
-    #     focus_detection_images_dir = os.path.join(focus_detections_dir, "detection_images")
-    #     os.makedirs(focus_detection_images_dir, exist_ok=True)
-    # else:
-    #     focus_detection_images_dir = None
-       
         
     # --------------------------------------- #
     # --    Circuli detection pipeline    --- #
     # --------------------------------------- #  
     
-    ## - 1. Convert image files to jpeg format and write them to ~/<output_dir>/jpegs/scales
+    ## --- 1. Convert image files to jpeg format and write them to ~/<output_dir>/jpegs/scales
     images_tiff_to_jpeg(
         args["img_dir"], 
         scales_jpegs_dir

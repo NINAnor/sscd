@@ -1,8 +1,11 @@
 # -*- coding: utf-8 -*-
 """
-Created on Mon Jan 25 19:42:58 2021
+Created on Fri Jan 22 19:42:58 2021
 
-@author: dmp
+@author: Bruno Canecco
+
+TODO
+
 """
 
 import os
@@ -28,7 +31,31 @@ logger = logging.getLogger(__name__)
 
 
 # ------------------------------------------------------------------------------
-def detections_tf_to_df(detections_tf, img_orig_wh, img_id, class_names):
+def detections_as_df(detections_tf, img_orig_wh, img_id, class_names):
+       
+    """
+    Combines the objects returned from the prediction step into a pandas DataFrame
+    
+    Args
+    -----
+    detections_tf : list
+        list of objects returned from the prediction step, i.e. for each detection, 
+        the bounding boxes coords, the confidence score and index of object class
+        
+    img_orig_wh: list   
+            width and height (in pixels) of the original image undergoing detection
+            
+    img_id : str
+        Image ID, usually the name of the image file, without the file extension
+        
+    class_names : list
+        names of the object clases
+        
+    Returns
+    -------
+    DataFrame with detection data
+    
+    """
     
     boxes, scores, classes, nums = detections_tf
         
@@ -71,7 +98,19 @@ def detections_tf_to_df(detections_tf, img_orig_wh, img_id, class_names):
 def draw_detections(img, dets, output_dir, draw_gt = False, gtInSeparatePlot = False,
                     img_groundtruths = None, plot_conf = True, plot_det_num = False, 
                     fig_w = 30, fig_h = 30):
-     
+    
+    """
+    TODO
+    
+    Args
+    ------
+    img :
+        
+    Returns
+    -------    
+    
+    """
+    
     if draw_gt and img_groundtruths == None:
         raise ValueError("Missing ground truth data to plot against detections")
                
@@ -126,6 +165,13 @@ def draw_detections(img, dets, output_dir, draw_gt = False, gtInSeparatePlot = F
 
 # ------------------------------------------------------------------------------
 def write_detections_per_img(x, det_subdir):
+    
+    """    
+    Write detections in each image in separate files
+    
+    : param x: dataframe containing data to be written out. It expects a column 
+        named "img_id", specifying the ID of the image
+    """
             
     # construct filepath as txt file
     det_filepath = os.path.join(det_subdir, x.img_id[0] + ".txt")
@@ -139,8 +185,14 @@ def write_detections_per_img(x, det_subdir):
     return 0
     
 
+
 # ------------------------------------------------------------------------------
 def unpack_for_string(s, sep = ' '):
+    
+    """    
+    Little utility function to unpack list elements when using them logging messages 
+    """
+    
     return sep.join(str(x) for x in s)
 
 
@@ -152,6 +204,14 @@ def detect(img_dir, det_dir, weights=None, classes_file=None,
            plot_dets = True, fig_w = 25, fig_h = 20):
     
     """
+    TODO
+    
+    Args
+    ----------
+    img :
+        
+    Returns
+    -------    
     
     """
     
@@ -213,7 +273,7 @@ def detect(img_dir, det_dir, weights=None, classes_file=None,
         img_detections_tf = yolo(img)
         
         # Convert detection data to dataframe
-        img_detections_df = detections_tf_to_df(img_detections_tf, img_orig_wh, 
+        img_detections_df = detections_as_df(img_detections_tf, img_orig_wh, 
                                                 img_id, class_names)
                                      
         # append to overall dataset
@@ -248,16 +308,15 @@ def detect(img_dir, det_dir, weights=None, classes_file=None,
             im.save(os.path.join(no_det_img_dir, img_id + ".jpeg"), 'JPEG', quality=95)
                 
         logger.warning(f"Failed to detect {unpack_for_string(class_names)} in {len(no_detections_img_id)} "
-                       f"image(s):\n{unpack_for_string(no_detections_img_id, sep = ', ')}"
-                       f'\nImage(s) with no detections can be checked in {no_det_img_dir}\n')
+                       f"image(s):\n\t{unpack_for_string(no_detections_img_id, sep = ', ')}"
+                       f'\nImage(s) with no detections saved to {no_det_img_dir}')
+      
     
-       
-    
-    # option to save detection in each image separately
+    # option to save detections in each image separately
     if dets_save_apart: 
         det_subdir = os.path.join(det_dir, "dets_img_id")
         os.makedirs(det_subdir, exist_ok=True)
         all_detections.groupby("img_id").apply(write_detections_per_img, det_subdir = det_subdir)
      
           
-    return 0
+    return all_detections
