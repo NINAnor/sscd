@@ -36,3 +36,13 @@ Probably use dropbox?
 ```
 conda env update --name sscd --file condaenv_sscd.yml  --prune
 ```
+
+
+## Usage constraints
+ - scale orientation
+ - original image resolutions
+ - Magnification
+ - One scale per image only
+
+
+## References (supporting code)
