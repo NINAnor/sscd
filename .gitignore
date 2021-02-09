@@ -13,3 +13,4 @@ SSCD.egg-info/top_level.txt
 data/yoloV3_checkpoints/circuli_detector/yolov3_train_22.tf.data-00000-of-00002
 data/yoloV3_checkpoints/circuli_detector/yolov3_train_22.tf.data-00001-of-00002
 data/yoloV3_checkpoints/circuli_detector/yolov3_train_22.tf.index
+data/yoloV3_checkpoints/circuli_detector/checkpoints_metadata.txt
