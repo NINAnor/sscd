@@ -227,7 +227,7 @@ def get_transect_length(focus_centre, transect_rad, im_width, im_height):
     # select which intersection to use 
     # 1st intersection if transect in 2nd or 3rd quadrants, 
     # 2nd intersection otherwise
-    if 1/2*math.pi <= transect_rad <= 3/2*math.pi:
+    if 1/2*math.pi <= transect_rad < 3/2*math.pi:
         trans_int = trans_x_img[0]
         #trans_int = (trans_int[0], trans_int[1] + im_height)
     else:
