@@ -138,7 +138,7 @@ def main():
         raise FileNotFoundError("Checkpoint files for focus detector not found."
                                 "Please check README.md file and follow instructions on how to set up yolo weights")
     elif len(glob.glob("./data/yoloV3_checkpoints/focus_detector/*.index")) > 1:
-        raise IOError("Too many checkpoint files found for the focus detector model (only one set of checkpoints expected)."
+        raise IOError("Too many checkpoints found for the focus detector model (only one checkpoint expected)."
                       "Please check README file and follow instructions on how to set up yolo weights")
         
     # circuli detector    
@@ -146,7 +146,7 @@ def main():
         raise FileNotFoundError("Checkpoint files for circuli detector not found."
                                 "Please check README.md file and follow instructions on how to set up yolo weights")
     elif len(glob.glob("./data/yoloV3_checkpoints/circuli_detector/*.index")) > 1:
-        raise IOError("Too many checkpoint files found for the circuli detector model ((only one of checkpoints expected)."
+        raise IOError("Too many checkpoints found for the circuli detector model ((only one checkpoint expected)."
                       "Please check README file and follow instructions on how to set up yolo weights")
     
     
@@ -189,21 +189,38 @@ def main():
        
     #breakpoint()
             
-    ## - 2. Focus detection    
+    ## --- 2. Focus detection   
+    logger.info("Starting focus detection")
+    focus_dets = detect(img_dir = scales_jpegs_dir, 
+            det_dir = focus_detections_dir, 
+            #det_img_dir = focus_detection_images_dir,
+            weights = './data/yoloV3_checkpoints/focus_detector/yolov3_train_190.tf', 
+            classes_file = './data/scales_label.names',
+            input_width=1376, 
+            input_height=1376,
+            dets_save_apart = args["dets_separate_files"], 
+            plot_dets = args["plot_detections"], 
+            fig_w = 35, 
+            fig_h = 30
+            )
+    
+    # focus_dets = multiprocessing.Process(target=detect, args = (
+    #                                        scales_jpegs_dir, 
+    #                                        focus_detections_dir, 
+    #                                        './data/yoloV3_checkpoints/focus_detector/yolov3_train_190.tf', 
+    #                                        './data/scales_label.names',
+    #                                        1376, 
+    #                                        1376,
+    #                                        args["dets_separate_files"], 
+    #                                        args["plot_detections"], 
+    #                                        35, 
+    #                                        30))
+    
+    # focus_dets.start()
+    # focus_dets.join()
+    
+    
     logger.info("Gearing up focus detector")
-    detect(img_dir = scales_jpegs_dir, 
-           det_dir = focus_detections_dir, 
-           #det_img_dir = focus_detection_images_dir,
-           weights = './data/yoloV3_checkpoints/focus_detector/yolov3_train_190.tf', 
-           classes_file = './data/scales_label.names',
-           input_width=1376, 
-           input_height=1376,
-           dets_save_apart = args["dets_separate_files"], 
-           plot_dets = args["plot_detections"], 
-           fig_w = 35, 
-           fig_h = 30
-           )
-    logger.info("Finished focus detection")
     logger.info("Focus detection outputs saved to %s", focus_detections_dir)
     
     
@@ -224,7 +241,7 @@ def main():
     logger.info("Transect images saved to %s", transects_jpegs_dir)
     
     
-    ## --- 4. circuli detections (model for non-padded images, for conf thresh of 0.3)
+    ## --- 4. Circuli detections (model for non-padded images, for conf thresh of 0.3)
     logger.info("Gearing up circuli detector")
     circuli_dets = detect(
         img_dir = transects_jpegs_dir, 
@@ -245,15 +262,19 @@ def main():
     logger.info("Circuli detection outputs saved to %s", circuli_detections_dir)
     
     
-    # ## --- 5. calculate circuli spacings 
-    # #circuli_dets
-    # circuli_dets["x_center"] = (circuli_dets["xmin"]+circuli_dets["xmax"])/2
-    # circuli_dets["y_center"] = (circuli_dets["ymin"]+circuli_dets["ymax"])/2
-    # circuli_dets["spacing_px"] = circuli_dets.groupby('img_id', group_keys=False).apply(lambda x: x.x_center.diff())
-    # circuli_dets["spacing_micron"] = (circuli_dets['spacing_px']*1000)/372  # based on direct measurement (372px/mm) from a scale image, of the same magnitude, with a 1mm scale-indicator
-    # circuli_dets['circuli_nr'] = circuli_dets.groupby('img_id').cumcount()
+    ## --- 5. Calculate circuli spacings 
+    
+    #breakpoint()
+    
+    circuli_dets["x_center"] = (circuli_dets["xmin"]+circuli_dets["xmax"])/2
+    circuli_dets["y_center"] = (circuli_dets["ymin"]+circuli_dets["ymax"])/2
+    circuli_dets["spacing_px"] = circuli_dets.groupby('img_id', group_keys=False).apply(lambda x: x.x_center.diff())
+    circuli_dets['circuli_nr'] = circuli_dets.groupby('img_id').cumcount()
+    
+    # Write out dataframe with all detections
+    circuli_dets.to_csv(os.path.join(circuli_detections_dir, "circuli_spacings.csv"), index_label="detection_nr")
 
-
+    # TODO: QA for circuli spacings - Add some summary statistics and metrics to flag up detection deterioration
 
 # ------------------------------------------------------------------------------
 if __name__ == "__main__":
