@@ -8,8 +8,6 @@
 ### Tool installation
 
 #### 1. Download SSCD code from github
-
-
 ```
 > git clone https://github.com/bcaneco/SSCD.git
 ```
@@ -35,7 +33,12 @@ Probably use dropbox?
 ### how to update conda environment
 ```
 conda env update --name sscd --file condaenv_sscd.yml  --prune
+
 ```
+
+
+### Download Yolo weights for focus and circuli detectors
+  - Download the folder https://www.dropbox.com/sh/xm2zmoz7h9g5nqi/AACfwx7_JQmUkcNK8ePXetkta?dl=0
 
 
 ## Usage constraints
