@@ -58,11 +58,12 @@ logger = logging.getLogger(__name__)
 
 # ------------------------------------------------------------------------------
 def clean_output_dir(dir_path):
-    
-    try:
-        shutil.rmtree(dir_path)
-    except OSError as e:
-        print("Error: %s : %s" % (dir_path, e.strerror))
+        
+    if os.path.exists(dir_path):
+        try:
+            shutil.rmtree(dir_path)
+        except OSError as e:
+            print("Error: %s : %s" % (dir_path, e.strerror))
 
 
 
@@ -71,8 +72,6 @@ def boolean_string(s):
     if s not in {'False', 'True'}:
         raise ValueError('Not a valid boolean string')
     return s == 'True'
-
-
 
 
 
