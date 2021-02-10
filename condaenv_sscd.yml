@@ -4,13 +4,13 @@ dependencies:
   - python==3.7
   - pip
   # - Pillow==4.2.1
-  # - Pillow
-  # - tqdm
-  # - jupyterlab
-  # - matplotlib
-  # - opencv
-  # - pandas
+  - Pillow
+  - tqdm
+  - jupyterlab
+  - matplotlib
+  - opencv
+  - pandas
   - pip:
     - tensorflow==2.1.0rc1
-    # - lxml
+    - lxml
     - -e .
