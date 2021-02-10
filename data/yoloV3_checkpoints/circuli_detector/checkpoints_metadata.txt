@@ -6,4 +6,4 @@ Checkpoint data from circuli detection model with following training features:
 - early stopping patience of 10
 - Learning rate scheduling (hyperparemeters: Initial learning rate = 1e-3, factor = 0.66, patience = 3, cooldown = 2)
 - Training run #13 in detector's development
-- Training run Name: "rctYolo_64x3904_notPadded_10EarlStop_1e-3LR_LRScheduling"
+- Training run Name: "rctYolo_64x3904_notPadded_10EarlStop_1e-3LR_LRScheduling" 
