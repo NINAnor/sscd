@@ -1,23 +1,28 @@
 # SSCD
  Salmon Scale Circuli Detector
 
-### Installation prerequisites:
-   - Conda
+### Prerequisites
+   - AnaConda?miniconda
    - Git
 
-### Tool installation
+### Installation
 
-#### 1. Download SSCD code from github
+#### 1. Download/clone SSCD code from github
 ```
 > git clone https://github.com/bcaneco/SSCD.git
 ```
 
 
 #### 2. Set-up Conda environment for SSCD
+
+Open a conda prompt (Start -> Anaconda -> Anaconda Prompt)
+
+Go to the SSCD directory and set up a conda environment for SSCD, while also installing the required python dependencies, by typing the following commands
+
 ```
 > conda env create -f condaenv_sscd.yml
 
-> conda activate ssdc
+> conda activate sscd
 ```
 
 #### 3. Add <envname> environment to jupyter notebook
