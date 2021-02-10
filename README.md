@@ -18,7 +18,7 @@ Two options available:
 
   - Download the a zip file with the SSCD code
 
-    1. Go to https://git-scm.com/downloads
+    1. Go to https://github.com/bcaneco/SSCD
     2. Hit the green dropdown button "Code" and select "Download ZIP"
     3. Extract `SSCD-main.zip` to a directory of your choice (i.e. SSCD's parent directory)
     4. Rename the folder `SSCD-main` as `SSCD`
