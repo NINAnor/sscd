@@ -89,7 +89,6 @@ This step creates a Conda environment for SSCD tool, with all the required packa
        --img_dir "./data/example_scales" \
        --output_dir "C:/SSCD_temp_outputs"\
        --transect_angles 0 45 90 135 180 \
-       --dets_separate_files False \
        --plot_detections True
    ```
    and hit `Ctrl+Enter` to run.
@@ -102,7 +101,6 @@ This step creates a Conda environment for SSCD tool, with all the required packa
           --img_dir "D:/MSS_Scales_depot/testing_sscd-tool/inputs/" ^
           --output_dir "D:/MSS_Scales_depot/testing_sscd-tool/outputs/"^
           --transect_angles 0 45 90 135 180 ^
-          --dets_separate_files False ^
           --plot_detections True
    ```
 
@@ -113,7 +111,6 @@ This step creates a Conda environment for SSCD tool, with all the required packa
 | `--img_dir`             | directory path containing scale image files. Expects .tif images      | string        |                 |
 | `--output_dir`          | directory path where outputs will be stored                           | str           |                 |
 | `--transect_angles`     | choice of angle(s) for radial transects relative to focus, in degrees | int (spaced)  | 0 45 90 135 180 |
-| `--dets_separate_files` | Require detections in each image to be saved in separate files        | boolean       | False           |
 | `--plot_detections`     | Generate images with detections?                                      | boolean       | True            |
 
 ### Outputs structure
