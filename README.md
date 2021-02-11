@@ -112,16 +112,17 @@ This step creates a Conda environment for SSCD tool, with all the required packa
           --plot_detections True
     ```
 
-___
+
 
 ### `sscd.py` Arguments
 
 | Argument                | Description                                                           | Type          | Default         |
 |-------------------------|-----------------------------------------------------------------------|---------------|-----------------|
-| `--img_dir`             | directory path containing scale image files. Expects .tif images      | string        |                 |
+| `--img_dir`             | directory path containing scale image files. Expects .tif images      | str           |                 |
 | `--output_dir`          | directory path where outputs will be stored                           | str           |                 |
 | `--transect_angles`     | choice of angle(s) for radial transects relative to focus, in degrees | int (spaced)  | 0 45 90 135 180 |
 | `--plot_detections`     | Generate images with detections?                                      | boolean       | True            |
+
 
 ### Outputs structure
 
@@ -135,11 +136,13 @@ conda env update --name sscd --file condaenv_sscd.yml  --prune
 ``` -->
 
 
-### Usage constraints
+<!-- ### Usage constraints
  - scale orientation
  - original image resolutions
  - Magnification
- - One scale per image only
+ - One scale per image  -->
 
 
 ### References (supporting code)
+- YOLOv3 implementation in Tensorflow 2.x
+- Diagonal crop
