@@ -118,7 +118,7 @@ def main():
         required=False,
         type=boolean_string,
         default = True,
-        help="Plot images with detections?",
+        help="Generate images with detections?",
     )
         
     args = vars(args_parser.parse_args())
