@@ -100,7 +100,7 @@ This step creates a Conda environment for SSCD tool, with all the required packa
     ```
     and hit `Ctrl+Enter` to run.
 
-  4.2. Via the command prompt (more messy because of Tensorflow's verbose logging messages)
+    4.2. Via the command prompt (more messy because of Tensorflow's verbose logging messages)
 
   - Run the following chuck of code directly into the command line
    ```
