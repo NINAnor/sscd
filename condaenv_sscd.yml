@@ -6,7 +6,7 @@ dependencies:
   - Pillow
   - tqdm
   - jupyterlab
-  - matplotlib
+  - matplotlib <= 3.3.3
   - opencv
   - pandas
   - pip:
