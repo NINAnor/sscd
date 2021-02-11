@@ -102,7 +102,8 @@ This step creates a Conda environment for SSCD tool, with all the required packa
 
     4.2. Via the command prompt (more messy because of Tensorflow's verbose logging messages)
 
-    - Run the following chuck of code directly into the command line
+    Run the following chuck of code directly into the command line
+
     ```
      > python sscd ^
           --img_dir "D:/MSS_Scales_depot/testing_sscd-tool/inputs/" ^
