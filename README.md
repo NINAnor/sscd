@@ -116,12 +116,12 @@ This step creates a Conda environment for SSCD tool, with all the required packa
 
 ### `sscd.py` Arguments
 
-| Argument                | Description                                                           | Type          | Default         |
-|-------------------------|-----------------------------------------------------------------------|---------------|-----------------|
-| `--img_dir`             | directory path containing scale image files. Expects .tif images      | str           |                 |
-| `--output_dir`          | directory path where outputs will be stored                           | str           |                 |
-| `--transect_angles`     | choice of angle(s) for radial transects relative to focus, in degrees | int (spaced)  | 0 45 90 135 180 |
-| `--plot_detections`     | Generate images with detections?                                      | boolean       | True            |
+| Argument            | Description                                                                       | Type          | Default         |
+|---------------------|-----------------------------------------------------------------------------------|---------------|-----------------|
+| `--img_dir`         | directory path containing scale image files. <br> Expects .tif images             | str           |                 |
+| `--output_dir`      | directory path where outputs will be stored                                       | str           |                 |
+| `--transect_angles` | choice of angle(s) for radial transects relative to focus <br> in degrees (0-360) | int (spaced)  | 0 45 90 135 180 |
+| `--plot_detections` | Generate images with detections?                                                  | bool          | True            |
 
 
 ### Outputs structure
