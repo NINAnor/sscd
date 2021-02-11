@@ -126,7 +126,7 @@ This step creates a Conda environment for SSCD tool, with all the required packa
 
 ### Outputs structure
 
-The following directory tree exemplifies how the outputs from SSCD are structured:
+The following directory tree represents how the outputs from SSCD are structured:
 
 <!-- Tree obtained via "tree /F" in command line -->
 
