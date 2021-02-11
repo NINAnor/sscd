@@ -219,7 +219,7 @@ def main():
     # focus_dets.join()
     
     
-    logger.info("Gearing up focus detector")
+    logger.info("Finished focus detection")
     logger.info("Focus detection outputs saved to %s", focus_detections_dir)
     
     
