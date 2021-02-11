@@ -128,6 +128,52 @@ This step creates a Conda environment for SSCD tool, with all the required packa
 
 The following directory tree shows how the outputs from SSCD are structured:
 
+<!-- Tree obtained via "tree /F" in command line -->
+
+```
+<Output Folder>
+   ├─── detections
+   │   ├─── circuli
+   │   │     │   ├─── circuli_spacings.csv
+   │   │     │   └─── detections.csv
+   │   │     │
+   │   │     └─── detection_images
+   │   │           ├─── N Esk NC_2018_273_0_detections.jpg
+   │   │           ├─── N Esk NC_2018_273_180_detections.jpg
+   │   │           ├─── N Esk NC_2018_273_225_detections.jpg
+   │   │           ├─── N Esk NC_2018_273_270_detections.jpg
+   │   │           ├─── N Esk NC_2018_273_315_detections.jpg
+   │   │           ├─── N Esk NC_2018_273_90_detections.jpg
+   |   |           ...
+   │   │
+   │   └─── focus
+   │         │   └─── detections.csv
+   │         │
+   │         ├─── detection_images
+   │         │      ├─── N Esk NC_2018_273_detections.jpg
+   │         │      ├─── N Esk NC_2018_354_detections.jpg
+   │         │      ...
+   │         │
+   │         └─── imgs_with_no_detections
+   │               ├─── N Esk NC_2018_303.jpeg
+   │               ...
+   │
+   └─── jpegs
+         ├─── scales
+         │      ├─── N Esk NC_2018_273.jpg
+         │      ├─── N Esk NC_2018_303.jpg
+         │      ...
+         │
+         └─── transects
+              ├─── N Esk NC_2018_273_0.jpg
+              ├─── N Esk NC_2018_273_180.jpg
+              ├─── N Esk NC_2018_273_225.jpg
+              ├─── N Esk NC_2018_273_270.jpg
+              ├─── N Esk NC_2018_273_315.jpg
+              ├─── N Esk NC_2018_273_90.jpg
+              ...
+```
+
 
 - The `jpegs` folder comprises images generated during the pipeline, i.e. the JPEG versions of the original TIF scale images and the transect images
 - The `detections` folder comprises the detection data from each detector (`detections.csv`), the circuli spacings (`circuli_spacings.csv`), and the subdirectory `detection_images` containing the images with drown detection boxes if `--plot_detections` is set to `True`
