@@ -89,20 +89,17 @@ This step creates a Conda environment for SSCD tool, with all the required packa
 
       - On Jupyter's File Browser, open `SSCD/docs/SSCD detection example usage.ipynb` and follow the instructions
 
-
-
-
-
-
-   - Alternatively, open a new Notebook with `SSCD` as its Kernel, copy-paste the following chuck of code to a cell
-   ```
-   %run sscd \
+   4.2. Alternatively, open a new Notebook with `SSCD` as its Kernel, copy-paste the following chuck of code to a cell
+   
+    ```
+    %run sscd \
        --img_dir "./data/example_scales" \
        --output_dir "C:/SSCD_temp_outputs"\
        --transect_angles 0 45 90 135 180 \
        --plot_detections True
-   ```
-   and hit `Ctrl+Enter` to run.
+    ```
+    and hit `Ctrl+Enter` to run.
+
 
  2. Via the command prompt (more messy because of Tensorflow's verbose logging messages)
 
