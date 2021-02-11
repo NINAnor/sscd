@@ -104,9 +104,11 @@ This step creates a Conda environment for SSCD tool, with all the required packa
           --plot_detections True
    ```
 
-### `sscd.py` arguments
+---
 
-| argument                | Description                                                           | Type          | Default         |
+### `sscd.py` Arguments
+
+| Argument                | Description                                                           | Type          | Default         |
 |-------------------------|-----------------------------------------------------------------------|---------------|-----------------|
 | `--img_dir`             | directory path containing scale image files. Expects .tif images      | string        |                 |
 | `--output_dir`          | directory path where outputs will be stored                           | str           |                 |
