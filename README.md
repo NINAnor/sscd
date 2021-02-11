@@ -104,7 +104,7 @@ This step creates a Conda environment for SSCD tool, with all the required packa
           --plot_detections True
    ```
 
----
+___
 
 ### `sscd.py` Arguments
 
