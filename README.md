@@ -23,7 +23,6 @@ Two options:
     3. Extract `SSCD-main.zip` to a directory of your choice
     4. Rename the folder `SSCD-main` as `SSCD`
 
-[link](url){:target="_blank"}
 
   - Clone the GitHub repository
 
@@ -92,7 +91,7 @@ This step creates a Conda environment for SSCD tool, with all the required packa
     - **Alternatively**, open a new Notebook with `SSCD` as its Kernel, copy-paste the following chuck of code to a cell
 
     ```
-    %run sscd \
+    %run sscd.py \
        --img_dir "./data/example_scales" \
        --output_dir "C:/SSCD_temp_outputs"\
        --transect_angles 0 45 90 135 180 \
@@ -104,13 +103,13 @@ This step creates a Conda environment for SSCD tool, with all the required packa
 
     Run the following chuck of code directly into the command line
 
-    ```
-     > python sscd ^
-          --img_dir "D:/MSS_Scales_depot/testing_sscd-tool/inputs/" ^
-          --output_dir "D:/MSS_Scales_depot/testing_sscd-tool/outputs/"^
-          --transect_angles 0 45 90 135 180 ^
-          --plot_detections True
-    ```
+   ```
+   > python sscd.py ^
+      --img_dir "D:/MSS_Scales_depot/testing_sscd-tool/inputs/" ^
+      --output_dir "D:/MSS_Scales_depot/testing_sscd-tool/outputs/"^
+      --transect_angles 0 45 90 135 180 ^
+      --plot_detections True
+  ```
 
 
 
@@ -118,13 +117,65 @@ This step creates a Conda environment for SSCD tool, with all the required packa
 
 | Argument            | Description                                                                       | Type          | Default         |
 |---------------------|-----------------------------------------------------------------------------------|---------------|-----------------|
-| `--img_dir`         | directory path containing scale image files. <br> Expects .tif images             | str           |                 |
-| `--output_dir`      | directory path where outputs will be stored                                       | str           |                 |
-| `--transect_angles` | choice of angle(s) for radial transects relative to focus <br> in degrees (0-360) | int (spaced)  | 0 45 90 135 180 |
+| `--img_dir`         | Directory path containing scale image files. <br> Expects .tif images             | str           |                 |
+| `--output_dir`      | Directory path where outputs will be stored                                       | str           |                 |
+| `--transect_angles` | Choice of angle(s) for radial transects relative to focus <br> in degrees (0-360) | int (spaced)  | 0 45 90 135 180 |
 | `--plot_detections` | Generate images with detections?                                                  | bool          | True            |
 
 
 ### Outputs structure
+
+The following directory tree shows how the outputs from SSCD are structured:
+
+<!-- Tree obtained via "tree /F" in command line -->
+
+```
+<Output Folder>
+   ├─── detections
+   │   ├─── circuli
+   │   │     │   ├─── circuli_spacings.csv
+   │   │     │   └─── detections.csv
+   │   │     │
+   │   │     └─── detection_images
+   │   │           ├─── N Esk NC_2018_273_0_detections.jpg
+   │   │           ├─── N Esk NC_2018_273_180_detections.jpg
+   │   │           ├─── N Esk NC_2018_273_225_detections.jpg
+   │   │           ├─── N Esk NC_2018_273_270_detections.jpg
+   │   │           ├─── N Esk NC_2018_273_315_detections.jpg
+   │   │           ├─── N Esk NC_2018_273_90_detections.jpg
+   |   |           ...
+   │   │
+   │   └─── focus
+   │         │   └─── detections.csv
+   │         │
+   │         ├─── detection_images
+   │         │      ├─── N Esk NC_2018_273_detections.jpg
+   │         │      ├─── N Esk NC_2018_354_detections.jpg
+   │         │      ...
+   │         │
+   │         └─── imgs_with_no_detections
+   │               ├─── N Esk NC_2018_303.jpeg
+   │               ...
+   │
+   └─── jpegs
+         ├─── scales
+         │      ├─── N Esk NC_2018_273.jpg
+         │      ├─── N Esk NC_2018_303.jpg
+         │      ...
+         │
+         └─── transects
+              ├─── N Esk NC_2018_273_0.jpg
+              ├─── N Esk NC_2018_273_180.jpg
+              ├─── N Esk NC_2018_273_225.jpg
+              ├─── N Esk NC_2018_273_270.jpg
+              ├─── N Esk NC_2018_273_315.jpg
+              ├─── N Esk NC_2018_273_90.jpg
+              ...
+```
+- The `jpegs` folder comprises images generated during the pipeline, i.e. the JPEG versions of the original TIF scale images and the transect images
+- The `detections` folder comprises the detection data from each detector (`detections.csv`), the circuli spacings (`circuli_spacings.csv`), and the subdirectory `detection_images` containing the images with drown detection boxes if `--plot_detections` is set to `True`
+- In addition, images of scales where the detector failed to locate the focus are available in folder `/detections/focus/imgs_with_no_detections`
+
 
 
 
