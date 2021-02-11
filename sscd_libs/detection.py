@@ -315,8 +315,8 @@ def detect(img_dir, det_dir, weights=None, classes_file=None,
             im.save(os.path.join(no_det_img_dir, img_id + ".jpeg"), 'JPEG', quality=95)
                 
         logger.warning(f"Failed to detect {unpack_for_string(class_names)} in {len(no_detections_img_id)} "
-                       f"image(s):\n\n\t{unpack_for_string(no_detections_img_id, sep = ', ')}"
-                       f'\nImage(s) with no detections saved to {no_det_img_dir}\n')
+                       f"image(s):\n\n\t{unpack_for_string(no_detections_img_id, sep = ', ')}\n"
+                       f'Image(s) with no detections saved to {no_det_img_dir}\n')
       
     
     # option to save detections separately for each image id
