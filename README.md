@@ -72,19 +72,27 @@ This step creates a Conda environment for SSCD tool, with all the required packa
 2. Go to the SSCD directory
 
 3. Activate the SSCD environment:
+
   ```
   > conda activate sscd
   ```
-  
-- Two alternatives to run SSCD:
 
- 1. Via a Jupyter Notebook (**recommended**)
+4. Two alternatives to run SSCD:
 
-   - Launch Jupyter lab:
-   ```
-   > jupyter lab
-   ```
-   - On Jupyter's File Browser, open `SSCD/docs/SSCD detection example usage.ipynb` and follow the instructions
+    4.1. Via a Jupyter Notebook (**recommended**)
+
+      - Launch Jupyter lab:
+
+      ```
+      > jupyter lab
+      ```
+
+      - On Jupyter's File Browser, open `SSCD/docs/SSCD detection example usage.ipynb` and follow the instructions
+
+
+
+
+
 
    - Alternatively, open a new Notebook with `SSCD` as its Kernel, copy-paste the following chuck of code to a cell
    ```
