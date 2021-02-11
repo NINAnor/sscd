@@ -67,12 +67,15 @@ This step creates a Conda environment for SSCD tool, with all the required packa
 
 ## How to run SSCD for detection
 
-- Open a conda prompt (**Start** > **Anaconda** > **Anaconda Prompt**)
-- Go to the SSCD directory
-- Activate the SSCD environment:
+1. Open a conda prompt (**Start** > **Anaconda** > **Anaconda Prompt**)
+
+2. Go to the SSCD directory
+
+3. Activate the SSCD environment:
   ```
   > conda activate sscd
   ```
+  
 - Two alternatives to run SSCD:
 
  1. Via a Jupyter Notebook (**recommended**)
