@@ -126,7 +126,7 @@ This step creates a Conda environment for SSCD tool, with all the required packa
 
 ### Outputs structure
 
-The following directory tree shows how the outputs from SSCD are structured:
+The following directory tree exemplifies how the outputs from SSCD are structured:
 
 <!-- Tree obtained via "tree /F" in command line -->
 
@@ -175,7 +175,7 @@ The following directory tree shows how the outputs from SSCD are structured:
 ```
 
 
-- The `jpegs` folder comprises images generated during the pipeline, i.e. the JPEG versions of the original TIF scale images and the transect images
+- The `jpegs` folder comprises images generated during the process, i.e. the JPEG versions of the original TIF scale images and the transect images
 - The `detections` folder comprises the detection data from each detector (`detections.csv`), the circuli spacings (`circuli_spacings.csv`), and the subdirectory `detection_images` containing the images with drown detection boxes if `--plot_detections` is set to `True`
 - In addition, images of scales where the detector failed to locate the focus are available in directory `Output Folder/detections/focus/imgs_with_no_detections`
 
@@ -198,5 +198,5 @@ conda env update --name sscd --file condaenv_sscd.yml  --prune
 
 
 ### References (supporting code)
-- YOLOv3 implementation in Tensorflow 2.x
-- Diagonal crop
+- [YOLOv3 implementation in Tensorflow 2](https://github.com/zzh8829/yolov3-tf2)
+- [Diagonal crop](https://github.com/jobevers/diagonal-crop)
