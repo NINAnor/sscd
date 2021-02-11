@@ -123,13 +123,14 @@ This step creates a Conda environment for SSCD tool, with all the required packa
 | `--plot_detections` | Generate images with detections?                                                  | bool          | True            |
 
 
+
 ### Outputs structure
 
 The following directory tree shows how the outputs from SSCD are structured:
 
 <!-- Tree obtained via "tree /F" in command line -->
 
-```
+<!-- ```
 <Output Folder>
    ├─── detections
    │   ├─── circuli
@@ -171,7 +172,7 @@ The following directory tree shows how the outputs from SSCD are structured:
               ├─── N Esk NC_2018_273_315.jpg
               ├─── N Esk NC_2018_273_90.jpg
               ...
-```
+``` -->
 
 - The `jpegs` folder comprises images generated during the pipeline, i.e. the JPEG versions of the original TIF scale images and the transect images
 - The `detections` folder comprises the detection data from each detector (`detections.csv`), the circuli spacings (`circuli_spacings.csv`), and the subdirectory `detection_images` containing the images with drown detection boxes if `--plot_detections` is set to `True`
