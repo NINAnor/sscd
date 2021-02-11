@@ -177,7 +177,7 @@ The following directory tree represents how the outputs from SSCD are structured
 
 - The `/jpegs` folder comprises images generated during the process, i.e. the JPEG versions of the original TIF scale images and the transect images
 - The `/detections` folder comprises the detection data from each detector (`detections.csv`), the circuli spacings (`circuli_spacings.csv`), and the subdirectory `detection_images` containing the images with drown detection boxes if `--plot_detections` is set to `True`
-- In addition, images where detectors failed to locate focus or any circuli bands are copied to a dedicated directory (e.g. `output_dir/detections/focus/imgs_with_no_detections`)
+- In addition, images where detectors fail to locate the scale focus, or any circuli bands in a transect, are copied to a dedicated directory (e.g. `output_dir/detections/focus/imgs_with_no_detections`)
 
 
 
