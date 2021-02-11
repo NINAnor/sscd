@@ -79,18 +79,18 @@ This step creates a Conda environment for SSCD tool, with all the required packa
 
 4. Two alternatives to run SSCD:
 
-    4.1. Via a Jupyter Notebook (**recommended**)
+    4.1. Via a Jupyter Notebook (*recommended*)
 
-      - Launch Jupyter lab:
+    - Launch Jupyter lab:
 
       ```
       > jupyter lab
       ```
 
-      - On Jupyter's File Browser, open `SSCD/docs/SSCD detection example usage.ipynb` and follow the instructions
+    - On Jupyter's File Browser, open `SSCD/docs/SSCD detection example usage.ipynb` and follow the instructions
 
-   4.2. Alternatively, open a new Notebook with `SSCD` as its Kernel, copy-paste the following chuck of code to a cell
-   
+    - **Alternatively**, open a new Notebook with `SSCD` as its Kernel, copy-paste the following chuck of code to a cell
+
     ```
     %run sscd \
        --img_dir "./data/example_scales" \
@@ -100,10 +100,9 @@ This step creates a Conda environment for SSCD tool, with all the required packa
     ```
     and hit `Ctrl+Enter` to run.
 
+  4.2. Via the command prompt (more messy because of Tensorflow's verbose logging messages)
 
- 2. Via the command prompt (more messy because of Tensorflow's verbose logging messages)
-
-   - Run the following chuck of code directly into the command line
+  - Run the following chuck of code directly into the command line
    ```
      > python sscd ^
           --img_dir "D:/MSS_Scales_depot/testing_sscd-tool/inputs/" ^
