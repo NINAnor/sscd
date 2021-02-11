@@ -147,7 +147,7 @@ The following directory tree represents how the outputs from SSCD are structured
    |   |           ...
    │   │
    │   └─── focus
-   │         │   └─── detections.csv
+   │         │ └─── detections.csv
    │         │
    │         ├─── detection_images
    │         │      ├─── N Esk NC_2018_273_detections.jpg
@@ -175,8 +175,8 @@ The following directory tree represents how the outputs from SSCD are structured
 ```
 
 
-- The `jpegs` folder comprises images generated during the process, i.e. the JPEG versions of the original TIF scale images and the transect images
-- The `detections` folder comprises the detection data from each detector (`detections.csv`), the circuli spacings (`circuli_spacings.csv`), and the subdirectory `detection_images` containing the images with drown detection boxes if `--plot_detections` is set to `True`
+- The `/jpegs` folder comprises images generated during the process, i.e. the JPEG versions of the original TIF scale images and the transect images
+- The `/detections` folder comprises the detection data from each detector (`detections.csv`), the circuli spacings (`circuli_spacings.csv`), and the subdirectory `detection_images` containing the images with drown detection boxes if `--plot_detections` is set to `True`
 - In addition, images of scales where the detector failed to locate the focus are available in directory `Output Folder/detections/focus/imgs_with_no_detections`
 
 
