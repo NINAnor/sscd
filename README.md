@@ -131,7 +131,7 @@ The following directory tree represents how the outputs from SSCD are structured
 <!-- Tree obtained via "tree /F" in command line -->
 
 ```
-<Output Folder>
+<output_dir>
    ├─── detections
    │   ├─── circuli
    │   │     │   ├─── circuli_spacings.csv
