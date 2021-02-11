@@ -109,7 +109,7 @@ This step creates a Conda environment for SSCD tool, with all the required packa
       --output_dir "D:/MSS_Scales_depot/testing_sscd-tool/outputs/"^
       --transect_angles 0 45 90 135 180 ^
       --plot_detections True
-  ```
+   ```
 
 
 
