@@ -55,7 +55,7 @@ This step creates a Conda environment for SSCD tool, with all the required packa
     ```
 
 
-### 3. Download Yolov3 weights for focus and circuli detectors
+### 3. Download YOLOv3 weights for focus and circuli detectors
 
   - Download the file `yoloV3_checkpoints.zip`, containing the yolo weights for the two detectors (790MB total size), from this [link][3]
 
