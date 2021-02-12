@@ -59,7 +59,7 @@ This step creates a Conda environment for SSCD tool, with all the required packa
 
   - Download the file `yoloV3_checkpoints.zip`, containing the yolo weights for the two detectors (790MB total size), from this [link][3]
 
-  - Unzip `yoloV3_checkpoints.zip` inside the subdirectory `SSCD/data/`
+  - Unzip `yoloV3_checkpoints.zip` **inside the subdirectory `SSCD/data/`**
 
 [3]: https://www.dropbox.com/sh/xm2zmoz7h9g5nqi/AACfwx7_JQmUkcNK8ePXetkta?dl=0
 
@@ -78,7 +78,7 @@ This step creates a Conda environment for SSCD tool, with all the required packa
 
 4. Two alternatives to run SSCD:
 
-    4.1. Via a Jupyter Notebook (*recommended*)
+    4.1. Via a Jupyter Notebook (**recommended**)
 
     - Launch Jupyter lab:
 
