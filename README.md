@@ -38,8 +38,8 @@ Two options:
 This step creates a Conda environment for SSCD tool, with all the required packages and python dependencies being automatically installed.
 
   - Open a conda prompt (**Start** > **Anaconda** > **Anaconda Prompt**)
-  - Go to the SSCD directory
-  - Create SSCD environment by typing:
+  - Navigate to the SSCD directory
+  - Create SSCD environment:
       ```
       > conda env create -f condaenv_sscd.yml
       ```
