@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 """
-Created on Mon Jan 27 19:45:28 2021
+Created on Mon Jan 18 19:45:28 2021
 
 @author: Bruno Caneco
 
-TODO
+Module for functions dealing with data/image preparation and processing
+
 """
 
 # import built-in modules
@@ -104,43 +105,27 @@ def pol2cart(radius, phi):
     return [x, y]
 
 
-# # ------------------------------------------------------------------------------
-# def get_transect_base_coords(focus_centre, transect_rad, transect_width):
-     
-#     """
-#     Compute the coordinates of the transect's base point, defined as the upper left point of the 
-#     area to be cropped before rotation. 
-#     Approached using a polar to cartesian system conversion, using the focus centre as the pole, 
-#     as the base's angle and distance to the focus centre are always known
-    
-#     """
-    
-#     # Get polar coordinates
-#     # get angle (radians) of base point in the polar plane - always perpendicular to transect angle
-#     base_rad = transect_rad + math.pi/2
-#     # get radial distance of base point = distance to focus center, known to be half of the transect width
-#     base_radius = transect_width/2
-    
-#     # Convert to cartesian coords (relative to the pole)
-#     base_xy_0 = pol2cart(base_radius, base_rad)
-    
-#     # Project coords in the image's coordinate space
-#     # Note: sign needs to inverted for y coord as y-axis is inverted in image's 
-#     #       space (i.e. coord (0,0) is at the top left of image)
-#     base_xy = (focus_centre[0] + base_xy_0[0], focus_centre[1] - base_xy_0[1])
-    
-#     return base_xy
-
-
-
 
 def get_transect_base_coords(focus_centre, transect_rad, transect_width):
      
     """
     Compute the coordinates of the transect's base point, defined as the upper left point of the 
     area to be cropped before rotation. 
-    Approached using a polar to cartesian system conversion, using the focus centre as the pole, 
+    Approached using a polar-to-cartesian system conversion, using the focus centre as the pole, 
     as the base's angle and distance to the focus centre are always known
+    
+    Args
+    ----
+        focus_centre: tuple
+            (x,y) coordinates of the focus
+        transect_rad: float
+            Angle of the transect relative to image's horizontal line, in radians     
+        transect_width: float
+            Width of the transect, in pixels
+        
+    Returns
+    -------
+        A tuple with the (x,y) coordinate of the transect's base point 
     
     """
     
@@ -166,9 +151,23 @@ def get_transect_base_coords(focus_centre, transect_rad, transect_width):
 def line_x_rectangle(a, b, x_min, y_min, x_max, y_max):
     
     """
-    Line Clipping follwing Liang-Barsky Algorithm
+    Find the intersection points between a continuos line and the edges of a rectangle 
+    Based on line Clipping following Liang-Barsky Algorithm (source: https://twinee.fr/2020-03-24-Liang-Barsky/)
     
-    source: https://twinee.fr/2020-03-24-Liang-Barsky/
+    Args
+    ----
+        a: float
+            slope of the line
+        b: float
+            y-intersept of the line
+        x_min, y_min, x_max, y_max : float
+            rectangle edges
+    
+    Returns
+    -------
+        Nested tuple ((x1,y1), (x2,y2)), coordinates of the two intercection points 
+        between the line and the rectangle
+    
     """
     
     # breakpoint()
@@ -201,7 +200,23 @@ def line_x_rectangle(a, b, x_min, y_min, x_max, y_max):
 def get_transect_length(focus_centre, transect_rad, im_width, im_height):
     
     """
-    TODO
+    Determine the length of the transect based on focus location and angle
+    
+    Args
+    ----
+        focus_centre: tuple
+            (x,y) coordinates of the focus
+        transect_rad: float
+            Angle of the transect relative to image's horizontal line, in radians
+        im_width: int
+            Image width, in pixels
+        im_height: int
+            Image height, in pixels
+    
+    Returns
+    -------
+        Integer, the length of the transect, in pixels
+    
     """
    
     trans_slope = math.tan(2*math.pi - transect_rad) 
