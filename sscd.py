@@ -11,13 +11,17 @@ Brief pipeline description:
     (ii) Detect focus location on each scale image
     (iii) Extract scale transect images at different angles from detected focus
     (iv) Detect circuli bands locations on transect images
+    (v) Calculate circuli spacings in each transect
     
     
 Usage:
 
 %run sscd.py \
-    --img_dir "/MSS_Scales_depot/circuli_detection/inputs/transects_imgs_to_label/" \
-    TODO
+   --img_dir "./data/example_scales"\
+   --output_dir "C:/SSCD_temp_outputs"\
+   --transect_angles 0 45 90 135 180 \
+   --dets_separate_files \
+   --plot_detections True
 
 """
 
