@@ -35,7 +35,7 @@ Two options:
 
 
 ### 2. Set-up Conda environment for SSCD
-This step creates a Conda environment for SSCD tool, with all the required packages and python dependencies being automatically installed.
+This step creates a Conda environment for the SSCD tool, with all the required packages and python dependencies being automatically installed.
 
   - Open a conda prompt (**Start** > **Anaconda** > **Anaconda Prompt**)
   - Navigate to the SSCD directory
@@ -57,9 +57,11 @@ This step creates a Conda environment for SSCD tool, with all the required packa
 
 ### 3. Download YOLOv3 weights for focus and circuli detectors
 
-  - Download the file `yoloV3_checkpoints.zip`, containing the yolo weights for the two detectors (790MB total size), from this [link][3]
+  - Download the file `yoloV3_checkpoints.zip`, containing the yolo weights for the two detectors from this [link][3] (790MB total size, so a coffee/tea break is in order!)
 
-  - Unzip `yoloV3_checkpoints.zip` **inside the subdirectory `SSCD/data/`**
+  - Unzip `yoloV3_checkpoints.zip` **inside the subdirectory `SSCD/data/`**.
+
+  - Quick check: e.g. for the focus detector, the path to its weights MUST be `SSCD/data/yoloV3_checkpoints/focus_detector`
 
 [3]: https://www.dropbox.com/sh/xm2zmoz7h9g5nqi/AACfwx7_JQmUkcNK8ePXetkta?dl=0
 
@@ -119,7 +121,7 @@ This step creates a Conda environment for SSCD tool, with all the required packa
 |---------------------|-----------------------------------------------------------------------------------|---------------|-----------------|
 | `--img_dir`         | Directory path containing scale image files. <br> Expects .tif images             | str           |                 |
 | `--output_dir`      | Directory path where outputs will be stored                                       | str           |                 |
-| `--transect_angles` | Choice of angle(s) for radial transects relative to focus <br> in degrees (0-360) | int (spaced)  | 0 45 90 135 180 |
+| `--transect_angles` | Choice of angle(s) for radial transects <br> in degrees (0-360) | int (spaced)    | 0 45 90 135 180 |
 | `--plot_detections` | Generate images with detections?                                                  | bool          | True            |
 
 
