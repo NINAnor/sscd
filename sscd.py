@@ -268,7 +268,7 @@ def main():
         input_width = 3904, 
         input_height = 64,
         yolo_score_threshold = 0.3, 
-        yolo_max_boxes = 150, 
+        yolo_max_boxes = 200, 
         dets_save_apart = args["dets_separate_files"], 
         plot_dets = args["plot_detections"], 
         fig_w = 100, 
