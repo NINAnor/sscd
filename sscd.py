@@ -41,23 +41,7 @@ from sscd_libs.data_processing import (
 
 import logging
 
-
 from tqdm import tqdm
-
-
-
-# ------------------------------------------------------------------------------
-# set up a basic, global _logger which will write to the console
-logging.basicConfig(
-    level=logging.INFO,
-    #filename='sscd.log', filemode='w',
-    format='%(levelname)s (%(asctime)s): %(message)s',
-    #format= '%(levelname)s:%(module)s (%(asctime)s): %(message)s ',
-    datefmt="%Y-%m-%d %H:%M:%S",
-)
-logger = logging.getLogger(__name__)
-
-
 
 
 # ------------------------------------------------------------------------------
@@ -129,7 +113,40 @@ def main():
     
     
     #breakpoint()
+        
+    # --- Clean output directory of all subdirectories and files from a previous run
+    clean_output_dir(args["output_dir"])
+           
     
+    
+    # --------------------------------------- #
+    # --       Logger Configuration       --- #
+    # --------------------------------------- #
+    
+    # set-up dir and log filename
+    os.makedirs(args["output_dir"], exist_ok=True)
+    log_filename = os.path.join(args["output_dir"], "log_sscd_detection.log")
+    
+    # Create console handler
+    console_handler = logging.StreamHandler()
+    console_handler.setLevel(logging.INFO)
+
+    # Create file handler
+    file_handler = logging.FileHandler(log_filename, mode = 'w')
+    file_handler.setLevel(logging.INFO)
+
+    # Set up logging to file and console
+    logging.basicConfig(
+        level=logging.INFO,
+        format='%(levelname)s (%(asctime)s): %(message)s',
+        datefmt="%Y-%m-%d %H:%M:%S",
+        handlers=(console_handler, file_handler)
+        )
+
+    logger = logging.getLogger(__name__)
+    
+    
+
     
     # --------------------------------------- #
     # --               Checks             --- #
@@ -157,10 +174,7 @@ def main():
     # --------------------------------- #
     # --      File Management       --- #
     # --------------------------------- #  
-    
-    # --- Clean output directory of all subdirectories and files from a previous run
-    clean_output_dir(args["output_dir"])
-           
+
     # -- Create destination directories
     # scale jpeg images
     scales_jpegs_dir = os.path.join(args["output_dir"], "jpegs", "scales")
@@ -193,7 +207,7 @@ def main():
     #breakpoint()
             
     ## --- 2. Focus detection   
-    logger.info("Starting focus detection")
+    logger.info("Gearing up focus detection")
     focus_dets = detect(img_dir = scales_jpegs_dir, 
             det_dir = focus_detections_dir, 
             #det_img_dir = focus_detection_images_dir,
