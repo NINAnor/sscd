@@ -87,7 +87,7 @@ def detections_as_df(detections_tf, img_orig_wh, img_id, class_names):
     detections_df = pd.concat([id_classes_scores, boxes_df], axis=1)      
     
     # sort output by xmin
-    detections_df.sort_values(by=['xmin'], inplace = True)
+    detections_df.sort_values(by=['xmin'], inplace = True, ignore_index =True)
        
     return(detections_df)
 
