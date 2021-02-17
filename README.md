@@ -160,25 +160,29 @@ The following directory tree represents how the outputs from SSCD are structured
    │               ├─── N Esk NC_2018_303.jpeg
    │               ...
    │
-   └─── jpegs
-         ├─── scales
-         │      ├─── N Esk NC_2018_273.jpg
-         │      ├─── N Esk NC_2018_303.jpg
-         │      ...
-         │
-         └─── transects
-              ├─── N Esk NC_2018_273_0.jpg
-              ├─── N Esk NC_2018_273_180.jpg
-              ├─── N Esk NC_2018_273_225.jpg
-              ├─── N Esk NC_2018_273_270.jpg
-              ├─── N Esk NC_2018_273_315.jpg
-              ├─── N Esk NC_2018_273_90.jpg
-              ...
+   ├─── jpegs
+   |     ├─── scales
+   |     │      ├─── N Esk NC_2018_273.jpg
+   |     │      ├─── N Esk NC_2018_303.jpg
+   |     │      ...
+   |     │
+   |     └─── transects
+   |          ├─── N Esk NC_2018_273_0.jpg
+   |          ├─── N Esk NC_2018_273_180.jpg
+   |          ├─── N Esk NC_2018_273_225.jpg
+   |          ├─── N Esk NC_2018_273_270.jpg
+   |          ├─── N Esk NC_2018_273_315.jpg
+   |          ├─── N Esk NC_2018_273_90.jpg
+   |            ...
+   |
+   |
+   └─── log_sscd_detection.log
 ```
 
 
 - The `/jpegs` folder comprises images generated during the process, i.e. the JPEG versions of the original TIF scale images and the transect images
 - The `/detections` folder comprises the detection data from each detector (e.g. `/detections/focus/detections.csv`), the circuli spacings (`detections/circuli/circuli_spacings.csv`), and subdirectories containing the images with drawn detection boxes if `--plot_detections` is set to `True` (e.g. `/detections/focus/detection_images`)
+- the log file `log_sscd_detection.log` contains logging messages generated during the detection process, providing useful info from each step of the detection pipeline
 - In addition, images where detectors fail to locate the scale focus, or any circuli bands in a transect, are copied to a dedicated directory (e.g. `output_dir/detections/focus/imgs_with_no_detections`)
 
 
