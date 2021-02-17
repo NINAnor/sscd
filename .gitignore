@@ -21,3 +21,6 @@ docs/SSCD testing.ipynb
 docs/SSCD detection example usage.ipynb
 *.ipynb
 *.ipynb
+log_sscd_detection.log
+sscd_libs/__pycache__/detection.cpython-37.pyc
+sscd_libs/.ipynb_checkpoints/detection-checkpoint.py
