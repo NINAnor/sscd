@@ -173,8 +173,17 @@ def write_detections_per_img(x, det_subdir):
     """    
     Write detections in each image in separate files
     
-    : param x: dataframe containing data to be written out. It expects a column 
-        named "img_id", specifying the ID of the image
+    Args
+    -----
+    x: pandas DataFrame. Data to be written out. It expects a column named "img_id", 
+        specifying the ID of the image
+            
+    det_subdir: str. subdirectory comprising the detection files
+        
+    Returns
+    -------    
+    0 to indicate successful completion
+    
     """
             
     # construct filepath as txt file
