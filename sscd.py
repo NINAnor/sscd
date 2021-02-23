@@ -460,7 +460,7 @@ def main():
 
     ## --- 8. Summarise Run
     summary_stats = circuli_dets[["score", "spacing_px"]].describe(percentiles = [0.05, .5, .95])
-    summary_stats.rename(columns = {"score":"conf_score"}, inplace = True)
+    summary_stats.rename(columns = {"score":"det_conf_score"}, inplace = True)
     summary_stats = summary_stats.round({"conf_score":4, "spacing_px":2})
     
     num_scales = len(glob.glob(scales_jpegs_dir + "/*.jpg"))
