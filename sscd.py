@@ -63,6 +63,126 @@ def boolean_string(s):
 
 
 
+
+
+# ------------------------------------------------------------------------------
+def focus_checks(focus_dets_df):
+        
+    # QA for circuli spacings - flag up detection anomalies
+    
+    # Raise error if multiple focus found in one image
+    n_focus_image = focus_dets_df["img_id"].value_counts()
+    multiple_focus = n_focus_image[n_focus_image > 1]
+    if len(multiple_focus) > 0:
+        
+        mult_focus_img_id = multiple_focus.index.values.tolist()
+
+        logger.exception("Multiple focus detected in the following image(s): " 
+                        f"\n\n\t{unpack_for_string(mult_focus_img_id)}"
+                        "\n\n\tDo images contain multiple scales? "
+                        "Currently, system only allows for one scale per image.\n\n")
+        
+        # Stop logging process
+        logging.shutdown()
+            
+        raise RuntimeError("Multiple focus in image")
+        
+        
+    
+    # Warning when detection boxes cover more than a given proportion of the image
+    det_prop_tolerance = 0.2  # 1/5 of the image (arbitrary at this stage. May need tunning with usage)
+    large_dets = focus_dets_df[["img_id", "detection_nr", "score",
+                                         "img_prop"]][focus_dets_df.img_prop > det_prop_tolerance]
+    if len(large_dets) > 0:
+        
+         logger.warning("The size of some of the focus detections are unusually large "
+                        f"(covering >{det_prop_tolerance*100}% of the image size):"                      
+                       '\n\n\t'+ large_dets.to_string().replace('\n', '\n\t') +
+                       "\n\n\tCheck focus detection images as something might have gone wrong "
+                       "(e.g. unsuitable images; detection deterioration)\n\n")         
+         
+    return 0
+
+
+
+
+
+# ------------------------------------------------------------------------------
+def circuli_checks(circuli_dets_df, circuli_max_boxes):
+    
+    # QA for circuli spacings - flag up detection anomalies
+    
+    # Cases with spacings greater than a given tolerance
+    spacing_tolerance = 250   # 250 pixels
+    large_spacings = circuli_dets_df[["img_id", "circulus_nr", "score",
+                                         "spacing_px"]][circuli_dets_df.spacing_px > spacing_tolerance]
+    
+    if len(large_spacings) > 0:
+        
+        logger.warning(f"Some of the extracted spacings are abnormally large (>{spacing_tolerance} pixels), "
+                      "likely due to misdetections of debris on the scale's periphery:" 
+                       '\n\n\t'+ large_spacings.to_string().replace('\n', '\n\t') +
+                       "\n\n\tCheck circuli detection images to confirm debris misdetection."
+                       "\n\tNOTE: Large spacings due to debris misdetections must be removed on post-processing\n\n")
+    
+    
+    # Warning when more than 20% of spacings are over the large spacing tolerance 
+    # NOTE: 20% is arbitrary at this point. Should be tunned with more usage and better grasp of common problems
+    prop_large_spacings = large_spacings.shape[0]/circuli_dets_df.shape[0]   
+    if prop_large_spacings > 0.2:
+        logger.warning("Over 20% of extracted spacings are abnormally large. ", 
+                       "Check circuli detection images as something might have gone wrong "
+                       "(e.g. unsuitable images; detection deterioration)\n\n")
+    
+    
+    # Warning when more than 30% of spacings are <= 1 pixel
+    # NOTE: 30% is arbitrary at this point. Should be tunned with more usage and better grasp of common problems
+    prop_tiny_spacings = circuli_dets_df.query("spacing_px <= 1").shape[0]/circuli_dets_df.shape[0]   
+    if prop_tiny_spacings > 0.3:
+        logger.warning("Over 20% of extracted spacings are abnormally small. ", 
+                       "Check circuli detection images as something might have gone wrong "
+                       "(e.g. unsuitable images; detection deterioration)\n\n")
+        
+    
+    #breakpoint()
+    
+    # Warning when maximum number of detections in one image 
+    hit_max_num_dets = circuli_dets_df[["img_id", "circulus_nr"]][circuli_dets_df.circulus_nr == circuli_max_boxes]    
+    if len(hit_max_num_dets) > 0:
+        logger.warning(f"Current max number of detections permitted per transect ({circuli_max_boxes} boxes)"
+                        "has been reached in the following images"
+                        '\n\n\t'+ hit_max_num_dets.to_string().replace('\n', '\n\t') +
+                        "\n\n\tCheck circuli detection images for visual inspection. "
+                        "Cap on max number of circuli detections may need to be adjusted "
+                        "to accomodate older individuals\n\n"
+                        )   
+        
+    
+    # Warning when detection boxes cover more than a given proportion of the image
+    det_prop_tolerance = 0.20  # 1/5 of the image (arbitrary at this stage. May need tunning with usage)
+    large_dets = circuli_dets_df[["img_id", "circulus_nr", "score",
+                                         "img_prop"]][circuli_dets_df.img_prop > det_prop_tolerance]
+    
+    if len(large_dets) > 0:
+        
+         logger.warning("The size of some of the circuli detections are unusually large "
+                        f"(covering >{det_prop_tolerance*100}% of the image size):"                      
+                       '\n\n\t'+ large_dets.to_string().replace('\n', '\n\t') +
+                       "\n\n\tCheck circuli detection images as something might have gone wrong "
+                       "(e.g. unsuitable images; detection deterioration)\n\n")
+         
+         
+    return 0
+         
+
+    
+    
+    
+
+
+
+
+
 # ------------------------------------------------------------------------------
 def main():
     
@@ -107,6 +227,13 @@ def main():
         type=boolean_string,
         default = True,
         help="Generate images with detections?",
+    )
+    args_parser.add_argument(
+        "--transect_max_boxes",
+        required=False,
+        type=int,
+        default = 200,
+        help="Maximum number of detections per transect image",
     )
         
     args = vars(args_parser.parse_args())
@@ -240,8 +367,13 @@ def main():
     logger.info("Finished focus detection")
     logger.info("Focus detection outputs saved to %s", focus_detections_dir)
     
+
+    ## --- 3. Sanity checks on focus detections
+    logger.info("Running sanity checks on focus detections")
+    focus_checks(focus_dets)
     
-    ## --- 3. Extract transect images off the detected focus
+    
+    ## --- 4. Extract transect images off the detected focus
     
     # convert to list of dictionaries (1 per focus detection)
     focus_dets_dicts = focus_dets.to_dict("records")
@@ -258,7 +390,7 @@ def main():
     logger.info("Transect images saved to %s", transects_jpegs_dir)
     
     
-    ## --- 4. Circuli detections (model for non-padded images, for conf thresh of 0.3)
+    ## --- 5. Circuli detections (model for non-padded images, for conf thresh of 0.3)
     logger.info("Gearing up circuli detector")
     circuli_dets = detect(
         img_dir = transects_jpegs_dir, 
@@ -290,6 +422,13 @@ def main():
     
     # Write out dataframe with all detections
     circuli_dets.to_csv(os.path.join(circuli_detections_dir, "circuli_spacings.csv"), index_label="detection_nr")
+    circuli_dets.to_csv(os.path.join(circuli_detections_dir, "circuli_spacings.csv"), index=False)
+
+        
+    ## --- 7. Sanity checks on circuli detections and spacings
+    logger.info("Running sanity checks on circuli detections and spacings")
+    circuli_checks(circuli_dets, args["transect_max_boxes"])
+    
 
     # TODO: QA for circuli spacings - Add some summary statistics and metrics to flag up detection deterioration
 
