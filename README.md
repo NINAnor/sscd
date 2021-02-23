@@ -1,6 +1,21 @@
 # SSCD
  Salmon Scale Circuli Detector (SSCD)
 
+
+<!-- The Salmon Scale Circuli Detector (SSCD) was developed....
+
+This repository provides set of tools to run the developed system, to monitor and evaluate its performance and to retrain it when/if necessary.
+
+### Current usage constraints
+  - One scale per image
+  - scale orientation
+  - original image resolutions
+  - Magnification
+
+ -->
+
+
+
 ## Prerequisites
 
 In order to install and use SSCD the following programmes need to be installed:
@@ -117,12 +132,13 @@ This step creates a Conda environment for the SSCD tool, with all the required p
 
 ### `sscd.py` Arguments
 
-| Argument            | Description                                                                       | Type          | Default         |
-|---------------------|-----------------------------------------------------------------------------------|---------------|-----------------|
-| `--img_dir`         | Directory path containing scale image files. <br> Expects .tif images             | str           |                 |
-| `--output_dir`      | Directory path where outputs will be stored                                       | str           |                 |
-| `--transect_angles` | Choice of angle(s) for radial transects <br> in degrees (0-360) | int (spaced)    | 0 45 90 135 180 |
-| `--plot_detections` | Generate images with detections?                                                  | bool          | True            |
+| Argument               | Description                                                             | Type          | Default         |
+|------------------------|-------------------------------------------------------------------------|---------------|-----------------|
+| `--img_dir`            | Directory path containing scale image files. <br> Expects .tif images   | str           |                 |
+| `--output_dir`         | Directory path where outputs will be stored                             | str           |                 |
+| `--transect_angles`    | Choice of angle(s) for radial transects <br> in degrees (0-360)         | int (spaced)  | 0 45 90 135 180 |
+| `--plot_detections`    | Generate images with detections?                                        | bool          | True            |
+| `--transect_max_boxes` | Maximum number of detections per transect image                         | int           | 200             |
 
 
 
@@ -194,13 +210,6 @@ The following directory tree represents how the outputs from SSCD are structured
 conda env update --name sscd --file condaenv_sscd.yml  --prune
 
 ``` -->
-
-
-<!-- ### Usage constraints
- - scale orientation
- - original image resolutions
- - Magnification
- - One scale per image  -->
 
 
 ### References (supporting code)
