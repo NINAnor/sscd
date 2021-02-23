@@ -112,7 +112,7 @@ def focus_checks(focus_dets_df):
          issues += 1
          
     
-    # if no issues found, say it out loud
+    # report if no issues found
     if issues == 0:
         logger.info("... no apparent issues")
          
@@ -162,9 +162,7 @@ def circuli_checks(circuli_dets_df, circuli_max_boxes):
                        "Check circuli detection images as something might have gone wrong "
                        "(e.g. unsuitable images; detection deterioration)\n\n")
         issues += 1
-        
-    
-    #breakpoint()
+
     
     # Warning when maximum number of detections in one image 
     hit_max_num_dets = circuli_dets_df[["img_id", "circulus_nr"]][circuli_dets_df.circulus_nr == circuli_max_boxes]    
@@ -194,7 +192,7 @@ def circuli_checks(circuli_dets_df, circuli_max_boxes):
          issues += 1
          
     
-    # if no issues found, say it out loud
+    # report if no issues found
     if issues == 0:
         logger.info("... no apparent issues")
 
