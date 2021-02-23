@@ -20,9 +20,9 @@ Usage:
    --img_dir "./data/example_scales"\
    --output_dir "C:/SSCD_temp_outputs"\
    --transect_angles 0 45 90 135 180 \
-   --dets_separate_files \
-   --plot_detections True
-
+   --dets_separate_files False\
+   --plot_detections True\
+   --transect_max_boxes 200
 """
 
 # import built-in modules
@@ -276,7 +276,6 @@ def main():
         datefmt="%Y-%m-%d %H:%M:%S",
         handlers=(console_handler, file_handler)
         )
-
     
     global logger
     logger = logging.getLogger(__name__)
@@ -346,13 +345,15 @@ def main():
     logger.info("Gearing up focus detection")
     focus_dets = detect(img_dir = scales_jpegs_dir, 
             det_dir = focus_detections_dir, 
-            #det_img_dir = focus_detection_images_dir,
             weights = './data/yoloV3_checkpoints/focus_detector/yolov3_train_190.tf', 
             classes_file = './data/scales_label.names',
             input_width=1376, 
             input_height=1376,
+            yolo_score_threshold = 0.5, 
+            yolo_max_boxes = 100, 
             dets_save_apart = args["dets_separate_files"], 
             plot_dets = args["plot_detections"], 
+            plot_det_num = False,
             fig_w = 35, 
             fig_h = 30
             )
@@ -409,9 +410,10 @@ def main():
         input_width = 3904, 
         input_height = 64,
         yolo_score_threshold = 0.3, 
-        yolo_max_boxes = 200, 
+        yolo_max_boxes = args["transect_max_boxes"], 
         dets_save_apart = args["dets_separate_files"], 
         plot_dets = args["plot_detections"], 
+        plot_det_num = True,
         fig_w = 100, 
         fig_h = 5
         )
@@ -420,7 +422,6 @@ def main():
     logger.info("Circuli detection outputs saved to %s", circuli_detections_dir)
     
     
-    ## --- 5. Calculate circuli spacings 
     ## --- 6. Calculate circuli spacings 
     logger.info("Calculating intracirculus spacings (in pixels)")
     
