@@ -166,7 +166,7 @@ def draw_detections(img, dets, output_dir, draw_gt = False, gtInSeparatePlot = F
             
         if plot_det_num: 
             ax.text(det_center[0], det_center[1]-2, index+1, fontsize = 'small', 
-                    c = "white", ha = "center", va = "bottom")
+                    c = "red", ha = "center", va = "bottom")
         
 
     plt.savefig(os.path.join(output_dir, dets["img_id"][0] + "_detections.jpg"),
