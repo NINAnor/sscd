@@ -34,11 +34,11 @@ from time import time
 #import multiprocessing
 
 # import local modules
-from sscd_libs.detection import detect
 from sscd_libs.detection import (
     detect,
     unpack_for_string
     )
+
 from sscd_libs.data_processing import (
     images_tiff_to_jpeg,
     get_transects
