@@ -227,7 +227,9 @@ def detect(img_dir, det_dir, weights=None, classes_file=None,
            input_width=None, input_height=None, 
            yolo_score_threshold = 0.5, yolo_max_boxes = 100, 
            dets_save_apart = False, 
-           plot_dets = True, fig_w = 25, fig_h = 20):
+           plot_dets = True, plot_det_num = False, 
+           fig_w = 25, fig_h = 20):
+    
     
     """
     TODO
@@ -309,6 +311,7 @@ def detect(img_dir, det_dir, weights=None, classes_file=None,
         # if requested, and if detections present, write out images with detections
         if plot_dets and img_detections_df.shape[0] > 0:
             draw_detections(img_orig, img_detections_df, det_img_dir, 
+                            plot_det_num = plot_det_num,
                             fig_w = fig_w, fig_h = fig_w)
         
         # if no detections in image, store image pixel data and ID
