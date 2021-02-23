@@ -30,10 +30,15 @@ import argparse
 import os
 import shutil
 import glob
+from time import time
 #import multiprocessing
 
 # import local modules
 from sscd_libs.detection import detect
+from sscd_libs.detection import (
+    detect,
+    unpack_for_string
+    )
 from sscd_libs.data_processing import (
     images_tiff_to_jpeg,
     get_transects
@@ -239,7 +244,9 @@ def main():
     args = vars(args_parser.parse_args())
     
     
-    #breakpoint()
+    # Start runtime timer
+    run_start = time()
+    
         
     # --- Clean output directory of all subdirectories and files from a previous run
     clean_output_dir(args["output_dir"])
@@ -429,13 +436,40 @@ def main():
     circuli_checks(circuli_dets, args["transect_max_boxes"])
     
 
-    # TODO: QA for circuli spacings - Add some summary statistics and metrics to flag up detection deterioration
+    ## --- 8. Summarise Run
+    summary_stats = circuli_dets[["score", "spacing_px"]].describe(percentiles = [0.05, .5, .95])
+    summary_stats.rename(columns = {"score":"conf_score"}, inplace = True)
+    summary_stats = summary_stats.round({"conf_score":4, "spacing_px":2})
+    
+    num_scales = len(glob.glob(scales_jpegs_dir + "/*.jpg"))
+    num_transects = len(glob.glob(transects_jpegs_dir + "/*.jpg"))
+    
+    # calculate runtime duration (mins)
+    run_duration = round((time() - run_start)/60, 2)
+    
+    #breakpoint()
+    
+    logger.info("End of Run"
+                "\n\n---------------------------------------------------------"
+                f"\nRuntime duration: {run_duration} mins"
+                "\n\nFocus detection"
+                f"\n\tScale images processed: {num_scales}"
+                f"\n\tFocus detected: \t{focus_dets.img_id.nunique()}"
+                "\n\nCirculi detection"
+                f"\n\tTransect images processed: {num_transects}"
+                "\n\tSummary statistics:"
+                "\n\t\t" + summary_stats.to_string().replace('\n', '\n\t\t') +
+                "\n---------------------------------------------------------")
+    
+   
+    
+    # Stop logging process
+    logging.shutdown()
 
 # ------------------------------------------------------------------------------
 if __name__ == "__main__":
     __spec__ = None
-    main()    
-    
+    main()
     
     
     
