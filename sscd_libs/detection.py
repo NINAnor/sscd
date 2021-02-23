@@ -308,7 +308,7 @@ def detect(img_dir, det_dir, weights=None, classes_file=None,
         # append to overall dataset
         all_detections = all_detections.append(img_detections_df)
                 
-        # if requested, and if detections present, write out images with detections
+        # if requested, and if detections present, plot images with detections
         if plot_dets and img_detections_df.shape[0] > 0:
             draw_detections(img_orig, img_detections_df, det_img_dir, 
                             plot_det_num = plot_det_num,
