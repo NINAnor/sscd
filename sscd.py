@@ -418,10 +418,9 @@ def main():
     circuli_dets["x_center"] = (circuli_dets["xmin"]+circuli_dets["xmax"])/2
     circuli_dets["y_center"] = (circuli_dets["ymin"]+circuli_dets["ymax"])/2
     circuli_dets["spacing_px"] = circuli_dets.groupby('img_id', group_keys=False).apply(lambda x: x.x_center.diff())
-    circuli_dets['circuli_nr'] = circuli_dets.groupby('img_id').cumcount()
+    circuli_dets.rename(columns={"detection_nr": "circulus_nr"}, inplace = True)
     
     # Write out dataframe with all detections
-    circuli_dets.to_csv(os.path.join(circuli_detections_dir, "circuli_spacings.csv"), index_label="detection_nr")
     circuli_dets.to_csv(os.path.join(circuli_detections_dir, "circuli_spacings.csv"), index=False)
 
         
