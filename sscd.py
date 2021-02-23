@@ -277,6 +277,8 @@ def main():
         handlers=(console_handler, file_handler)
         )
 
+    
+    global logger
     logger = logging.getLogger(__name__)
     
     
@@ -300,7 +302,7 @@ def main():
         raise FileNotFoundError("Checkpoint files for circuli detector not found."
                                 "Please check README.md file and follow instructions on how to set up yolo weights")
     elif len(glob.glob("./data/yoloV3_checkpoints/circuli_detector/*.index")) > 1:
-        raise IOError("Too many checkpoints found for the circuli detector model ((only one checkpoint expected)."
+        raise IOError("Too many checkpoints found for the circuli detector model (only one checkpoint expected)."
                       "Please check README file and follow instructions on how to set up yolo weights")
     
     
@@ -419,8 +421,8 @@ def main():
     
     
     ## --- 5. Calculate circuli spacings 
-    
-    #breakpoint()
+    ## --- 6. Calculate circuli spacings 
+    logger.info("Calculating intracirculus spacings (in pixels)")
     
     circuli_dets["x_center"] = (circuli_dets["xmin"]+circuli_dets["xmax"])/2
     circuli_dets["y_center"] = (circuli_dets["ymin"]+circuli_dets["ymax"])/2
