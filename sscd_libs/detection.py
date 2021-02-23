@@ -191,7 +191,7 @@ def write_detections_per_img(x, det_subdir):
 
 
 # ------------------------------------------------------------------------------
-def unpack_for_string(s, sep = ' '):
+def unpack_for_string(s, sep = '\n\t'):
     
     """    
     Little utility function to unpack list elements when using them logging messages 
@@ -315,8 +315,8 @@ def detect(img_dir, det_dir, weights=None, classes_file=None,
             im.save(os.path.join(no_det_img_dir, img_id + ".jpeg"), 'JPEG', quality=95)
                 
         logger.warning(f"Failed to detect {unpack_for_string(class_names)} in {len(no_detections_img_id)} "
-                       f"image(s):\n\n\t{unpack_for_string(no_detections_img_id, sep = ', ')}\n"
-                       f'Image(s) with no detections saved to {no_det_img_dir}\n')
+                       f"image(s):\n\n\t{unpack_for_string(no_detections_img_id)}"
+                       f'\n\n\tImage(s) with no detections saved to {no_det_img_dir}\n\n')
       
     
     # option to save detections separately for each image id
