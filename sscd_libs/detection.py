@@ -30,6 +30,9 @@ logger = logging.getLogger(__name__)
 
 
 
+
+
+
 # ------------------------------------------------------------------------------
 def detections_as_df(detections_tf, img_orig_wh, img_id, class_names):
        
@@ -67,9 +70,7 @@ def detections_as_df(detections_tf, img_orig_wh, img_id, class_names):
     classes = tf.cast(classes, tf.int16)
     # get classes names
     class_names = [class_names[i] for i in classes]
-    
-    #breakpoint()
-    
+        
     # Convert bounding boxes limits from relative to absolute
     boxes_abs = boxes * np.tile(img_orig_wh, 2)
     # Round coords to integers
@@ -78,17 +79,27 @@ def detections_as_df(detections_tf, img_orig_wh, img_id, class_names):
     # Convert from tensors to dataframe
     id_classes_scores = pd.DataFrame(
         {"img_id" : img_id,
-          "class_name": class_names,
-          "score": scores
+         "class_name": class_names,
+         "score": scores
           })
     boxes_df = pd.DataFrame(boxes_abs, columns = ["xmin", "ymin", "xmax", "ymax"])
+    
+    #breakpoint()
     
     # Concatenate into a single dataframe
     detections_df = pd.concat([id_classes_scores, boxes_df], axis=1)      
     
+    # add the proportion of image covered by each detection, if any present
+    if len(detections_df) > 0:        
+        det_areas = detections_df.apply(lambda x: (x.xmax - x.xmin)*(x.ymax - x.ymin), axis = 1)
+        detections_df["img_prop"] = det_areas/(img_orig_wh[0]*img_orig_wh[1])
+    
     # sort output by xmin
     detections_df.sort_values(by=['xmin'], inplace = True, ignore_index =True)
-       
+        
+    # Add detection incremental counter
+    detections_df.insert(loc = 1, column = "detection_nr", value =  detections_df.index + 1)
+    
     return(detections_df)
 
 
@@ -127,7 +138,7 @@ def draw_detections(img, dets, output_dir, draw_gt = False, gtInSeparatePlot = F
     ax.imshow(img)
     ax.axis('off')
     
-    #breakpoint()
+    # breakpoint()
     
     # draw bounding boxes, centers and confidence score of each detection
     for index, row in dets.iterrows():
@@ -307,9 +318,9 @@ def detect(img_dir, det_dir, weights=None, classes_file=None,
             
         ## end of loop
        
-    
+
     # Write out dataframe with all detections
-    all_detections.to_csv(os.path.join(det_dir, "detections.csv"), index_label="detection_nr")
+    all_detections.to_csv(os.path.join(det_dir, "detections.csv"), index=False)
     
     
     # Process images with no detections
