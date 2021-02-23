@@ -88,8 +88,8 @@ def focus_checks(focus_dets_df):
         logger.exception("... Multiple focus detected in the following image(s): " 
                         f"\n\n\t{unpack_for_string(mult_focus_img_id)}"
                         "\n\n\tDo images contain multiple scales? "
-                        "Currently, system only allows for one scale per image. " 
-                        "Ending run prematurely\n\n")
+                        "Currently, system only allows for one scale per image " 
+                        "\nEnding run prematurely.\n\n")
         
         # Stop logging process
         logging.shutdown()
