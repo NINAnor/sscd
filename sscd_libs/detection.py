@@ -87,19 +87,26 @@ def detections_as_df(detections_tf, img_orig_wh, img_id, class_names):
     #breakpoint()
     
     # Concatenate into a single dataframe
-    detections_df = pd.concat([id_classes_scores, boxes_df], axis=1)      
+    detections_df = pd.concat([id_classes_scores, boxes_df], axis=1)     
     
     # add the proportion of image covered by each detection, if any present
-    if len(detections_df) > 0:        
-        det_areas = detections_df.apply(lambda x: (x.xmax - x.xmin)*(x.ymax - x.ymin), axis = 1)
-        detections_df["img_prop"] = det_areas/(img_orig_wh[0]*img_orig_wh[1])
-    
+    det_areas = (detections_df.xmax - detections_df.xmin)*(detections_df.ymax - detections_df.ymin)
+    detections_df["img_prop"] = det_areas/(img_orig_wh[0]*img_orig_wh[1])   
+
     # sort output by xmin
     detections_df.sort_values(by=['xmin'], inplace = True, ignore_index =True)
         
     # Add detection incremental counter
     detections_df.insert(loc = 1, column = "detection_nr", value =  detections_df.index + 1)
     
+    # return DF with img_id and nans for remaining elements - usefull for keeping
+    # record of images with no detections
+    if len(detections_df) == 0:
+        det_colnames = detections_df.columns.tolist()
+        no_dets_fill = [img_id] + [np.nan]*(len(det_colnames)-1)
+        detections_df = pd.DataFrame(dict(zip(det_colnames, no_dets_fill)), index = [0])
+    
+        
     return(detections_df)
 
 
@@ -304,10 +311,14 @@ def detect(img_dir, det_dir, weights=None, classes_file=None,
         # Convert detection data to dataframe
         img_detections_df = detections_as_df(img_detections_tf, img_orig_wh, 
                                                 img_id, class_names)
-                                     
+        
         # append to overall dataset
         all_detections = all_detections.append(img_detections_df)
-                
+                            
+        # drop rows with nan (i.e. return empty DF if no detections found), 
+        # which is essential for ploting
+        img_detections_df.dropna(subset = ["score"], inplace = True)
+        
         # if requested, and if detections present, plot images with detections
         if plot_dets and img_detections_df.shape[0] > 0:
             draw_detections(img_orig, img_detections_df, det_img_dir, 
@@ -318,15 +329,15 @@ def detect(img_dir, det_dir, weights=None, classes_file=None,
         if img_detections_df.shape[0] == 0:
             no_detections_img_id.append(img_id)
             no_detections_img.append(img_orig)
-            
-        ## end of loop
+        
+    ## end of loop
        
 
     # Write out dataframe with all detections
     all_detections.to_csv(os.path.join(det_dir, "detections.csv"), index=False)
     
     
-    # Process images with no detections
+    # Reporting images with no detections
     if len(no_detections_img_id) > 0:
         
         no_det_img_dir = os.path.join(det_dir, "imgs_with_no_detections")
