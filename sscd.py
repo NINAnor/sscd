@@ -45,8 +45,8 @@ from sscd_libs.data_processing import (
     )
 
 import logging
-
 from tqdm import tqdm
+import pandas as pd
 
 
 # ------------------------------------------------------------------------------
@@ -89,7 +89,7 @@ def focus_checks(focus_dets_df):
                         f"\n\n\t{unpack_for_string(mult_focus_img_id)}"
                         "\n\n\tDo images contain multiple scales? "
                         "Currently, system only allows for one scale per image " 
-                        "\nEnding run prematurely.\n\n")
+                        "\n\tEnding run prematurely.\n\n")
         
         # Stop logging process
         logging.shutdown()
@@ -158,7 +158,7 @@ def circuli_checks(circuli_dets_df, circuli_max_boxes):
     # NOTE: 30% is arbitrary at this point. Should be tunned with more usage and better grasp of common problems
     prop_tiny_spacings = circuli_dets_df.query("spacing_px <= 1").shape[0]/circuli_dets_df.shape[0]   
     if prop_tiny_spacings > 0.3:
-        logger.warning("...Over 20% of extracted spacings are abnormally small. ", 
+        logger.warning("...Over 30% of extracted spacings are abnormally small. ", 
                        "Check circuli detection images as something might have gone wrong "
                        "(e.g. unsuitable images; detection deterioration)\n\n")
         issues += 1
@@ -342,6 +342,7 @@ def main():
     focus_detections_dir = os.path.join(args["output_dir"], "detections", "focus")
     os.makedirs(focus_detections_dir, exist_ok=True)
     
+    # circuli detections
     circuli_detections_dir = os.path.join(args["output_dir"], "detections", "circuli")
     os.makedirs(circuli_detections_dir, exist_ok=True)
     
@@ -349,7 +350,7 @@ def main():
 
     
     # --------------------------------------- #
-    # --    Circuli detection pipeline    --- #
+    # --          System pipeline         --- #
     # --------------------------------------- #  
     
     ## --- 1. Convert image files to jpeg format and write them to ~/<output_dir>/jpegs/scales
@@ -392,36 +393,44 @@ def main():
     # focus_dets.start()
     # focus_dets.join()
     
-    
     logger.info("Finished focus detection")
     logger.info("Focus detection outputs saved to %s", focus_detections_dir)
+       
+    # Drop instances with no focus detections
+    focus_dets.dropna(subset = ["score"], inplace = True)
     
-
-    ## --- 3. Sanity checks on focus detections
-    logger.info("Running sanity checks on focus detections...")
-    focus_checks(focus_dets)
+    # Only proceed to circuli detection if there is at least one focus detection
+    if len(focus_dets) > 0:
     
-    
-    ## --- 4. Extract transect images off the detected focus
-    
-    # convert to list of dictionaries (1 per focus detection)
-    focus_dets_dicts = focus_dets.to_dict("records")
-    
-    logger.info("Extracting images of radial transects from focus in %d scales", len(focus_dets_dicts))
-    for focus_bbx in tqdm(focus_dets_dicts, ascii=True, ncols=120):
+        ## --- 3. Sanity checks on focus detections
+        logger.info("Running sanity checks on focus detections...")
+        focus_checks(focus_dets)
         
-        get_transects(focus_bbox = focus_bbx, 
-                      transect_degrees = args["transect_angles"],
-                      img_filepath = os.path.join(scales_jpegs_dir, focus_bbx['img_id'] + '.jpg'), 
-                      output_dir = transects_jpegs_dir)
-    
-    logger.info("Finished extracting transect images")
-    logger.info("Transect images saved to %s", transects_jpegs_dir)
-    
-    
-    ## --- 5. Circuli detections (model for non-padded images, for conf thresh of 0.3)
-    logger.info("Gearing up circuli detector")
-    circuli_dets = detect(
+        
+        ## --- 4. Generate transect images off the detected focus
+        
+        # convert to list of dictionaries (1 per focus detection)
+        focus_dets_dicts = focus_dets.to_dict("records")
+        
+        logger.info("Extracting images of radial transects from focus in %d scales", len(focus_dets_dicts))
+        for focus_bbx in tqdm(focus_dets_dicts, ascii=True, ncols=120):
+            
+            get_transects(focus_bbox = focus_bbx, 
+                          transect_degrees = args["transect_angles"],
+                          img_filepath = os.path.join(scales_jpegs_dir, focus_bbx['img_id'] + '.jpg'), 
+                          output_dir = transects_jpegs_dir)
+            
+            ## end of for loop
+        
+        
+        # report progress    
+        logger.info("Finished extracting transect images")
+        logger.info("Transect images saved to %s", transects_jpegs_dir)
+        
+        
+        ## --- 5. Circuli detections (model for non-padded images, for conf thresh of 0.3)
+        logger.info("Gearing up circuli detector")
+        circuli_dets = detect(
         img_dir = transects_jpegs_dir, 
         det_dir = circuli_detections_dir, 
         weights = './data/yoloV3_checkpoints/circuli_detector/yolov3_train_22.tf', 
@@ -436,40 +445,48 @@ def main():
         fig_w = 100, 
         fig_h = 5
         )
-    
-    logger.info("Finished circuli detection")
-    logger.info("Circuli detection outputs saved to %s", circuli_detections_dir)
-    
-    
-    ## --- 6. Calculate circuli spacings 
-    logger.info("Calculating intracirculus spacings (in pixels)")
-    
-    circuli_dets["x_center"] = (circuli_dets["xmin"]+circuli_dets["xmax"])/2
-    circuli_dets["y_center"] = (circuli_dets["ymin"]+circuli_dets["ymax"])/2
-    circuli_dets["spacing_px"] = circuli_dets.groupby('img_id', group_keys=False).apply(lambda x: x.x_center.diff())
-    circuli_dets.rename(columns={"detection_nr": "circulus_nr"}, inplace = True)
-    
-    # Write out dataframe with all detections
-    circuli_dets.to_csv(os.path.join(circuli_detections_dir, "circuli_spacings.csv"), index=False)
-
+            
+        logger.info("Finished circuli detection")
+        logger.info("Circuli detection outputs saved to %s", circuli_detections_dir)
         
-    ## --- 7. Sanity checks on circuli detections and spacings
-    logger.info("Running sanity checks on circuli detections and spacings...")
-    circuli_checks(circuli_dets, args["transect_max_boxes"])
-    
+        
+        ## --- 6. Calculate circuli spacings 
+        logger.info("Calculating intracirculus spacings (in pixels)")
+        
+        circuli_dets["x_center"] = (circuli_dets["xmin"]+circuli_dets["xmax"])/2
+        circuli_dets["y_center"] = (circuli_dets["ymin"]+circuli_dets["ymax"])/2
+        circuli_dets["spacing_px"] = circuli_dets.groupby('img_id', group_keys=False).apply(lambda x: x.x_center.diff())
+        circuli_dets.rename(columns={"detection_nr": "circulus_nr"}, inplace = True)
+        
+        # Write out dataframe with all detections
+        circuli_dets.to_csv(os.path.join(circuli_detections_dir, "circuli_spacings.csv"), index=False)
+        
+        ## --- 7. Sanity checks on circuli detections and spacings
+        logger.info("Running sanity checks on circuli detections and spacings...")
+        circuli_checks(circuli_dets, args["transect_max_boxes"])
+        
+        
+        ## --- 8. Summarise circuli outputs
+        circuli_summary_stats = circuli_dets[["score", "spacing_px"]].describe(percentiles = [0.05, .5, .95])
+        circuli_summary_stats.rename(columns = {"score":"det_conf_score"}, inplace = True)
+        circuli_summary_stats = circuli_summary_stats.round({"conf_score":4, "spacing_px":2})
 
+    else:
+            
+        logger.warning("Focus detector failed to locate focus in any of the provided scale images - "
+                       "system cannot proceed to the circuli detection stage")
+        
+        circuli_summary_stats = pd.DataFrame()
+        
+     
+    
     ## --- 8. Summarise Run
-    summary_stats = circuli_dets[["score", "spacing_px"]].describe(percentiles = [0.05, .5, .95])
-    summary_stats.rename(columns = {"score":"det_conf_score"}, inplace = True)
-    summary_stats = summary_stats.round({"conf_score":4, "spacing_px":2})
-    
+        
     num_scales = len(glob.glob(scales_jpegs_dir + "/*.jpg"))
-    num_transects = len(glob.glob(transects_jpegs_dir + "/*.jpg"))
+    num_transects = len(glob.glob(transects_jpegs_dir + "/*.jpg"))   
     
-    # calculate runtime duration (mins)
+     # calculate runtime duration (mins)
     run_duration = round((time() - run_start)/60, 2)
-    
-    #breakpoint()
     
     logger.info("Run finished!"
                 "\n\n---------------------------------------------------------"
@@ -480,13 +497,12 @@ def main():
                 "\n\nCirculi detection"
                 f"\n\tTransect images processed: {num_transects}"
                 "\n\tSummary statistics:"
-                "\n\t\t" + summary_stats.to_string().replace('\n', '\n\t\t') +
+                "\n\t\t" + circuli_summary_stats.to_string().replace('\n', '\n\t\t') +
                 "\n---------------------------------------------------------")
-    
-   
     
     # Stop logging process
     logging.shutdown()
+
 
 # ------------------------------------------------------------------------------
 if __name__ == "__main__":
