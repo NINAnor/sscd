@@ -431,20 +431,20 @@ def main():
         ## --- 5. Circuli detections (model for non-padded images, for conf thresh of 0.3)
         logger.info("Gearing up circuli detector")
         circuli_dets = detect(
-        img_dir = transects_jpegs_dir, 
-        det_dir = circuli_detections_dir, 
-        weights = './data/yoloV3_checkpoints/circuli_detector/yolov3_train_22.tf', 
-        classes_file = './data/scale_transects_label.names',
-        input_width = 3904, 
-        input_height = 64,
-        yolo_score_threshold = 0.3, 
-        yolo_max_boxes = args["transect_max_boxes"], 
-        dets_save_apart = args["dets_separate_files"], 
-        plot_dets = args["plot_detections"], 
-        plot_det_num = True,
-        fig_w = 100, 
-        fig_h = 5
-        )
+            img_dir = transects_jpegs_dir, 
+            det_dir = circuli_detections_dir, 
+            weights = './data/yoloV3_checkpoints/circuli_detector/yolov3_train_22.tf', 
+            classes_file = './data/scale_transects_label.names',
+            input_width = 3904, 
+            input_height = 64,
+            yolo_score_threshold = 0.3, 
+            yolo_max_boxes = args["transect_max_boxes"], 
+            dets_save_apart = args["dets_separate_files"], 
+            draw_dets = args["draw_detections"], 
+            draw_det_num = True,
+            fig_w = 100, 
+            fig_h = 5
+            )
             
         logger.info("Finished circuli detection")
         logger.info("Circuli detection outputs saved to %s", circuli_detections_dir)
@@ -466,7 +466,7 @@ def main():
         circuli_checks(circuli_dets, args["transect_max_boxes"])
         
         
-        ## --- 8. Summarise circuli outputs
+        ## --- 8. Summary stats of circuli outputs
         circuli_summary_stats = circuli_dets[["score", "spacing_px"]].describe(percentiles = [0.05, .5, .95])
         circuli_summary_stats.rename(columns = {"score":"det_conf_score"}, inplace = True)
         circuli_summary_stats = circuli_summary_stats.round({"conf_score":4, "spacing_px":2})
