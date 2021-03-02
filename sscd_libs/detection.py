@@ -29,6 +29,10 @@ from yolov3_tf2.dataset import transform_images
 logger = logging.getLogger(__name__)
 
 
+# import local modules
+from sscd_libs.helpers import (
+    unpack_for_string
+    )
 
 
 
@@ -215,16 +219,6 @@ def write_detections_per_img(x, det_subdir):
     
     return 0
     
-
-
-# ------------------------------------------------------------------------------
-def unpack_for_string(s, sep = '\n\t'):
-    
-    """    
-    Little utility function to unpack list elements when using them logging messages 
-    """
-    
-    return sep.join(str(x) for x in s)
 
 
 

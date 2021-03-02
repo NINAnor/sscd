@@ -34,15 +34,18 @@ from time import time
 #import multiprocessing
 
 # import local modules
-from sscd_libs.detection import (
-    detect,
-    unpack_for_string
-    )
+from sscd_libs.helpers import boolean_string
+
+from sscd_libs.detection import detect 
 
 from sscd_libs.data_processing import (
     images_tiff_to_jpeg,
     get_transects
     )
+
+from sscd_libs.helpers import unpack_for_string
+
+
 
 import logging
 from tqdm import tqdm
@@ -57,15 +60,6 @@ def clean_output_dir(dir_path):
             shutil.rmtree(dir_path)
         except OSError as e:
             print("Error: %s : %s" % (dir_path, e.strerror))
-
-
-
-# ------------------------------------------------------------------------------
-def boolean_string(s):
-    if s not in {'False', 'True'}:
-        raise ValueError('Not a valid boolean string')
-    return s == 'True'
-
 
 
 
