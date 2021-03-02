@@ -49,13 +49,13 @@ def detections_as_df(detections_tf, img_orig_wh, img_id, class_names):
         the bounding boxes coords, the confidence score and index of object class
         
     img_orig_wh: list   
-            width and height (in pixels) of the original image undergoing detection
+        Width and height (in pixels) of the original image undergoing detection
             
     img_id : str
         Image ID, usually the name of the image file, without the file extension
         
     class_names : list
-        names of the object clases
+        Names of the object clases
         
     Returns
     -------
