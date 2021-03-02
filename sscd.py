@@ -304,18 +304,18 @@ def main():
     # Focus detector
     if len(glob.glob("./data/yoloV3_checkpoints/focus_detector/*.index")) == 0:
         raise FileNotFoundError("Checkpoint files for focus detector not found."
-                                "Please check README.md file and follow instructions on how to set up yolo weights")
+                                "Please refer to the README.md file and follow instructions on how to set up yolo weights")
     elif len(glob.glob("./data/yoloV3_checkpoints/focus_detector/*.index")) > 1:
         raise IOError("Too many checkpoints found for the focus detector model (only one checkpoint expected)."
-                      "Please check README file and follow instructions on how to set up yolo weights")
+                      "Please refer to the README file and follow instructions on how to set up yolo weights")
         
     # circuli detector    
     if len(glob.glob("./data/yoloV3_checkpoints/circuli_detector/*.index")) == 0:
         raise FileNotFoundError("Checkpoint files for circuli detector not found."
-                                "Please check README.md file and follow instructions on how to set up yolo weights")
+                                "Please refer to the README.md file and follow instructions on how to set up yolo weights")
     elif len(glob.glob("./data/yoloV3_checkpoints/circuli_detector/*.index")) > 1:
         raise IOError("Too many checkpoints found for the circuli detector model (only one checkpoint expected)."
-                      "Please check README file and follow instructions on how to set up yolo weights")
+                      "Please refer to the README file and follow instructions on how to set up yolo weights")
     
     
     
