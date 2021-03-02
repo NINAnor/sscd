@@ -28,7 +28,6 @@ from yolov3_tf2.dataset import transform_images
 
 logger = logging.getLogger(__name__)
 
-
 # import local modules
 from sscd_libs.helpers import (
     unpack_for_string
@@ -118,7 +117,7 @@ def detections_as_df(detections_tf, img_orig_wh, img_id, class_names):
 
 # ------------------------------------------------------------------------------
 def draw_detections(img, dets, output_dir, draw_gt = False, gtInSeparatePlot = False,
-                    img_groundtruths = None, plot_conf = True, plot_det_num = False, 
+                    img_groundtruths = None, plot_conf = True, draw_det_num = False, 
                     fig_w = 30, fig_h = 30):
     
     """
@@ -175,7 +174,7 @@ def draw_detections(img, dets, output_dir, draw_gt = False, gtInSeparatePlot = F
                     fontsize = 'small', fontstyle = "italic", c = 'white', 
                     ha = "center", va = "top")
             
-        if plot_det_num: 
+        if draw_det_num: 
             ax.text(det_center[0], det_center[1]-2, index+1, fontsize = 'small', 
                     c = "red", ha = "center", va = "bottom")
         
@@ -228,7 +227,7 @@ def detect(img_dir, det_dir, weights=None, classes_file=None,
            input_width=None, input_height=None, 
            yolo_score_threshold = 0.5, yolo_max_boxes = 100, 
            dets_save_apart = False, 
-           plot_dets = True, plot_det_num = False, 
+           draw_dets = True, draw_det_num = False, 
            fig_w = 25, fig_h = 20):
     
     
@@ -246,7 +245,7 @@ def detect(img_dir, det_dir, weights=None, classes_file=None,
     
     #--- File management
     # Create directory to take detection images, if required
-    if plot_dets:
+    if draw_dets:
         det_img_dir = os.path.join(det_dir, "detection_images")
         os.makedirs(det_img_dir, exist_ok=True)
 
@@ -314,9 +313,9 @@ def detect(img_dir, det_dir, weights=None, classes_file=None,
         img_detections_df.dropna(subset = ["score"], inplace = True)
         
         # if requested, and if detections present, plot images with detections
-        if plot_dets and img_detections_df.shape[0] > 0:
+        if draw_dets and img_detections_df.shape[0] > 0:
             draw_detections(img_orig, img_detections_df, det_img_dir, 
-                            plot_det_num = plot_det_num,
+                            draw_det_num = draw_det_num,
                             fig_w = fig_w, fig_h = fig_w)
         
         # if no detections in image, store image pixel data and ID

@@ -21,7 +21,7 @@ Usage:
    --output_dir "C:/SSCD_temp_outputs"\
    --transect_angles 0 45 90 135 180 \
    --dets_separate_files False\
-   --plot_detections True\
+   --draw_detections True\
    --transect_max_boxes 200
 """
 
@@ -239,7 +239,7 @@ def main():
         help="Require detections in each image to be saved in separate files",
     )
     args_parser.add_argument(
-        "--plot_detections",
+        "--draw_detections",
         #dest= "plot_detections",
         required=False,
         type=boolean_string,
@@ -353,7 +353,7 @@ def main():
         scales_jpegs_dir
         )
        
-    #breakpoint()
+    
             
     ## --- 2. Focus detection   
     logger.info("Gearing up focus detection")
@@ -366,8 +366,8 @@ def main():
             yolo_score_threshold = 0.5, 
             yolo_max_boxes = 100, 
             dets_save_apart = args["dets_separate_files"], 
-            plot_dets = args["plot_detections"], 
-            plot_det_num = False,
+            draw_dets = args["draw_detections"], 
+            draw_det_num = False,
             fig_w = 35, 
             fig_h = 30
             )
@@ -380,7 +380,7 @@ def main():
     #                                        1376, 
     #                                        1376,
     #                                        args["dets_separate_files"], 
-    #                                        args["plot_detections"], 
+    #                                        args["draw_detections"], 
     #                                        35, 
     #                                        30))
     
