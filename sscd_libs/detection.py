@@ -8,33 +8,33 @@ TODO
 
 """
 
+# import standard libraries
 import os
-import tensorflow as tf
 import glob
 import logging
-from tqdm import tqdm
 from pathlib import Path
-import pandas as pd
-import numpy as np
 
+
+# import installed/3rd-party modules
+from PIL import Image
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
+from tqdm import tqdm
+import numpy as np
+import pandas as pd
+import tensorflow as tf
 
-from PIL import Image
 
+# import local modules
 from yolov3_tf2.models import YoloV3
 from yolov3_tf2.dataset import transform_images
 
-
-logger = logging.getLogger(__name__)
-
-# import local modules
 from sscd_libs.helpers import (
     unpack_for_string
     )
 
 
-
+logger = logging.getLogger(__name__)
 
 # ------------------------------------------------------------------------------
 def detections_as_df(detections_tf, img_orig_wh, img_id, class_names):
