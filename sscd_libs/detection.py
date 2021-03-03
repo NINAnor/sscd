@@ -206,16 +206,18 @@ def write_detections_per_img(x, det_subdir):
     0 to indicate successful completion
     
     """
-            
+       
     # construct filepath as txt file
-    det_filepath = os.path.join(det_subdir, x.img_id[0] + ".txt")
+    det_filepath = os.path.join(det_subdir, x.img_id.iloc[0] + ".txt")
     
     # exclude image ID column
-    x.drop("img_id", axis = 1, inplace = True)
+    #x.drop("img_id", axis = 1, inplace = True)
+    out = x.drop("img_id", axis = 1)
     
     # write out
-    x.to_csv(det_filepath, header=None, index=None, sep=' ', mode='w')
-    
+    #x.to_csv(det_filepath, header=None, index=None, sep=' ', mode='w')
+    out.to_csv(det_filepath, header=False, index=False, sep=' ', mode='w')
+       
     return 0
     
 
