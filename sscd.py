@@ -33,6 +33,12 @@ import glob
 from time import time
 #import multiprocessing
 
+# import installed/3rd-party modules
+import logging
+from tqdm import tqdm
+import pandas as pd
+
+
 # import local modules
 from sscd_libs.helpers import boolean_string
 
@@ -45,11 +51,6 @@ from sscd_libs.data_processing import (
 
 from sscd_libs.helpers import unpack_for_string
 
-
-
-import logging
-from tqdm import tqdm
-import pandas as pd
 
 
 # ------------------------------------------------------------------------------
@@ -476,8 +477,8 @@ def main():
     
     ## --- 8. Summarise Run
         
-    num_scales = len(glob.glob(scales_jpegs_dir + "/*.jpg"))
-    num_transects = len(glob.glob(transects_jpegs_dir + "/*.jpg"))   
+    num_scales = len(glob.glob(scales_jpegs_dir + os.path.sep + "*.jpg"))
+    num_transects = len(glob.glob(transects_jpegs_dir + os.path.sep + "*.jpg"))   
     
      # calculate runtime duration (mins)
     run_duration = round((time() - run_start)/60, 2)
