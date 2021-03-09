@@ -1,7 +1,6 @@
 # SSCD
  Salmon Scale Circuli Detector (SSCD)
 
-
 <!-- The Salmon Scale Circuli Detector (SSCD) was developed....
 
 This repository provides set of tools to run the developed system, to monitor and evaluate its performance and to retrain it when/if necessary.
@@ -72,11 +71,11 @@ This step creates a Conda environment for the SSCD tool, with all the required p
 
 ### 3. Download YOLOv3 weights for focus and circuli detectors
 
-  - Download the file `yoloV3_checkpoints.zip`, containing the yolo weights for the two detectors from this [link][3] (790MB total size, so a coffee/tea break is in order!)
+  - Download the file `yoloV3_checkpoints.zip`, containing the trained yolo weights for the two detectors from this [link][3] (790MB total size, so a coffee/tea break is in order!)
 
   - Unzip `yoloV3_checkpoints.zip` **inside the subdirectory `SSCD/data/`**.
 
-  - Quick check: e.g. for the focus detector, the path to its weights MUST be `SSCD/data/yoloV3_checkpoints/focus_detector`
+  - Quick check: e.g. for the focus detector, the path to the directory comprising its weights MUST be `SSCD/data/yoloV3_checkpoints/focus_detector`
 
 [3]: https://www.dropbox.com/sh/xm2zmoz7h9g5nqi/AACfwx7_JQmUkcNK8ePXetkta?dl=0
 
@@ -105,7 +104,7 @@ This step creates a Conda environment for the SSCD tool, with all the required p
 
     - On Jupyter's File Browser, open `SSCD/docs/SSCD detection example usage.ipynb` and follow the instructions
 
-    - **Alternatively**, open a new Notebook with `SSCD` as its Kernel, copy-paste the following chuck of code to a cell
+    - **Alternatively**, open a new Notebook with `SSCD` as its Kernel, copy-paste the following code to a cell
 
     ```
     %run sscd.py \
