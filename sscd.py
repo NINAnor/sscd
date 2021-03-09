@@ -240,12 +240,12 @@ def main():
         help="Require detections in each image to be saved in separate files",
     )
     args_parser.add_argument(
-        "--draw_detections",
+        "--plot_dets",
         #dest= "plot_detections",
         required=False,
         type=boolean_string,
         default = True,
-        help="Generate images with detections?",
+        help="Option to generate image plots with detections, for visual inspection",
     )
     args_parser.add_argument(
         "--transect_max_boxes",
@@ -354,7 +354,6 @@ def main():
         scales_jpegs_dir
         )
        
-    
             
     ## --- 2. Focus detection   
     logger.info("Gearing up focus detection")
@@ -367,10 +366,10 @@ def main():
             yolo_score_threshold = 0.5, 
             yolo_max_boxes = 100, 
             dets_save_apart = args["dets_separate_files"], 
-            draw_dets = args["draw_detections"], 
+            plot_dets = args["plot_dets"], 
             draw_det_num = False,
-            fig_w = 35, 
-            fig_h = 30
+            fig_w = 65, 
+            fig_h = 60
             )
     
     # focus_dets = multiprocessing.Process(target=detect, args = (
@@ -435,7 +434,7 @@ def main():
             yolo_score_threshold = 0.3, 
             yolo_max_boxes = args["transect_max_boxes"], 
             dets_save_apart = args["dets_separate_files"], 
-            draw_dets = args["draw_detections"], 
+            plot_dets = args["plot_dets"], 
             draw_det_num = True,
             fig_w = 100, 
             fig_h = 5

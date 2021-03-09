@@ -4,7 +4,7 @@ Created on Fri Jan 22 19:42:58 2021
 
 @author: Bruno Canecco
 
-TODO
+Purpose: Module with core worker functions for the detection process
 
 """
 
@@ -116,10 +116,9 @@ def detections_as_df(detections_tf, img_orig_wh, img_id, class_names):
 
 
 # ------------------------------------------------------------------------------
-def draw_detections(img, dets, output_dir, draw_gt = False, gtInSeparatePlot = False,
-                    img_groundtruths = None, plot_conf = True, draw_det_num = False, 
-                    fig_w = 30, fig_h = 30):
-    
+def plot_detections(img, dets, output_dir, draw_ann = False, anns = [], 
+                    anns_sepPlot = False, plot_conf = True, draw_det_num = False, 
+                    fig_w = None, fig_h = None):
     """
     TODO
     
@@ -229,7 +228,7 @@ def detect(img_dir, det_dir, weights=None, classes_file=None,
            input_width=None, input_height=None, 
            yolo_score_threshold = 0.5, yolo_max_boxes = 100, 
            dets_save_apart = False, 
-           draw_dets = True, draw_det_num = False, 
+           plot_dets = True, draw_det_num = False, 
            fig_w = 25, fig_h = 20):
     
     
@@ -245,9 +244,10 @@ def detect(img_dir, det_dir, weights=None, classes_file=None,
     
     """
     
+    
     #--- File management
     # Create directory to take detection images, if required
-    if draw_dets:
+    if plot_dets:
         det_img_dir = os.path.join(det_dir, "detection_images")
         os.makedirs(det_img_dir, exist_ok=True)
 
@@ -315,8 +315,8 @@ def detect(img_dir, det_dir, weights=None, classes_file=None,
         img_detections_df.dropna(subset = ["score"], inplace = True)
         
         # if requested, and if detections present, plot images with detections
-        if draw_dets and img_detections_df.shape[0] > 0:
-            draw_detections(img_orig, img_detections_df, det_img_dir, 
+        if plot_dets and img_detections_df.shape[0] > 0:
+            plot_detections(img_orig, img_detections_df, det_img_dir, 
                             draw_det_num = draw_det_num,
                             fig_w = fig_w, fig_h = fig_w)
         
