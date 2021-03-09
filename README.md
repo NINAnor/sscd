@@ -77,7 +77,7 @@ This step creates a Conda environment for the SSCD tool, with all the required p
 
   - Quick check: e.g. for the focus detector, the path to the directory comprising its weights MUST be `SSCD/data/yoloV3_checkpoints/focus_detector`
 
-  - Installation (probably) done!
+  - That's it - installation (probably) done!
 
 [3]: https://www.dropbox.com/sh/xm2zmoz7h9g5nqi/AACfwx7_JQmUkcNK8ePXetkta?dl=0
 
