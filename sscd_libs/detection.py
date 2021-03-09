@@ -120,71 +120,180 @@ def plot_detections(img, dets, output_dir, draw_ann = False, anns = [],
                     anns_sepPlot = False, plot_conf = True, draw_det_num = False, 
                     fig_w = None, fig_h = None):
     """
-    TODO
-    
-    Args
+    Generate image plot(s) with detections, and optionally annotations, drawn in a target image
+
+    Parameters
+    ----------
+    img : 3D numpy array
+        target image decoded as an array of pixel intensities
+    dets : pandas DataFrame
+        object detections on target image. It MUST contain, at least,
+        columns with class names, boxes boundaries and confidence scores named, respectively, 
+        as 'class_name', 'xmin', 'ymin"', 'xmax', 'ymax, and 'score'. Expects boundaries 
+        coordinates as absolute values w.r.t. the size of the target image
+    output_dir : str
+        poth to directory where the generated image plot will be saved to
+    draw_ann : bool, optional
+        Option to draw annotations in the image plot. The default is False.
+    anns : pandas DataFrame, optional
+        annotations on target image - only required if draw_ann is set to True. The default is None.
+        It MUST contain, at least, columns for class names and boxes boundaries named, respectively, 
+        as 'class_name', 'xmin', 'ymin"', 'xmax' and 'ymax. Expects boundaries 
+        coordinates as absolute values w.r.t. the size of the target image
+    anns_sepPlot : bool, optional
+        Option to generate a separate image plot for annotations, as well as a reference image plot. 
+        The default is False, which will draw annnotations and detections on the same image plot.
+    plot_conf : bool, optional
+        Option to add confidence scores to the plot. The default is True.
+    draw_det_num : bool, optional
+        Option to add detection (and annotation) counters to the plot, to help visual inspection. 
+        The default is False.
+    fig_w : float, optional
+        figure width of the image plot. The default is 30.
+    fig_h : TYPE, optional
+        figure height of the image plot. The default is 30.
+
+    Raises
     ------
-    img :
-        
+    ValueError
+        If 'draw_ann' is set to True, the DataFrame 'anns' must be provided.
+
     Returns
-    -------    
-    
+    -------
+    None.
+
     """
     
-    if draw_gt and img_groundtruths == None:
-        raise ValueError("Missing ground truth data to plot against detections")
+    if draw_ann and len(anns) == 0:
+        raise ValueError("Missing annotations data to plot against detections")
                
-    # calculate centers, widths & heights of detections
-    dets["xcenter"] = (dets["xmax"]+dets["xmin"])/2
-    dets["ycenter"] = (dets["ymax"]+dets["ymin"])/2
-    dets["width"] = dets["xmax"] - dets["xmin"]
-    dets["height"] = dets["ymax"] - dets["ymin"]    
-        
-    # Create figure and axes
-    fig, ax = plt.subplots(1, 1, figsize = (fig_w, fig_h))
+    # calculate centers, widths & heights of detections    
+    dets = dets.assign(
+        xcentre = lambda x: (x.xmax + x.xmin)/2, 
+        ycentre = lambda x: (x.ymax + x.ymin)/2,
+        width = lambda x: x.xmax - x.xmin,
+        height = lambda x: x.ymax - x.ymin
+        )  
+    
+    # sort output by xmin to plot detection counters in left-to-right order
+    dets.sort_values(by=['xmin'], inplace = True, ignore_index=True)
+    
      
-    # set image for detections
-    ax.imshow(img)
-    ax.axis('off')
+    # Option to automatically set size of figure plot based on size of original image
+    if fig_w is None or fig_h is None:
+        fig_w = img.shape[1]*.15
+        fig_h = img.shape[0]*.15
     
-    # breakpoint()
     
+    # Create figure and axes
+    fig = plt.figure(figsize = (fig_w, fig_h))
+
+    # set subplot for image with detections
+    ax0 = fig.add_subplot(3, 1, 3)
+    ax0.imshow(img)
+    ax0.axis('off')
+        
     # draw bounding boxes, centers and confidence score of each detection
     for index, row in dets.iterrows():
          
-        #det_center = ((row["xmax"]+row["xmin"])/2, (row["ymax"]+row["ymin"])/2)
-        det_center = (row["xcenter"], row["ycenter"])
+        det_centre = (row["xcentre"], row["ycentre"])
             
-        det_rect = patches.Rectangle(xy = (row["xmin"], row["ymin"]),
-                                     width = row["width"],
-                                     height = row["height"], 
-                                     linewidth = 2,
-                                     edgecolor = 'red',
-                                     facecolor = (1, 0, 0, 0.1),
-                                     fill = True)
+        det_rect = patches.Rectangle(
+            xy = (row["xmin"], row["ymin"]),
+            width = row["width"],
+            height = row["height"], 
+            linewidth = 1.5,
+            edgecolor = 'red',
+            facecolor = (1, 0, 0, 0.1),
+            fill = True)
             
-        det_dot = patches.Circle(xy = det_center, radius = 1, color = 'red')
+        det_dot = patches.Circle(xy = det_centre, radius = 1, color = 'red')
             
-        ax.add_patch(det_rect)
-        ax.add_patch(det_dot)
+        ax0.add_patch(det_rect)
+        ax0.add_patch(det_dot)
         
         if plot_conf:
-            ax.text(det_center[0], det_center[1]+3, round(row["score"], 2), 
+            ax0.text(det_centre[0], det_centre[1]+3, round(row["score"], 2), 
                     fontsize = 'small', fontstyle = "italic", c = 'white', 
                     ha = "center", va = "top")
             
         if draw_det_num: 
-            ax.text(det_center[0], det_center[1]-2, index+1, fontsize = 'small', 
+            ax0.text(det_centre[0], det_centre[1]-2, index+1, fontsize = 'small', 
                     c = "red", ha = "center", va = "bottom")
+        # end of loop
+    
+    
+    # Plot annotations        
+    if draw_ann:            
+                
+        # calculate centers, widths & heights of annotations    
+        anns = anns.assign(
+            xcentre = lambda x: (x.xmax + x.xmin)/2, 
+            ycentre = lambda x: (x.ymax + x.ymin)/2,
+            width = lambda x: x.xmax - x.xmin,
+            height = lambda x: x.ymax - x.ymin
+            )  
         
+        # sort output by xmin to plot annotations counters in left-to-right order
+        anns.sort_values(by=['xmin'], inplace = True, ignore_index=True)
+        
+        # First, generate and store bbox elements in lists
+        ann_bbxs_centres = []
+        ann_bbxs_rects = []
+        ann_bbxs_dots = []
+        
+        for index, row in anns.iterrows():
+            
+            ann_bbx_centre = (row["xcentre"], row["ycentre"])
+            ann_bbxs_centres.append(ann_bbx_centre)
 
-    plt.savefig(os.path.join(output_dir, dets["img_id"][0] + "_detections.jpg"),
+            ann_bbxs_rects.append(
+                patches.Rectangle(
+                    xy = (row["xmin"], row["ymin"]),
+                    width = row["width"],
+                    height = row["height"], 
+                    linewidth = 1.5,
+                    edgecolor = 'limegreen', 
+                    facecolor = (43/255, 195/255, 61/255, 0.3), #'limegreen',
+                    fill = True)
+                )
+            
+            ann_bbxs_dots.append(
+                patches.Circle(xy = ann_bbx_centre, radius = 0.5, color = 'limegreen')
+                )         
+            # end of loop
+               
+        # Secondly, add annotations bounding boxes in separate subplot or add them to first plot
+        if anns_sepPlot:
+                                
+            # add subplot for the reference image
+            ax1 = fig.add_subplot(3, 1, 2, sharex=ax0)
+            ax1.imshow(img)
+            ax1.axis('off')
+                       
+            # add subplot for the annotations image
+            ax2 = fig.add_subplot(3, 1, 1, sharex=ax0)
+            ax2.imshow(img)
+            ax2.axis('off')
+            
+            for i in range(len(anns)):
+                ax2.add_patch(ann_bbxs_rects[i])
+                ax2.add_patch(ann_bbxs_dots[i])
+                
+                if draw_det_num: 
+                    ax2.text(ann_bbxs_centres[i][0], ann_bbxs_centres[i][1]-2, i+1, fontsize = 'small', 
+                             c = 'limegreen', ha = "center", va = "bottom")       
+               
+        else:
+            for i in range(len(anns)):
+                ax0.add_patch(ann_bbxs_rects[i])
+                ax0.add_patch(ann_bbxs_dots[i])
+
+    plt.savefig(os.path.join(output_dir, dets.img_id.iloc[0] + "_detections.jpg"),
                 bbox_inches='tight', pad_inches=0)
         
-    plt.close(fig)   
-
-        
-        
+    plt.close(fig)
+    
 
 
 # ------------------------------------------------------------------------------
