@@ -81,7 +81,7 @@ This step creates a Conda environment for the SSCD tool, with all the required p
 [3]: https://www.dropbox.com/sh/xm2zmoz7h9g5nqi/AACfwx7_JQmUkcNK8ePXetkta?dl=0
 
 
-## How to run SSCD for detection
+## How to run SSCD
 
 1. Open a conda prompt (**Start** > **Anaconda** > **Anaconda Prompt**)
 
@@ -137,7 +137,7 @@ This step creates a Conda environment for the SSCD tool, with all the required p
 | `--img_dir`            | Directory path containing scale image files. <br> Expects .tif images   | str           |                 |
 | `--output_dir`         | Directory path where outputs will be stored                             | str           |                 |
 | `--transect_angles`    | Choice of angle(s) for radial transects <br> in degrees (0-360)         | int (spaced)  | 0 45 90 135 180 |
-| `--plot_detections`    | Generate images with detections?                                        | bool          | True            |
+| `--plot_dets`    | Option to generate images with detections, for visual inspection        | bool          | True            |
 | `--transect_max_boxes` | Maximum number of detections per transect image                         | int           | 200             |
 
 
@@ -197,7 +197,7 @@ The following directory tree represents how the outputs from SSCD are structured
 
 
 - The `/jpegs` folder comprises images generated during the process, i.e. the JPEG versions of the original TIF scale images and the transect images
-- The `/detections` folder comprises the detection data from each detector (e.g. `/detections/focus/detections.csv`), the circuli spacings (`detections/circuli/circuli_spacings.csv`), and subdirectories containing the images with drawn detection boxes if `--plot_detections` is set to `True` (e.g. `/detections/focus/detection_images`)
+- The `/detections` folder comprises the detection data from each detector (e.g. `/detections/focus/detections.csv`), the circuli spacings (`detections/circuli/circuli_spacings.csv`), and subdirectories containing the images with drawn detection boxes if `--plot_dets` is set to `True` (e.g. `/detections/focus/detection_images`)
 - the log file `log_sscd_detection.log` contains logging messages generated during the detection process, providing useful info from each step of the detection pipeline
 - In addition, images where detectors fail to locate the scale focus, or any circuli bands in a transect, are copied to a dedicated directory (e.g. `output_dir/detections/focus/imgs_with_no_detections`)
 
