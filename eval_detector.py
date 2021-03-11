@@ -17,11 +17,12 @@ Brief pipeline description:
 Usage:
 
 %run eval_detector.py \
-    --ann_dir  \
-    --dets_csv  \
-    --outputs_dir  \
-    --draw_gt_vs_dets True \
-    --img_dir  \
+    --img_dir \
+    --ann_dir \
+    --dets_csv \
+    --outputs_dir \
+    --dets_vs_anns_plots \
+    --sep_plots
 """
 
 # import built-in modules
