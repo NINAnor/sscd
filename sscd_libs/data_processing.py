@@ -8,7 +8,7 @@ Module for functions dealing with data/image preparation and processing
 
 """
 
-# import built-in modules
+# import standard libraries
 import os
 import glob
 from pathlib import Path
@@ -20,9 +20,13 @@ import math
 from PIL import Image
 from tqdm import tqdm
 import numpy as np
+from xml.etree import ElementTree
+import pandas as pd
+
 
 # import local modules
 from tools.diagonal_crop import crop
+
 
 logger = logging.getLogger(__name__)
 
@@ -308,5 +312,73 @@ def get_transects(focus_bbox, transect_degrees, img_filepath, output_dir):
         transect_outfile = os.path.join(output_dir, img_id + f'_{angle_deg}.jpg')
         cropped_im.save(transect_outfile, 'JPEG')
          
+
+
+
+
+# ------------------------------------------------------------------------------
+def pascal_to_evaltxt(ann_dir, ann_id, out_dir):
+    """
+    Convert object bounding boxes annotation files in Pascal VOC format to text 
+    files formatted in accordance with evaluator requirements
+
+    TODO
+    Parameters
+    ----------
+    ann_filepath : TYPE
+        DESCRIPTION.
+    out_dir : TYPE
+        DESCRIPTION.
+
+    Returns
+    -------
+    0 indicating successful completion
+
+    """
+    
+    ann_filepath = os.path.join(ann_dir, ann_id + ".xml")
+    
+    # list of bounding box annotations to eventually write to txt
+    bboxes = []
+    
+    # load the contents of the annotations file into an ElementTree
+    tree = ElementTree.parse(ann_filepath)
+    
+    for obj in tree.iter("object"):
+        
+        label = obj.find("name").text
+        bndbox = obj.find("bndbox")
+        bbox_min_x = int(float(bndbox.find("xmin").text))
+        bbox_min_y = int(float(bndbox.find("ymin").text))
+        bbox_max_x = int(float(bndbox.find("xmax").text))
+        bbox_max_y = int(float(bndbox.find("ymax").text))
+                
+        # include this box in the list we'll return
+        box = {
+            "label": label,
+            "xmin": bbox_min_x,
+            "ymin": bbox_min_y,
+            "xmax": bbox_max_x,
+            "ymax": bbox_max_y,
+            }
+        
+        bboxes.append(box)
+        
+    # pandas offers a convenient way to save dicT to txt files
+    bboxes_df = pd.DataFrame(bboxes)
+    # sort annotation boxes by xmin (i.e. from left to right)
+    bboxes_df.sort_values(by=['xmin'], inplace = True, ignore_index=True)
+    
+    txt_filepath = os.path.join(out_dir, ann_id + ".txt")
+    bboxes_df.to_csv(txt_filepath, header = False, sep = ' ', index=False)
+    
+    return 0
+
+
+
+
+
+
+
 
 

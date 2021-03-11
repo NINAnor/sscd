@@ -116,7 +116,7 @@ def detections_as_df(detections_tf, img_orig_wh, img_id, class_names):
 
 
 # ------------------------------------------------------------------------------
-def plot_detections(img, dets, output_dir, draw_ann = False, anns = [], 
+def plot_detections(img, dets, output_dir, draw_ann = False, anns = None, 
                     anns_sepPlot = False, plot_conf = True, draw_det_num = False, 
                     fig_w = None, fig_h = None):
     """
@@ -164,8 +164,9 @@ def plot_detections(img, dets, output_dir, draw_ann = False, anns = [],
 
     """
     
-    if draw_ann and len(anns) == 0:
+    if draw_ann and anns is None:
         raise ValueError("Missing annotations data to plot against detections")
+        logging.shutdown()
                
     # calculate centers, widths & heights of detections    
     dets = dets.assign(
@@ -181,10 +182,9 @@ def plot_detections(img, dets, output_dir, draw_ann = False, anns = [],
      
     # Option to automatically set size of figure plot based on size of original image
     if fig_w is None or fig_h is None:
-        fig_w = img.shape[1]*.15
-        fig_h = img.shape[0]*.15
-    
-    
+        fig_w = min(img.shape[1]*.15, 100)
+        fig_h = min(img.shape[0]*.15, 100)
+        
     # Create figure and axes
     fig = plt.figure(figsize = (fig_w, fig_h))
 
@@ -339,18 +339,43 @@ def detect(img_dir, det_dir, weights=None, classes_file=None,
            dets_save_apart = False, 
            plot_dets = True, draw_det_num = False, 
            fig_w = 25, fig_h = 20):
-    
-    
     """
     TODO
-    
-    Args
+
+    Parameters
     ----------
-    img :
-        
+    img_dir : TYPE
+        DESCRIPTION.
+    det_dir : TYPE
+        DESCRIPTION.
+    weights : TYPE, optional
+        DESCRIPTION. The default is None.
+    classes_file : TYPE, optional
+        DESCRIPTION. The default is None.
+    input_width : TYPE, optional
+        DESCRIPTION. The default is None.
+    input_height : TYPE, optional
+        DESCRIPTION. The default is None.
+    yolo_score_threshold : TYPE, optional
+        DESCRIPTION. The default is 0.5.
+    yolo_max_boxes : TYPE, optional
+        DESCRIPTION. The default is 100.
+    dets_save_apart : TYPE, optional
+        DESCRIPTION. The default is False.
+    plot_dets : TYPE, optional
+        DESCRIPTION. The default is True.
+    draw_det_num : TYPE, optional
+        DESCRIPTION. The default is False.
+    fig_w : TYPE, optional
+        DESCRIPTION. The default is 25.
+    fig_h : TYPE, optional
+        DESCRIPTION. The default is 20.
+
     Returns
-    -------    
-    
+    -------
+    all_detections : TYPE
+        DESCRIPTION.
+
     """
     
     

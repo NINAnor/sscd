@@ -5,12 +5,12 @@ Created on Fri Feb 26 18:13:27 2021
 
 Module for miscellaneous utility functions
 
-@author: dmp
+@author: Bruno Caneco
 """
 
 import shutil
 import os
-
+from distutils.util import strtobool
 
 # ------------------------------------------------------------------------------
 def boolean_string(s):
@@ -43,3 +43,31 @@ def unpack_for_string(s, sep = '\n\t'):
     """
     
     return sep.join(str(x) for x in s)
+
+
+# ------------------------------------------------------------------------------
+def query_yes_no(question, default='no'):
+    
+    """
+    hacked from https://gist.github.com/garrettdreyfus/8153571
+    """
+    
+    if default is None:
+        prompt = " [y/n] "
+    elif default == 'yes':
+        prompt = " [Y/n] "
+    elif default == 'no':
+        prompt = " [y/N] "
+    else:
+        raise ValueError(f"Unknown setting '{default}' for default.")
+
+    while True:
+        try:
+            resp = input(question + prompt).strip().lower()
+            if default is not None and resp == '':
+                return default == 'yes'
+            else:
+                return strtobool(resp)
+        except ValueError:
+            print("Please respond with 'yes' or 'no' (or 'y' or 'n').\n")
+    
