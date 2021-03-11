@@ -372,21 +372,7 @@ def main():
             fig_h = 60
             )
     
-    # focus_dets = multiprocessing.Process(target=detect, args = (
-    #                                        scales_jpegs_dir, 
-    #                                        focus_detections_dir, 
-    #                                        './data/yoloV3_checkpoints/focus_detector/yolov3_train_190.tf', 
-    #                                        './data/scales_label.names',
-    #                                        1376, 
-    #                                        1376,
-    #                                        args["dets_separate_files"], 
-    #                                        args["draw_detections"], 
-    #                                        35, 
-    #                                        30))
-    
-    # focus_dets.start()
-    # focus_dets.join()
-    
+
     logger.info("Finished focus detection")
     logger.info("Focus detection outputs saved to %s", focus_detections_dir)
        
