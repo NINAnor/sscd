@@ -265,7 +265,7 @@ def evaluate(gtFolder, detFolder, savePath, iouThreshold = 0.5, gtFormat = 'xywh
         savePath=savePath,
         showGraphic=showPlot)
     
-    loggerText = ["Evaluation results\n\n"]
+    loggerText = ["Evaluation results:\n\n"]
     
     f = open(os.path.join(savePath, 'evaluation_results.txt'), 'w')
     f.write('Object Detection Metrics\n')
