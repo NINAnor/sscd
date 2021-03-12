@@ -97,7 +97,7 @@ def main():
         required=True,
         type=str,
         help="Filepath to CSV file containing detection bounding boxes, "
-        "obtained via the sscd.py module"
+        "produced under the sscd.py module"
     )
     args_parser.add_argument(
         "--output_dir",
@@ -106,7 +106,7 @@ def main():
         help="directory path where evaluation outputs will be stored"
     )
     args_parser.add_argument(
-        "--dets_vs_anns_plots",
+        "--plot_dets_vs_anns",
         required=False,
         type=boolean_string,
         default = True,
@@ -288,7 +288,7 @@ def main():
     # ---------------------------------------------------------------------------- #
     
     
-    if(args["dets_vs_anns_plots"]):
+    if(args["plot_dets_vs_anns"]):
         
         logger.info("Plotting images contrasting detections vs annotations")
         
@@ -348,7 +348,6 @@ def main():
         detCoordinates = "abs",
         showPlot=True
         )
-    
 
     logger.info("All outputs saved to %s", args["output_dir"]) 
 
