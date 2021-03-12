@@ -131,19 +131,19 @@ This step creates a Conda environment for the SSCD tool, with all the required p
 
 
 
-### `sscd.py` Arguments
+### `sscd.py` inputs
 
-| Argument               | Description                                                             | Type          | Default         |
-|------------------------|-------------------------------------------------------------------------|---------------|-----------------|
-| `--img_dir`            | Directory path containing scale image files. <br> Expects .tif images   | str           |                 |
-| `--output_dir`         | Directory path where outputs will be stored                             | str           |                 |
-| `--transect_angles`    | Choice of angle(s) for radial transects <br> in degrees (0-360)         | int (spaced)  | 0 45 90 135 180 |
-| `--plot_dets`    | Option to generate images with detections, for visual inspection        | bool          | True            |
-| `--transect_max_boxes` | Maximum number of detections per transect image                         | int           | 200             |
+| Argument               | Description                     | Type          | Default         |
+|------------------------|---------------------------------|---------------|-----------------|
+| `--img_dir`    | Directory path containing scale image files. <br> Expects TIF images  | str  |      |
+| `--output_dir` | Directory path where outputs will be stored                           | str  |      |
+| `--transect_angles` | Choice of angle(s) for radial transects <br> in degrees (0-360)  | int (spaced) | `0 45 90 135 180` |
+| `--plot_dets`    | Option to generate images with detections, for visual inspection   | bool   | `True` |
+| `--transect_max_boxes` | Maximum number of detections per transect image              | int    | `200`  |
 
 
 
-### Outputs structure
+### `sscd.py` outputs
 
 The following directory tree represents how the outputs from SSCD are structured:
 
@@ -190,8 +190,7 @@ The following directory tree represents how the outputs from SSCD are structured
    |          ├─── N Esk NC_2018_273_270.jpg
    |          ├─── N Esk NC_2018_273_315.jpg
    |          ├─── N Esk NC_2018_273_90.jpg
-   |            ...
-   |
+   |          ...
    |
    └─── log_sscd_detection.log
 ```
@@ -199,8 +198,104 @@ The following directory tree represents how the outputs from SSCD are structured
 
 - The `/jpegs` folder comprises images generated during the process, i.e. the JPEG versions of the original TIF scale drwn images and the transect images
 - The `/detections` folder comprises the detection data from each detector (e.g. `/detections/focus/detections.csv`), the circuli spacings (`detections/circuli/circuli_spacings.csv`), and subdirectories containing images with detection boxes drawn in them if `--plot_dets` is set to `True` (e.g. `/detections/focus/detection_images`)
-- the log file `log_sscd_detection.log` contains logging messages generated during the detection process, providing useful info from each step of the detection pipeline
+- `log_sscd_detection.log` contains logging messages generated during the detection process, providing useful info from each step of the detection pipeline
 - In addition, images where detectors fail to locate the scale focus, or any circuli bands in a transect, are copied to a dedicated directory (e.g. `output_dir/detections/focus/imgs_with_no_detections`)
+
+
+
+## Evaluating SSCD's performance
+
+Evaluating the performance of the SCCD is crucial to identify degradation in the system's capacity to produce reliable detections of circuli bands, and subsequently provide accurate intercirculi spacings. Consistent drops in performance metrics on new images, compared to [those][5] obtained when the system was last trained, indicates the system needs to be retrained with fresh images.
+
+The performance of each detector comprised in SSCD's pipeline can be evaluated via the `eval_detector.py` script. This tool combines outputs from the `sscd.py` script with annotation data (provided by the user) to produce standard object detection performance metrics.
+
+Core computational tasks were adapted from [this project][4], where background information on evaluation methods for object detection algorithms and performance metrics can also be found.
+
+A detailed protocol for evaluating the performance of SSCD's detectors is available [here][5].
+
+
+[4]: (https://github.com/rafaelpadilla/Object-Detection-Metrics#how-to-use-this-project)
+[5]: ./sscd_evaluate.md
+
+
+The following code chunk exemplifies the evaluation of the circuli detector in a jupyter session (under the sscd kernel):
+
+```
+%run eval_detector.py \
+    --img_dir "./data/eval_example/imgs/" \
+    --anns_dir "./data/eval_example/anns/" \
+    --dets_csv "./data/eval_example/detections.csv"\
+    --output_dir "C:/SSCD_temp_outputs"\
+    --dets_vs_anns_plots True \
+    --sep_plots True
+```
+
+Running the same case usage via the command line (copy-pasting):
+
+```
+python eval_detector.py ^
+    --img_dir "./data/eval_example/imgs/" ^
+    --anns_dir "./data/eval_example/anns/" ^
+    --dets_csv "./data/eval_example/detections.csv" ^
+    --output_dir "C:/SSCD_temp_outputs" ^
+    --dets_vs_anns_plots True ^
+    --sep_plots True
+```
+
+### `eval_detector.py` inputs
+
+
+| Argument     | Description                                             | Type          | Default  |
+|--------------|-------------------------------------------------------- |---------------|----------|
+| `--img_dir`  | Directory path to images for evaluation. Expects JPEG images   | str    |          |
+| `--anns_dir` | Directory path to annotation files. Expects XML files with Pascal VOC format  | str  |       |
+| `--dets_csv` | Filepath to CSV file containing detection bounding boxes, as outputted from `sscd.py`| str | |
+| `--output_dir`| Directory path to evaluation outputs                          | str           |          |
+| `--plot_dets_vs_anns` | Option to generate image plots contrasting detections with annotations | bool   | `True` |
+| `--sep_plots` | Option to produce separate plots for detections and annotations. If `False` draw both in the same plot (recommended for focus detections) | bool  | `False`  |
+
+
+### `eval_detector.py` outputs
+
+Evaluation metrics are printed to the active console, and stored with other relevant outputs as follows (for the above example case):
+
+
+```
+<output_dir>
+    ├─── dets_vs_anns_plots
+    |        ├─── N Esk NC_2018_186_0_detections.jpg
+    |        ├─── N Esk NC_2018_186_180_detections.jpg
+    |        ├─── N Esk NC_2018_186_90_detections.jpg
+    |        ...
+    |
+    ├─── circulus_PRC.png
+    ├─── evaluation_results.txt
+    ├─── log_sscd_evaluation.log
+    └─── "results_by_image.csv"
+```
+
+where:
+  - `circulus_PRC.png` - Precision-Recall curve for the object class under evaluation
+  - `evaluation_results.txt` - Main evaluation metrics
+  - `log_sscd_evaluation.log` - logging messages generated during the evaluation process
+  - `results_by_image.csv` - Classification of detections by image
+  -  `/dets_vs_anns_plots` - contains detections vs. annotations image plots
+
+
+##### Metrics:
+  - True Positive (TP): a correct detection (i.e. matched annotation and detection)
+  - False Positive (FP): an incorrect detection (i.e. a detection with unmatched annotation)
+  - False Negative (FN): an undetected annotation (i.e. a annotation with unmatched detection)
+  - Precision: the proportion of correct positive detections = TP/(TP+FP)
+  - Recall: the proportion of annotations correctly detected (*true positive rate*) = TP/(TP+FN)
+  - Average precision (AP): combines precision and recall by
+  - F<sub>1</sub> score: the harmonic mean of precision and recall
+  - Mean Centre Error (MCE): average of Euclidian distances (in pixels) between the centres of TP detection boxes and respective annotation boxes
+
+
+> **Note of caution**
+>
+> Annotations are not strictly ground truths - target objects are marked manually and are therefore subject to human error and labeller ambiguity. Thus, performance metrics are highly dependent, not only on the accuracy of the detector, but also on the quality of annotations used on the evaluation. Image plots contrasting detections against annotations should help scrutinise if apparent drops in performance metrics are being driven by a deteriorating detector, by poor labelling or by both!
 
 
 
@@ -216,3 +311,4 @@ conda env update --name sscd --file condaenv_sscd.yml  --prune
 ### References (supporting code)
 - [YOLOv3 implementation in Tensorflow 2](https://github.com/zzh8829/yolov3-tf2)
 - [Diagonal crop](https://github.com/jobevers/diagonal-crop)
+- Object detection evaluation [tool](https://github.com/rafaelpadilla/Object-Detection-Metrics#how-to-use-this-project)
