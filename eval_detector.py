@@ -223,7 +223,7 @@ def main():
             "Missing detection data for the following image file(s):"
             f"\n\n\t{unpack_for_string(det_missing)}"
             "\n\n\tPlease ensure the above image(s) are included in the "
-            "detection process before performing the evaluation"
+            "detection step before performing the evaluation"
             )
         
     
