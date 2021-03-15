@@ -214,7 +214,7 @@ Core computational tasks were adapted from [this project][4], where background i
 A detailed protocol for evaluating the performance of SSCD's detectors is available [here][5].
 
 
-[4]: (https://github.com/rafaelpadilla/Object-Detection-Metrics#how-to-use-this-project)
+[4]: https://github.com/rafaelpadilla/Object-Detection-Metrics#how-to-use-this-project
 [5]: ./sscd_evaluate.md
 
 
@@ -286,14 +286,15 @@ where:
   - `/dets_vs_anns_plots` - contains detections vs. annotations image plots
 
 
+
 #### Definitions and Metrics:
   - Intersection Over Union (IOU):  the overlapping area between the detection bounding box and the annotation bounding box divided by the area of union between them:
 
   ![iou](docs/images/iou.png)
 
-  - IOU threshold (IOU<sub>thresh</sub>): used to determine if a detection is classified as True Positive or False Positive
-  - True Positive (TP): a correct detection (i.e. detection with IOU &ge; IOU<sub>thresh</sub>)
-  - False Positive (FP): an incorrect detection (i.e. detection with IOU &lt; IOU<sub>thresh</sub> **OR** an extra TP on the same annotation)
+  - IOU threshold (IOU<sub>thresh</sub>): determines if a detection is classified as True Positive or False Positive
+  - True Positive (TP): a correct detection (i.e. a detection with IOU &ge; IOU<sub>thresh</sub>)
+  - False Positive (FP): an incorrect detection (i.e. a detection with IOU &lt; IOU<sub>thresh</sub> **OR** an extra TP on the same annotation)
   - False Negative (FN): an undetected annotation
   - Precision: the proportion of correct positive detections = TP/(TP+FP)
   - Recall: the proportion of annotations correctly detected (*true positive rate*) = TP/(TP+FN)
