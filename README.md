@@ -279,13 +279,21 @@ where:
   - `evaluation_results.txt` - Main evaluation metrics
   - `log_sscd_evaluation.log` - logging messages generated during the evaluation process
   - `results_by_image.csv` - Classification of detections by image
-  -  `/dets_vs_anns_plots` - contains detections vs. annotations image plots
+  - `/dets_vs_anns_plots` - contains detections vs. annotations image plots
 
 
 ##### Metrics:
-  - True Positive (TP): a correct detection (i.e. matched annotation and detection)
-  - False Positive (FP): an incorrect detection (i.e. a detection with unmatched annotation)
-  - False Negative (FN): an undetected annotation (i.e. a annotation with unmatched detection)
+  <!-- - Intersection Over Union (IOU):  the overlapping area between the detection bounding box and the annotation bounding box divided by the area of union between them:
+
+  ![iou](docs/images/iou.png) -->
+
+  - True Positive (TP): a correct detection
+  <!-- -      (i.e. detection and annotation matched) -->
+   <!-- Matching annotation and detection as detection with IOU &ge; IOU<sub>thresh</sub>) -->
+  - False Positive (FP): an incorrect detection
+  <!-- -     (i.e. a detection with unmatched annotation) -->
+  - False Negative (FN): an undetected annotation
+  <!-- -     (i.e. a annotation with unmatched detection) -->
   - Precision: the proportion of correct positive detections = TP/(TP+FP)
   - Recall: the proportion of annotations correctly detected (*true positive rate*) = TP/(TP+FN)
   - Average precision (AP): combines precision and recall by
@@ -293,9 +301,10 @@ where:
   - Mean Centre Error (MCE): average of Euclidian distances (in pixels) between the centres of TP detection boxes and respective annotation boxes
 
 
+
 > **Note of caution**
 >
-> Annotations are not strictly ground truths - target objects are marked manually and are therefore subject to human error and labeller ambiguity. Thus, performance metrics are highly dependent, not only on the accuracy of the detector, but also on the quality of annotations used on the evaluation. Image plots contrasting detections against annotations should help scrutinise if apparent drops in performance metrics are being driven by a deteriorating detector, by poor labelling or by both!
+> Annotations are not ground truths in a strict sense. Target objects are marked manually and thence subject to human error and labeller ambiguity. Therefore, performance metrics are highly dependent, not only on the accuracy of the detector, but also on the quality of annotations used on the evaluation. Image plots contrasting detections against annotations should help scrutinise if apparent drops in performance metrics are being driven by a deteriorating detector, by poor labelling, or both.
 
 
 
