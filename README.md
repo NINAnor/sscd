@@ -293,7 +293,7 @@ where:
   <img src="docs/images/iou.png" align="center"/></p>
 
 
-  - IOU threshold (IOU<sub>thresh</sub>): determines if a detection is classified as True Positive or False Positive
+  - IOU threshold (IOU<sub>thresh</sub>): determines if a detection is classified as True Positive or False Positive (usually set to 50%, 75% or 95%)
   - True Positive (TP): a correct detection (i.e. a detection with IOU &ge; IOU<sub>thresh</sub>)
   - False Positive (FP): an incorrect detection (i.e. a detection with IOU &lt; IOU<sub>thresh</sub> **OR** an extra TP on the same annotation)
   - False Negative (FN): an undetected annotation
