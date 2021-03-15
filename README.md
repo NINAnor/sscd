@@ -290,7 +290,8 @@ where:
 #### Definitions and Metrics:
   - Intersection Over Union (IOU):  the overlapping area between the detection bounding box and the annotation bounding box divided by the area of union between them:
 
-  ![iou](docs/images/iou.png)
+  <div style="text-align:center"><img src="docs/images/iou.png" /></div>
+
 
   - IOU threshold (IOU<sub>thresh</sub>): determines if a detection is classified as True Positive or False Positive
   - True Positive (TP): a correct detection (i.e. a detection with IOU &ge; IOU<sub>thresh</sub>)
