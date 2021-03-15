@@ -227,7 +227,7 @@ The following code chunk exemplifies the evaluation of the circuli detector in a
     --dets_csv "./data/eval_example/detections.csv"\
     --iou_threshould 0.5 \
     --output_dir "C:/SSCD_temp_outputs"\
-    --dets_vs_anns_plots True \
+    --plot_dets_vs_anns True \
     --sep_plots True
 ```
 
@@ -240,7 +240,7 @@ python eval_detector.py ^
     --dets_csv "./data/eval_example/detections.csv" ^
     --iou_threshould 0.5 ^
     --output_dir "C:/SSCD_temp_outputs" ^
-    --dets_vs_anns_plots True ^
+    --plot_dets_vs_anns True ^
     --sep_plots True
 ```
 
