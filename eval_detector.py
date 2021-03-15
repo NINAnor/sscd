@@ -100,6 +100,13 @@ def main():
         "produced under the sscd.py module"
     )
     args_parser.add_argument(
+        "--iou_threshould",
+        required=False,
+        type=float,
+        default = 0.5,
+        help="IOU threshold for evaluation, determining if a detection is TP or FP"
+    )
+    args_parser.add_argument(
         "--output_dir",
         required=True,
         type=str,
@@ -341,7 +348,7 @@ def main():
         gtFolder = anns_temp_dir, 
         detFolder = dets_temp_dir,
         savePath = args["output_dir"],
-        iouThreshold = 0.5,
+        iouThreshold = args["iou_threshould"],
         gtFormat = "xyrb",
         detFormat ="xyrb",
         gtCoordinates = "abs",
