@@ -299,7 +299,7 @@ where:
   - False Negative (FN): an undetected annotation
   - Precision: the proportion of correct positive detections = TP/(TP+FP)
   - Recall: the proportion of annotations correctly detected (*true positive rate*) = TP/(TP+FN)
-  - Average precision (AP): combines precision and recall by
+  - Average precision (AP): a combination of precision and recall scores. Given by the area under the precision Vs recall curve (check [here][4] for more details).
   - F<sub>1</sub> score: the harmonic mean of precision and recall. Higher scores when both recall and precision are high.
   - Mean Centre Error (MCE): average of Euclidian distances (in pixels) between the centres of TP detection boxes and respective annotation boxes
 
