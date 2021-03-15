@@ -225,6 +225,7 @@ The following code chunk exemplifies the evaluation of the circuli detector in a
     --img_dir "./data/eval_example/imgs/" \
     --anns_dir "./data/eval_example/anns/" \
     --dets_csv "./data/eval_example/detections.csv"\
+    --iou_threshould 0.5 \
     --output_dir "C:/SSCD_temp_outputs"\
     --dets_vs_anns_plots True \
     --sep_plots True
@@ -237,6 +238,7 @@ python eval_detector.py ^
     --img_dir "./data/eval_example/imgs/" ^
     --anns_dir "./data/eval_example/anns/" ^
     --dets_csv "./data/eval_example/detections.csv" ^
+    --iou_threshould 0.5 ^
     --output_dir "C:/SSCD_temp_outputs" ^
     --dets_vs_anns_plots True ^
     --sep_plots True
@@ -250,9 +252,11 @@ python eval_detector.py ^
 | `--img_dir`  | Directory path to images for evaluation. Expects JPEG images   | str    |          |
 | `--anns_dir` | Directory path to annotation files. Expects XML files with Pascal VOC format  | str  |       |
 | `--dets_csv` | Filepath to CSV file containing detection bounding boxes, as outputted from `sscd.py`| str | |
+| `--iou_threshould` | IOU threshold (IOU<sub>thresh</sub>) determining if a detection is TP or FP (see "Metrics" section bellow) | float  | `0.5`  |
 | `--output_dir`| Directory path to evaluation outputs                          | str           |          |
 | `--plot_dets_vs_anns` | Option to generate image plots contrasting detections with annotations | bool   | `True` |
 | `--sep_plots` | Option to produce separate plots for detections and annotations. If `False` draw both in the same plot (recommended for focus detections) | bool  | `False`  |
+
 
 
 ### `eval_detector.py` outputs
@@ -282,22 +286,19 @@ where:
   - `/dets_vs_anns_plots` - contains detections vs. annotations image plots
 
 
-##### Metrics:
-  <!-- - Intersection Over Union (IOU):  the overlapping area between the detection bounding box and the annotation bounding box divided by the area of union between them:
+#### Definitions and Metrics:
+  - Intersection Over Union (IOU):  the overlapping area between the detection bounding box and the annotation bounding box divided by the area of union between them:
 
-  ![iou](docs/images/iou.png) -->
+  ![iou](docs/images/iou.png)
 
-  - True Positive (TP): a correct detection
-  <!-- -      (i.e. detection and annotation matched) -->
-   <!-- Matching annotation and detection as detection with IOU &ge; IOU<sub>thresh</sub>) -->
-  - False Positive (FP): an incorrect detection
-  <!-- -     (i.e. a detection with unmatched annotation) -->
+  - IOU threshold (IOU<sub>thresh</sub>): used to determine if a detection is classified as True Positive or False Positive
+  - True Positive (TP): a correct detection (i.e. detection with IOU &ge; IOU<sub>thresh</sub>)
+  - False Positive (FP): an incorrect detection (i.e. detection with IOU &lt; IOU<sub>thresh</sub> **OR** an extra TP on the same annotation)
   - False Negative (FN): an undetected annotation
-  <!-- -     (i.e. a annotation with unmatched detection) -->
   - Precision: the proportion of correct positive detections = TP/(TP+FP)
   - Recall: the proportion of annotations correctly detected (*true positive rate*) = TP/(TP+FN)
   - Average precision (AP): combines precision and recall by
-  - F<sub>1</sub> score: the harmonic mean of precision and recall
+  - F<sub>1</sub> score: the harmonic mean of precision and recall. Higher scores when both recall and precision are high.
   - Mean Centre Error (MCE): average of Euclidian distances (in pixels) between the centres of TP detection boxes and respective annotation boxes
 
 
