@@ -288,8 +288,14 @@ def plot_detections(img, dets, output_dir, draw_ann = False, anns = None,
             for i in range(len(anns)):
                 ax0.add_patch(ann_bbxs_rects[i])
                 ax0.add_patch(ann_bbxs_dots[i])
+        
+    
+    if draw_ann:
+        imgfile_label = "dets_vs_anns"
+    else:
+        imgfile_label = "detections"
 
-    plt.savefig(os.path.join(output_dir, dets.img_id.iloc[0] + "_detections.jpg"),
+    plt.savefig(os.path.join(output_dir, dets.img_id.iloc[0] + imgfile_label +".jpg"),
                 bbox_inches='tight', pad_inches=0)
         
     plt.close(fig)

@@ -267,9 +267,9 @@ Evaluation metrics are printed to the active console, and stored with other rele
 ```
 <output_dir>
     ├─── dets_vs_anns_plots
-    |        ├─── N Esk NC_2018_186_0_detections.jpg
-    |        ├─── N Esk NC_2018_186_180_detections.jpg
-    |        ├─── N Esk NC_2018_186_90_detections.jpg
+    |        ├─── N Esk NC_2018_186_0_dets_vs_anns.jpg
+    |        ├─── N Esk NC_2018_186_180_dets_vs_anns.jpg
+    |        ├─── N Esk NC_2018_186_90_dets_vs_anns.jpg
     |        ...
     |
     ├─── circulus_PRC.png
