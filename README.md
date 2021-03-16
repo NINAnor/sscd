@@ -5,6 +5,8 @@
 
 This repository provides set of tools to run the developed system, to monitor and evaluate its performance and to retrain it when/if necessary.
 
+developed with the ultimate purpose of automatically extract growth information from scales, like number of circuli bands and intracirculi spacings.
+
 ### Current usage constraints
   - One scale per image
   - scale orientation
@@ -207,11 +209,11 @@ The following directory tree represents how the outputs from SSCD are structured
 
 Evaluating the performance of the SCCD is crucial to identify degradation in the system's capacity to produce reliable detections of circuli bands, and subsequently provide accurate intercirculi spacings. Consistent drops in performance metrics on new images, compared to [those][5] obtained when the system was last trained, indicates the system needs to be retrained with fresh images.
 
-The performance of each detector comprised in SSCD's pipeline can be evaluated via the `eval_detector.py` script. This tool combines outputs from the `sscd.py` script with annotation data (provided by the user) to produce standard object detection performance metrics.
+The performance of each detector comprised in SSCD's pipeline can be evaluated via the `eval_detector.py` script. This tool combines outputs from the `sscd.py` script with annotation data (provided by the user) to produce standard object detection evaluation metrics.
 
-Core computational tasks were adapted from [this project][4], where background information on evaluation methods for object detection algorithms and performance metrics can also be found.
+Core computational tasks were adapted from [this project][4], where background information on evaluation methods for object detection algorithms and relevant performance metrics can also be found.
 
-A detailed protocol for evaluating the performance of SSCD's detectors is available [here][5].
+A more detailed guide for evaluating the performance of SSCD's detectors is available [here][5].
 
 
 [4]: https://github.com/rafaelpadilla/Object-Detection-Metrics#how-to-use-this-project
@@ -293,13 +295,13 @@ where:
   <img src="docs/images/iou.png" align="center"/></p>
 
 
-  - IOU threshold (IOU<sub>thresh</sub>): determines if a detection is classified as True Positive or False Positive (usually set to 50%, 75% or 95%)
+  - IOU threshold (IOU<sub>thresh</sub>): determines if a detection is classified as True Positive or False Positive
   - True Positive (TP): a correct detection (i.e. a detection with IOU &ge; IOU<sub>thresh</sub>)
   - False Positive (FP): an incorrect detection (i.e. a detection with IOU &lt; IOU<sub>thresh</sub> **OR** an extra TP on the same annotation)
   - False Negative (FN): an undetected annotation
   - Precision: the proportion of correct positive detections = TP/(TP+FP)
   - Recall: the proportion of annotations correctly detected (*true positive rate*) = TP/(TP+FN)
-  - Average precision (AP): a combination of precision and recall scores. Given by the area under the precision Vs recall curve (check [here][4] for more details).
+  - Average precision (AP): a combination of precision and recall scores. Given by the area under the precision vs. recall curve (check [here][4] for more details).
   - F<sub>1</sub> score: the harmonic mean of precision and recall. Higher scores when both recall and precision are high.
   - Mean Centre Error (MCE): average of Euclidian distances (in pixels) between the centres of TP detection boxes and respective annotation boxes
 
