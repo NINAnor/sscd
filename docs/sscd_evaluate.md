@@ -16,7 +16,7 @@ The following table provides the evaluation metrics of each detector obtained on
 | Focus detector   | July 2020      | 103            |  0.5                 | 99.0%                  | 0.99            |
 | Circulus detector| December 2020  | 81             |  0.5                 | 95.2%                  | 0.94            |
 
-<br/>
+<br/><br/>
 An important caveat of the evaluation process is the quality of the annotation data. Labelling, the process by which ground truths are generated, needs to be as accurate and consistent as possible Labelling circulus, in particular, may at times be challenging as identifying circuli bands can be ambiguous due to e.g. bands being too packed (specially on river growth), poor scale-to-slide imprinting or the occurrence of fissures/discontinuities in scale deposition. Poor quality annotation data will have a negative impact on performance metrics while the detector is still operating at expected levels of accuracy, potentially prompting the user to needlessly retrain the detector. Visual inspection of detections vs annotations plots should help to discern decay in the detector's performance from poor labelling.
 
 
