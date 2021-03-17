@@ -23,54 +23,100 @@ An important caveat of the evaluation process is the quality of the annotation d
 
   - Labelling, the process by which ground truths are generated, needs to be as accurate and consistent as possible.
 
-  - Labelling circulus, in particular, may at times be challenging as identifying circuli bands can be ambiguous due to e.g. bands being too packed (specially on river growth), poor scale-to-slide imprinting or the occurrence of fissures/discontinuities in scale deposition.
+  - Labelling circulus, in particular, may at times be challenging as identifying circuli bands can be ambiguous due to e.g. packed bands (specially on river growth), poor scale-to-slide imprinting or the occurrence of fissures/discontinuities in scale deposition.
 
   - Poor quality annotation data will have a negative impact on performance metrics while the detector is still operating at expected levels of accuracy, potentially prompting the user to needlessly retrain the detector.
 
   - Visual inspection of detections vs annotations plots could help to discern decay in the detector's performance from poor labelling.
-<br/>
 
+<br/>
 
 ### Additional software requirements
 
-In order to perform evaluation, we need to provide the "ground truth"
+There are [many][1] annotation tools available for labelling objects in images.
 
-Performance evaluation is done by comparing detections with *ground truth* data, i.e. the *true* locations of the target features in each image. This is done by manually marking and labelling objects of interest (i.e. the scale's focus or the circuli bands) present in a given image using an image annotation tool. There are [many][1] image annotation tools available but, for its simplicity and ease of use, we recommend [*LabelImg*][2].
+For its simplicity, speed and ease of use, we recommend [*LabelImg*][2]. For installation, follow the [instructions][4] according to the appropriate OS.
 
-Please note, the evaluation tool expects annotation files to be in Pascal VOC format. So, if using a different annotation software without Pascal VOC as an output format, annotations will need to be converted accordingly (e.g. this [python package][3] offers a range of format conversions).
-
-
-
-## Evaluation Process
-
-Here we assume you have installed *LabelImg* and have run `sscd.py` on a set of images.
-
-<!-- The evaluation process involves 2 main steps
-  1. Select and  images
-  2. Run evaluation -->
-
-#### 1. Select and label the images to use in evaluation
-
-During the detection step, jpg versions of the scales and transect images used for detection are stored in the subdirectory `<output_dir>\jpegs`.
-
-
-From the set of images where detection was performed, copy the images to be used for evaluation to new folder.
-
-For the focus detector, the target object is the focus in each sca
-
-#### 2. Set up files for evaluation
-
-#### 3. Run evaluation
-
-
-#### 4. Assess retraining
+Please note, the evaluation tool expects annotation files to be in Pascal VOC format. Thus, if using a different annotation software  without the option of Pascal VOC as an output format, annotations will need to be converted accordingly (e.g. this [python package][3] offers a range of format conversions).
 
 
 
-[this link](#overview)
+## Evaluation walkthrough example
+
+  - We assume `sscd.py` has already been run on a set of images, and *LabelImg* has been correctly installed.
+
+  - During the detection step, jpg versions of the scales and transect images used in detection are stored in the subdirectory `<output_dir>\jpegs`.
+
+  - The example described here refers to the evaluation of the circulus detector.
+
+  - To evaluate the performance of the focus detector, follow the same steps.
+
+
+#### 1. Setting-up directories and files to use in evaluation
+
+- Create a main directory to comprise the files required for the evaluation process (e.g. `<some_path>/eval_circuli_detector`)
+
+- Select and copy the images to be used in the evaluation from the directory containing the transect images generated during detection (`<detections_output_dir>/jpegs/transects`) to a dedicated subdirectory (e.g. `<some_path>/eval_circuli_detector/imgs`).
+
+- Create a new subdirectory to take the annotation files (e.g. `<some_path>/eval_circuli_detector/anns`)
+
+- Optionally, for easier reference, copy the circuli detection data (`<detections_output_dir>/detections/circuli/detections.csv`) to the main directory created above (i.e. `<some_path>/eval_circuli_detector/detections.csv`)
+
+
+#### 2. Label the images
+
+- Open an Anaconda Prompt, go to the *LabelImg* directory and launch it
+
+  ```
+  python labelImg.py
+  ```
+- Go to `File > Open Dir` and select image directory (here, `<some_path>/eval_circuli_detector/imgs`)
+- Go to `File > Change Save Dir` and select the annotations directory (here, `<some_path>/eval_circuli_detector/anns`)
+- Make sure the PascalVOC option is selected
+
+  ![test](../docs/images/labelImg_PascalVOC.jpg)
+
+- On the left side panel, tick the box "use default label" and write `circulus` on the adjacent text box
+
+  ![test](../docs/images/labelImg_default_label.jpg)
+
+- Proceed with the labelling process, by using the rectangular box to delimit **every circulus** present in each image
+
+- Tip - particularly useful [hotkeys](https://github.com/tzutalin/labelImg#hotkeys) include:
+  - create a new box (w)
+  - copy the current box ("Ctrl + d"),
+  - save annotation file (Ctrl + s)
+  - move to next image (d)
+
+
+
+
+#### 3. Run evaluation (in jupyter session)
+
+- In a jupyter session under the sscd kernel, run the following code, **using the appropriate paths and directory names**
+
+  ```
+  %run eval_detector.py \
+      --img_dir `<some_path>/eval_circuli_detector/imgs` \
+      --anns_dir `<some_path>/eval_circuli_detector/anns` \
+      --dets_csv "<some_path>/eval_circuli_detector/detections.csv"\
+      --iou_threshould 0.5 \
+      --output_dir "<some_path>/eval_circuli_detector/"\
+      --plot_dets_vs_anns True \
+      --sep_plots True
+  ```
+
+
+<!-- - Launch *LabelImg* by running the following command, **using the appropriate paths and directory names** (tip: use a text editor to help specifying the correct paths before copy-pasting it to the command line)
+
+  ```
+  python labelImg.py "<some_path>/evaluation_inputs/imgs" "<some_path>/evaluation_inputs/anns" "<path_to_SSC>/data/labelImg_sscd_classes.txt"
+  ``` -->
+
 
 
 
 [1]: https://www.simonwenkel.com/2019/07/19/list-of-annotation-tools-for-machine-learning-research.html
 [2]: https://github.com/tzutalin/labelImg#labelimg
 [3]: https://github.com/monocongo/cvdata
+[4]: https://github.com/tzutalin/labelImg#windows--anaconda
