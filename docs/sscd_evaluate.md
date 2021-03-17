@@ -29,7 +29,7 @@ An important caveat of the evaluation process is the quality of the annotation d
 
   - Visual inspection of detections vs annotations plots could help to discern decay in the detector's performance from poor labelling.
 
-<br/>
+<!-- <br/> -->
 
 ### Additional software requirements
 
@@ -70,7 +70,7 @@ Please note, the evaluation tool expects annotation files to be in Pascal VOC fo
   ```
   python labelImg.py
   ```
-- Go to `File > Open Dir` and select image directory (here, `<some_path>/eval_circuli_detector/imgs`)
+- Go to `File > Open Dir` and select the images directory (here, `<some_path>/eval_circuli_detector/imgs`)
 - Go to `File > Change Save Dir` and select the annotations directory (here, `<some_path>/eval_circuli_detector/anns`)
 - Make sure the PascalVOC option is selected
   <p align="center">
@@ -100,7 +100,7 @@ Please note, the evaluation tool expects annotation files to be in Pascal VOC fo
 
 #### 3. Run evaluation (in jupyter session)
 
-- Open an Anaconda prompt and GO to the SSCD directory
+- Open an Anaconda prompt and navigate to the SSCD directory
 
 - Activate the SSCD environment:
 
