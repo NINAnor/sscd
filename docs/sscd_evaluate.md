@@ -114,7 +114,7 @@ An important caveat of the evaluation process is the quality of the annotation d
   > jupyter lab
   ```
 
-- On a Notebook, run the following code **using the appropriate paths and directory names**
+- Run the following code on a notebook, **using the appropriate paths and directory names**
 
   ```
   %run eval_detector.py \
