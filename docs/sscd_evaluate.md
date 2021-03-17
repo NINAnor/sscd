@@ -84,24 +84,37 @@ Please note, the evaluation tool expects annotation files to be in Pascal VOC fo
 
 - Tip - particularly useful [hotkeys](https://github.com/tzutalin/labelImg#hotkeys) include:
   - create a new box (w)
-  - copy the current box ("Ctrl + d"),
-  - save annotation file (Ctrl + s)
+  - copy the current box (Ctrl + d)
+  - save annotations for current image (Ctrl + s)
   - move to next image (d)
-
 
 
 
 #### 3. Run evaluation (in jupyter session)
 
-- In a jupyter session under the sscd kernel, run the following code, **using the appropriate paths and directory names**
+- Open an Anaconda prompt and GO to the SSCD directory
+
+- Activate the SSCD environment:
+
+  ```
+  > conda activate sscd
+  ```
+
+- Launch Jupyter lab:
+
+  ```
+  > jupyter lab
+  ```
+
+- On a Notebook, run the following code **using the appropriate paths and directory names**
 
   ```
   %run eval_detector.py \
       --img_dir `<some_path>/eval_circuli_detector/imgs` \
       --anns_dir `<some_path>/eval_circuli_detector/anns` \
-      --dets_csv "<some_path>/eval_circuli_detector/detections.csv"\
+      --dets_csv "<some_path>/eval_circuli_detector/detections.csv" \
       --iou_threshould 0.5 \
-      --output_dir "<some_path>/eval_circuli_detector/"\
+      --output_dir "<some_path>/eval_circuli_detector/" \
       --plot_dets_vs_anns True \
       --sep_plots True
   ```
