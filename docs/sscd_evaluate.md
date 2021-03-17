@@ -8,18 +8,26 @@ Performance evaluation is based on geometric comparisons between detections and 
 
 This guide assumes the detection step has been already carried out (using the [`sscd.py`](../README.md#how-to-run-sscd)  function), and the goal now is to assess the performance of one of the detectors on a set of images used in detection. Obtained evaluation metrics can then be contrasted with those observed when the detector was last trained. Considerable drops (>10%) in metrics provide a strong indication that the detector's expected prediction accuracy has declined, and therefore it should be retrained with fresh images.
 
-
-###### Evaluation metrics on test set
-
 The following table provides the evaluation metrics of each detector obtained on the test set at the time of the last training.
 
+###### Evaluation metrics on test set
 | Model            | Training date  | No. of images  | IOU<sub>Thresh</sub> | Average Precision (AP) | F<sub>1</sub>   |
 |------------------|----------------|----------------|----------------------|------------------------|-----------------|
 | Focus detector   | July 2020      | 103            |  0.5                 | 99.0%                  | 0.99            |
 | Circulus detector| December 2020  | 81             |  0.5                 | 95.2%                  | 0.94            |
 
 
-An important caveat of the evaluation process is the quality of the annotation data. Labelling, the process by which ground truths are generated, needs to be as accurate and consistent as possible. Labelling circulus, in particular, may at times be challenging as identifying circuli bands can be ambiguous due to e.g. bands being too packed (specially on river growth), poor scale-to-slide imprinting or the occurrence of fissures/discontinuities in scale deposition. Poor quality annotation data will have a negative impact on performance metrics while the detector is still operating at expected levels of accuracy, potentially prompting the user to needlessly retrain the detector. Visual inspection of detections vs annotations plots should help to discern decay in the detector's performance from poor labelling.
+
+
+An important caveat of the evaluation process is the quality of the annotation data:
+
+  - Labelling, the process by which ground truths are generated, needs to be as accurate and consistent as possible.
+
+  - Labelling circulus, in particular, may at times be challenging as identifying circuli bands can be ambiguous due to e.g. bands being too packed (specially on river growth), poor scale-to-slide imprinting or the occurrence of fissures/discontinuities in scale deposition.
+
+  - Poor quality annotation data will have a negative impact on performance metrics while the detector is still operating at expected levels of accuracy, potentially prompting the user to needlessly retrain the detector.
+
+  - Visual inspection of detections vs annotations plots should help to discern decay in the detector's performance from poor labelling.
 
 
 
