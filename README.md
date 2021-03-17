@@ -7,6 +7,10 @@ This repository provides set of tools to run the developed system, to monitor an
 
 developed with the ultimate purpose of automatically extract growth information from scales, like number of circuli bands and intracirculi spacings.
 
+
+this tool is meant to be easily deployable
+
+
 ### Current usage constraints
   - One scale per image
   - scale orientation
@@ -86,7 +90,7 @@ This step creates a Conda environment for the SSCD tool, with all the required p
 
 ## How to run SSCD
 
-1. Open a conda prompt (**Start** > **Anaconda** > **Anaconda Prompt**)
+1. Open an Anaconda prompt (**Start** > **Anaconda** > **Anaconda Prompt**)
 
 2. Go to the SSCD directory
 
@@ -207,7 +211,7 @@ The following directory tree represents how the outputs from SSCD are structured
 
 ## Evaluating SSCD's performance
 
-Evaluating the performance of the SCCD is crucial to identify degradation in the system's capacity to produce reliable detections of circuli bands, and subsequently provide accurate intercirculi spacings. Consistent drops in performance metrics on new images, compared to [those][5] obtained when the system was last trained, indicates the system needs to be retrained with fresh images.
+Evaluating the performance of the SCCD is crucial to identify degradation in the system's capacity to produce reliable detections of circuli bands, and subsequently provide accurate intercirculi spacings. Consistent drops in evaluation metrics on new images, compared to [those][5] obtained when the system was last trained, indicates the system needs to be retrained with fresh images.
 
 The performance of each detector comprised in SSCD's pipeline can be evaluated via the `eval_detector.py` script. This tool combines outputs from the `sscd.py` script with annotation data (provided by the user) to produce standard object detection evaluation metrics.
 
@@ -217,10 +221,10 @@ A more detailed guide for evaluating the performance of SSCD's detectors is avai
 
 
 [4]: https://github.com/rafaelpadilla/Object-Detection-Metrics#how-to-use-this-project
-[5]: ./sscd_evaluate.md
+[5]: /docs/sscd_evaluate.md#evaluation-metrics-on-test-set
 
 
-The following code chunk exemplifies the evaluation of the circuli detector in a jupyter session (under the sscd kernel):
+The following code chunk exemplifies the evaluation of the circulus detector in a jupyter session (under the sscd kernel):
 
 ```
 %run eval_detector.py \
@@ -309,7 +313,7 @@ where:
 
 > **Note of caution**
 >
-> Annotations are not ground truths in a strict sense. Target objects are marked manually and thence subject to human error and labeller ambiguity. Therefore, performance metrics are highly dependent, not only on the accuracy of the detector, but also on the quality of annotations used on the evaluation. Image plots contrasting detections against annotations should help scrutinise if apparent drops in performance metrics are being driven by a deteriorating detector, by poor labelling, or both.
+> Annotations are not ground truths in a strict sense. Target objects are marked manually and thence subject to human error and labelling ambiguity. Therefore, performance metrics are highly dependent, not only on the accuracy of the detector, but also on the quality of annotations used on the evaluation. Image plots contrasting detections against annotations should help scrutinise if apparent drops in performance metrics are being driven by a deteriorating detector, by poor labelling, or both.
 
 
 
