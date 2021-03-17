@@ -33,7 +33,7 @@ An important caveat of the evaluation process is the quality of the annotation d
 
 #### Annotation tools
 
-- There are [many][1] annotation tools available for labelling objects in images.
+- There is a [panoply][1] of annotation tools available for labelling objects in images.
 
 - For its simplicity, speed and ease of use, we recommend [*LabelImg*][2]. Installation instructions are described [here][4].
 
@@ -45,7 +45,7 @@ An important caveat of the evaluation process is the quality of the annotation d
 
   - We assume `sscd.py` has already been run on a set of images, and *LabelImg* has been correctly installed.
 
-  - During the detection step, jpg versions of the scales and transect images used in detection are stored in the subdirectory `<output_dir>\jpegs`.
+  - During the detection step, jpg images of scales and transects used in detection are stored in the subdirectory `<detections_output_dir>\jpegs`.
 
   - The example described here refers to the evaluation of the circulus detector.
 
