@@ -90,7 +90,7 @@ This step creates a Conda environment for the SSCD tool, with all the required p
 
 ## How to run SSCD
 
-1. Open an Anaconda prompt (**Start** > **Anaconda** > **Anaconda Prompt**)
+1. Open an Anaconda prompt (e.g. on windows, **Start** > **Anaconda** > **Anaconda Prompt**)
 
 2. Go to the SSCD directory
 
@@ -217,11 +217,12 @@ The performance of each detector comprised in SSCD's pipeline can be evaluated v
 
 Core computational tasks were adapted from [this project][4], where background information on evaluation methods for object detection algorithms and relevant performance metrics can also be found.
 
-A more detailed guide for evaluating the performance of SSCD's detectors is available [here][5].
+A more detailed guide for evaluating the performance of SSCD's detectors is available [here][6].
 
 
 [4]: https://github.com/rafaelpadilla/Object-Detection-Metrics#how-to-use-this-project
 [5]: /docs/sscd_evaluate.md#evaluation-metrics-on-test-set
+[6]: /docs/sscd_evaluate.md
 
 
 The following code chunk exemplifies the evaluation of the circulus detector in a jupyter session (under the sscd kernel):

@@ -79,7 +79,7 @@ An important caveat of the evaluation process is the quality of the annotation d
   </kbd>
   </p>
 
-- On the left side panel, tick the box "use default label" and write `circulus` on the adjacent text box
+- On the righthand side panel, tick the box "use default label" and write `circulus` on the adjacent text box
   <p align="center">
   <kbd>
   <img src="../docs/images/labelImg_default_label.jpg"/>
