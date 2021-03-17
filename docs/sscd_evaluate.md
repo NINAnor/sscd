@@ -2,11 +2,11 @@
 
 ### Overview
 
-Here we provide a guide for evaluating the performance of the Salmon Scale Circuli Detector (SSCD) on new, unseen to training, scale and/or transect images. SSCD is composed by two object detection models, the **focus** and the **circulus** detectors, and evaluation must therefore be carried separately for each detector.
+Here we provide a guide for evaluating the performance of the Salmon Scale Circuli Detector (SSCD) on new, unseen to training, images. SSCD is composed by two distinct object detection models, the **focus** and the **circulus** detectors, and evaluation must therefore be carried separately for each detector.
 
 Performance evaluation is based on geometric comparisons between detections and *ground truth* data (also referred to as annotations). In the context of object detection, ground truths consist of (manually) marked bounding boxes delimiting target objects in images.
 
-This guide assumes the detection step has been already carried out (using the `sscd.py` function), and the goal now is to assess the performance of one of the detectors on a set of images used in detection. Obtained evaluation metrics can then be contrasted with those observed when the detector was last trained. Considerable drops (>10%) in metrics provide a strong indication that the detector's expected prediction accuracy has declined, and therefore it should be retrained with fresh images.
+This guide assumes the detection step has been already carried out (using the [`sscd.py` function](https://github.com/bcaneco/SSCD#how-to-run-sscd)), and the goal now is to assess the performance of one of the detectors on a set of images used in detection. Obtained evaluation metrics can then be contrasted with those observed when the detector was last trained. Considerable drops (>10%) in metrics provide a strong indication that the detector's expected prediction accuracy has declined, and therefore it should be retrained with fresh images.
 
 The following table provides the evaluation metrics of each detector obtained on the test set at the time of the last training.
 
