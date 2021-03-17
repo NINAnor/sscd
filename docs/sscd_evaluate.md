@@ -1,47 +1,84 @@
 # Evaluating SSCD's performance
 
-This is a step-by-step guide to evaluate the performance of the Salmon Scale Circuli Detector (SSCD) on new, unseen to training, scale images. SSCD is composed by two object detection models, the **focus** and the **circuli** detectors, and  evaluation must therefore be carried separately for each detector.
+### Overview
 
-This guide assumes detection has been already carried out and the goal is to assess performance on a sample of the images used in detection and contrast it with the performance at the time of the latest training.
+Here we provide a guide for evaluating the performance of the Salmon Scale Circuli Detector (SSCD) on new, unseen to training, scale and/or transect images. SSCD is composed by two object detection models, the **focus** and the **circulus** detectors, and evaluation must therefore be carried separately for each detector.
 
-The following table provides the expected performance metrics of each detector.
+Performance evaluation is based on geometric comparisons between detections and *ground truth* data (also referred to as annotations). In the context of object detection, ground truths consist of (manually) marked bounding boxes delimiting target objects in images.
 
+This guide assumes the detection step has been already carried out (using the `sscd.py` function), and the goal now is to assess the performance of one of the detectors on a set of images used in detection. Obtained evaluation metrics can then be contrasted with those observed when the detector was last trained. Considerable drops (>10%) in metrics provide a strong indication that the detector's expected prediction accuracy has declined, and therefore it should be retrained with fresh images.
 
-| Model            | Average Precision (AP)    | F1      | No of images    | Training date   |
-|------------------|---------------------------|---------|-----------------|-----------------|
-| Focus detector   | Directory path            |         |                 |                 |
-| Circuli detector | Directory path            |         |                 |                 |
+The following table provides the evaluation metrics of each detector obtained on the test set at the time of the last training.
 
 
-If consistently lower evaluation metrics are obtained for one of the detectors, retraining the deteriorating detector must be considered.
-
-Performance evaluation is done by comparing detections with *ground truth* data, i.e. the *true* locations of the target features in each image. This is done by manually marking and labelling all features of interest present in a given image using an image annotation tool.
-
-There are [many][1] image annotation tools available but, for its simplicity and ease of use, we recommend [LabelImg][2].
-
-Please note, the evaluation tool described here expects annotation files to be in Pascal VOC format. So, if using a different annotation tool without the option of Pascal VOC as an output format, annotations will need to be converted accordingly (e.g. this [python package][3] offers a range of format conversions).
-
-The next sections 
+| Model            | Training date  | No. of images  | IOU<sub>Thresh</sub> | Average Precision (AP) | F<sub>1</sub>   |
+|------------------|----------------|----------------|----------------------|------------------------|-----------------|
+| Focus detector   | July 2020      | 103            |  0.5                 | 99.0%                  | 0.99            |
+| Circulus detector| December 2020  | 81             |  0.5                 | 95.2%                  | 0.94            |
 
 
+An important caveat of the evaluation process is the quality of the annotation data. Labelling, the process by which ground truths are generated, needs to be as accurate and consistent as possible. Labelling circulus, in particular, can at times be challenging as identifying circuli bands can become ambiguous due to e.g. bands being too packed (specially on river growth), poor scale-to-slide imprinting or the occurrence of fissures/discontinuities in scale deposition.
 
-The evaluation process involves 2 main steps
-  1. Select and label images
-  2. Run evaluation
-
-
-[1]: https://www.simonwenkel.com/2019/07/19/list-of-annotation-tools-for-machine-learning-research.html
-[2]: https://github.com/tzutalin/labelImg#labelimg
-[3]: https://github.com/monocongo/cvdata
+Poor quality annotation data will have a negative impact on performance metrics
 
 
-## Step 1 - Select and label the images to use in evaluation
+and potentially mislead the user for the need
 
-During the detection step, jpeg versions of the scales and transect images used in detection are stored in the subdirectory `<output_dir>\jpegs`.
+So, poor quality annotations will lead to lower evaluation metrics and potentially mislead the user into unnecessarily retraining the detector (with poor training data!). Visual inspection of detections and annotations helps to discern.
+
+
+
+<!-- , the process by which ground truths are created by manually delimiting bounding boxes around target objects in images, -->
+
+
+
+
+
+
+
+
+
+
+##### Additional software requirements
+
+In order to perform evaluation, we need to provide the "ground truth"
+
+Performance evaluation is done by comparing detections with *ground truth* data, i.e. the *true* locations of the target features in each image. This is done by manually marking and labelling objects of interest (i.e. the scale's focus or the circuli bands) present in a given image using an image annotation tool. There are [many][1] image annotation tools available but, for its simplicity and ease of use, we recommend [*LabelImg*][2].
+
+Please note, the evaluation tool expects annotation files to be in Pascal VOC format. So, if using a different annotation software without Pascal VOC as an output format, annotations will need to be converted accordingly (e.g. this [python package][3] offers a range of format conversions).
+
+
+
+## Evaluation Process
+
+Here we assume you have installed *LabelImg* and have run `sscd.py` on a set of images.
+
+<!-- The evaluation process involves 2 main steps
+  1. Select and  images
+  2. Run evaluation -->
+
+#### 1. Select and label the images to use in evaluation
+
+During the detection step, jpg versions of the scales and transect images used for detection are stored in the subdirectory `<output_dir>\jpegs`.
 
 
 From the set of images where detection was performed, copy the images to be used for evaluation to new folder.
 
 For the focus detector, the target object is the focus in each sca
 
-consists of contrasting the detections with "ground truth"
+#### 2. Set up files for evaluation
+
+#### 3. Run evaluation
+
+
+#### 4. Assess retraining
+
+
+
+[this link](#overview)
+
+
+
+[1]: https://www.simonwenkel.com/2019/07/19/list-of-annotation-tools-for-machine-learning-research.html
+[2]: https://github.com/tzutalin/labelImg#labelimg
+[3]: https://github.com/monocongo/cvdata
