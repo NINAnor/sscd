@@ -1,6 +1,6 @@
 # Evaluating SSCD's performance
 
-## Overview
+### Overview
 
 Here we provide a guide for evaluating the performance of the Salmon Scale Circuli Detector (SSCD) on new, unseen to training, images. SSCD is composed by two distinct object detection models, the **focus** and the **circulus** detectors, and evaluation must therefore be carried separately for each detector.
 
@@ -31,7 +31,7 @@ An important caveat of the evaluation process is the quality of the annotation d
 
 
 
-#### Additional software requirements
+### Additional software requirements
 
 In order to perform evaluation, we need to provide the "ground truth"
 
