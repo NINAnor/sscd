@@ -4,7 +4,7 @@
 
 Here we provide a guide for evaluating the performance of the Salmon Scale Circuli Detector (SSCD) on new, unseen to training, images. SSCD is composed by two distinct object detection models, the **focus** and the **circulus** detectors, and evaluation must therefore be carried separately for each detector.
 
-Performance evaluation is based on geometric comparisons between detections and *ground truth* data (also referred to as annotations). In the context of object detection, ground truths consist of (manually) marked bounding boxes delimiting target objects in images.
+Performance evaluation is based on geometric-based comparisons between detections and *ground truth* data (also referred to as annotations). In the context of object detection, ground truths consist of (manually) marked bounding boxes delimiting target objects in images.
 
 This guide assumes the detection step has been already carried out (using the [`sscd.py`](../README.md#how-to-run-sscd)  function), and the goal now is to assess the performance of one of the detectors on a set of images used in detection. Obtained evaluation metrics can then be contrasted with those observed when the detector was last trained. Considerable drops (>10%) in metrics provide a strong indication that the detector's expected prediction accuracy has declined, and therefore it should be retrained with fresh images.
 
@@ -16,9 +16,11 @@ The following table provides the evaluation metrics of each detector obtained on
 | Focus detector   | July 2020      | 103            |  0.5                 | 99.0%                  | 0.99            |
 | Circulus detector| December 2020  | 81             |  0.5                 | 95.2%                  | 0.94            |
 
+<br/>
+An important caveat of the evaluation process is the quality of the annotation data. Labelling, the process by which ground truths are generated, needs to be as accurate and consistent as possible Labelling circulus, in particular, may at times be challenging as identifying circuli bands can be ambiguous due to e.g. bands being too packed (specially on river growth), poor scale-to-slide imprinting or the occurrence of fissures/discontinuities in scale deposition. Poor quality annotation data will have a negative impact on performance metrics while the detector is still operating at expected levels of accuracy, potentially prompting the user to needlessly retrain the detector. Visual inspection of detections vs annotations plots should help to discern decay in the detector's performance from poor labelling.
 
 
-
+<!--
 An important caveat of the evaluation process is the quality of the annotation data:
 
   - Labelling, the process by which ground truths are generated, needs to be as accurate and consistent as possible.
@@ -27,7 +29,7 @@ An important caveat of the evaluation process is the quality of the annotation d
 
   - Poor quality annotation data will have a negative impact on performance metrics while the detector is still operating at expected levels of accuracy, potentially prompting the user to needlessly retrain the detector.
 
-  - Visual inspection of detections vs annotations plots should help to discern decay in the detector's performance from poor labelling.
+  - Visual inspection of detections vs annotations plots should help to discern decay in the detector's performance from poor labelling. -->
 
 
 
