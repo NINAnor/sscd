@@ -32,7 +32,7 @@ So, poor quality annotations will lead to lower evaluation metrics and potential
 
 
 
-
+[`sscd.py` function](../README.md#how-to-run-sscd)
 
 
 
