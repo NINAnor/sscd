@@ -31,13 +31,13 @@ An important caveat of the evaluation process is the quality of the annotation d
 
 <!-- <br/> -->
 
-### Additional software requirements
+#### Annotation tools
 
-There are [many][1] annotation tools available for labelling objects in images.
+- There are [many][1] annotation tools available for labelling objects in images.
 
-For its simplicity, speed and ease of use, we recommend [*LabelImg*][2]. For installation, follow the [instructions][4] according to the appropriate OS.
+- For its simplicity, speed and ease of use, we recommend [*LabelImg*][2]. Installation instructions are described [here][4].
 
-Please note, the evaluation tool expects annotation files to be in Pascal VOC format. Thus, if using a different annotation software  without the option of Pascal VOC as an output format, annotations will need to be converted accordingly (e.g. this [python package][3] offers a range of format conversions).
+>Note: the evaluation tool expects annotation files to be in Pascal VOC format. Thus, if using a different annotation software  without the option of Pascal VOC as an output format, annotations will need to be converted accordingly (e.g. this [python package][3] offers a range of format conversions).
 
 
 
