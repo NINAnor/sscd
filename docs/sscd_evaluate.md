@@ -73,17 +73,14 @@ Please note, the evaluation tool expects annotation files to be in Pascal VOC fo
 - Go to `File > Open Dir` and select image directory (here, `<some_path>/eval_circuli_detector/imgs`)
 - Go to `File > Change Save Dir` and select the annotations directory (here, `<some_path>/eval_circuli_detector/anns`)
 - Make sure the PascalVOC option is selected
-<!-- <p align="center"> -->
+  <p align="center">
   <kbd>
   <img src="../docs/images/labelImg_PascalVOC.jpg"/>
   </kbd>
   </p>
 
-
-  <!-- ![test](../docs/images/labelImg_PascalVOC.jpg) -->
-
-
 - On the left side panel, tick the box "use default label" and write `circulus` on the adjacent text box
+  <p align="center">
   <kbd>
   <img src="../docs/images/labelImg_default_label.jpg"/>
   </kbd>
