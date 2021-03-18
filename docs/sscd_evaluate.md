@@ -17,9 +17,8 @@ The following table provides the evaluation metrics of each detector obtained on
 | Circulus detector| December 2020  | 81             |  0.5                 | 95.2%                  | 0.94            |
 
 <br/>
-<!-- An important caveat of the evaluation process is the quality of the annotation data. Labelling, the process by which ground truths are generated, needs to be as accurate and consistent as possible Labelling circulus, in particular, may at times be challenging as identifying circuli bands can be ambiguous due to e.g. bands being too packed (specially on river growth), poor scale-to-slide imprinting or the occurrence of fissures/discontinuities in scale deposition. Poor quality annotation data will have a negative impact on performance metrics while the detector is still operating at expected levels of accuracy, potentially prompting the user to needlessly retrain the detector. Visual inspection of detections vs annotations plots could help to discern decay in the detector's performance from poor labelling. -->
 
-An important caveat of the evaluation process is the quality of the annotation data:
+An important caveat in the evaluation process is the quality of the annotation data:
 
   - Labelling, the process by which ground truths are generated, needs to be as accurate and consistent as possible.
 
@@ -29,7 +28,7 @@ An important caveat of the evaluation process is the quality of the annotation d
 
   - Visual inspection of detections vs annotations plots could help to discern decay in the detector's performance from poor labelling.
 
-<!-- <br/> -->
+
 
 #### Annotation tools
 
@@ -49,10 +48,10 @@ An important caveat of the evaluation process is the quality of the annotation d
 
   - The example described here refers to the evaluation of the circulus detector.
 
-  - To evaluate the performance of the focus detector, follow the same steps.
+  - To evaluate the performance of the focus detector, adapt the steps accordingly.
 
 
-#### 1. Setting-up directories and files to use in evaluation
+### 1. Setting-up directories and files to use in evaluation
 
 - Create a main directory to comprise the files required for the evaluation process (e.g. `<some_path>/eval_circuli_detector`)
 
@@ -63,7 +62,7 @@ An important caveat of the evaluation process is the quality of the annotation d
 - Optionally, for easier reference, copy the circuli detection data (`<detections_output_dir>/detections/circuli/detections.csv`) to the main directory created above (i.e. `<some_path>/eval_circuli_detector/detections.csv`)
 
 
-#### 2. Label the images
+### 2. Label the images
 
 - Open an Anaconda Prompt, go to the *LabelImg* directory and launch it
 
@@ -98,7 +97,7 @@ An important caveat of the evaluation process is the quality of the annotation d
 
 
 
-#### 3. Run evaluation (in jupyter session)
+### 3. Run evaluation (in a jupyter session)
 
 - Open an Anaconda prompt and navigate to the SSCD directory
 
@@ -118,8 +117,8 @@ An important caveat of the evaluation process is the quality of the annotation d
 
   ```
   %run eval_detector.py \
-      --img_dir `<some_path>/eval_circuli_detector/imgs` \
-      --anns_dir `<some_path>/eval_circuli_detector/anns` \
+      --img_dir "<some_path>/eval_circuli_detector/imgs" \
+      --anns_dir "<some_path>/eval_circuli_detector/anns" \
       --dets_csv "<some_path>/eval_circuli_detector/detections.csv" \
       --iou_threshould 0.5 \
       --output_dir "<some_path>/eval_circuli_detector/" \
