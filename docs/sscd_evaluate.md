@@ -8,9 +8,9 @@ Performance evaluation is based on geometric-based comparisons between detection
 
 This guide assumes the detection step has been already carried out (using the [`sscd.py`](../README.md#how-to-run-sscd)  function), and the goal now is to assess the performance of one of the detectors on a set of images used in detection. Obtained evaluation metrics can then be contrasted with those observed when the detector was last trained. Considerable drops (>10%) in metrics provide a strong indication that the detector's expected prediction accuracy has declined, and therefore it should be retrained with fresh images.
 
-The following table provides the evaluation metrics of each detector obtained on the test set at the time of the last training.
+The following table provides the evaluation metrics of each detector obtained on the test set at the time of the latest training.
 
-###### Evaluation metrics on test set
+###### Evaluation metrics on test set on latest training
 | Model            | Training date  | No. of images  | IOU<sub>Thresh</sub> | Average Precision (AP) | F<sub>1</sub>   |
 |------------------|----------------|----------------|----------------------|------------------------|-----------------|
 | Focus detector   | July 2020      | 103            |  0.5                 | 99.0%                  | 0.99            |
