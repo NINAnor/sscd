@@ -48,7 +48,7 @@ An important caveat in the evaluation process is the quality of the annotation d
 
   - The example described here refers to the evaluation of the circulus detector.
 
-  - To evaluate the performance of the focus detector, adapt the steps accordingly.
+  - To evaluate the performance of the focus detector, specify directory paths and labels' class name (`focus`) accordingly.
 
 
 ### 1. Setting-up directories and files to use in evaluation
@@ -69,32 +69,41 @@ An important caveat in the evaluation process is the quality of the annotation d
   ```
   python labelImg.py
   ```
-- Go to `File > Open Dir` and select the images directory (here, `<some_path>/eval_circuli_detector/imgs`)
-- Go to `File > Change Save Dir` and select the annotations directory (here, `<some_path>/eval_circuli_detector/anns`)
+- Go to `File > Open Dir` and select the images' directory (here, `<some_path>/eval_circuli_detector/imgs`)
+- Go to `File > Change Save Dir`  (or `Ctrl + r`) and select the annotations directory (here, `<some_path>/eval_circuli_detector/anns`)
 - Make sure the PascalVOC option is selected
   <p align="center">
   <kbd>
-  <img src="../docs/images/labelImg_PascalVOC.jpg"/>
+  <img src="../docs/images/labelImg_PascalVOC.jpg" width="100"/>
+
   </kbd>
   </p>
 
-- On the righthand side panel, tick the box "use default label" and write `circulus` on the adjacent text box
+- On the righthand side panel, tick the box "use default label" and type `circulus` on the adjacent text box
   <p align="center">
   <kbd>
-  <img src="../docs/images/labelImg_default_label.jpg"/>
+  <img src="../docs/images/labelImg_default_label.jpg" width="250"/>
   </kbd>
   </p>
 
   <!-- ![test](../docs/images/labelImg_default_label.jpg) -->
 
-- Proceed with the labelling process, using the mouse to delimit rectangular boxes around **every circulus** present in each image
+- Proceed with the labelling process, using the mouse to delimit rectangular boxes around **every target object** (the circulus in this case) present in each image
+  - It is **critical** that each bounding box delimits the <ins>entirety</ins> of the target object in the image, as accurately as possible, as exemplified below for circulus
+  <p align="center">
+  <kbd>
+  <img src="../docs/images/labelImg_object_delimiting.jpg" width="220"/>
+  </kbd>
+  </p>
 
-- Tip - particularly useful [hotkeys](https://github.com/tzutalin/labelImg#hotkeys) include:
-  - create a new box (w)
-  - copy the current box (Ctrl + d)
-  - save annotations for current image (Ctrl + s)
-  - move to next image (d)
-
+  - Useful [hotkeys](https://github.com/tzutalin/labelImg#hotkeys) include:
+    - `w` - create a new box
+    - `Ctrl + d` - duplicate the current box. Useful for speeding up the process in images with high density of target objects (e.g. circuli in scale transects)
+    - `Ctrl + s` - save annotations for current image
+    - `d` - move to next image
+    - `↑→↓←` - keyboard arrows: adjust position of selected box
+    - `Ctrl + u` - load images from a directory
+    - `Ctrl + r` - Set directory comprising the annotation files
 
 
 ### 3. Run evaluation (in a jupyter session)
@@ -132,8 +141,6 @@ An important caveat in the evaluation process is the quality of the annotation d
   ```
   python labelImg.py "<some_path>/evaluation_inputs/imgs" "<some_path>/evaluation_inputs/anns" "<path_to_SSC>/data/labelImg_sscd_classes.txt"
   ``` -->
-
-
 
 
 [1]: https://www.simonwenkel.com/2019/07/19/list-of-annotation-tools-for-machine-learning-research.html
