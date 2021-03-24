@@ -16,11 +16,7 @@ data/yoloV3_checkpoints/circuli_detector/yolov3_train_22.tf.index
 data/yoloV3_checkpoints/circuli_detector/checkpoints_metadata.txt
 *.pyc
 docs/SSCD testing.ipynb
-*.ipynb
-*.ipynb
 docs/SSCD detection example usage.ipynb
-*.ipynb
-*.ipynb
 log_sscd_detection.log
 sscd_libs/__pycache__/detection.cpython-37.pyc
 sscd_libs/.ipynb_checkpoints/detection-checkpoint.py
