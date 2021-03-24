@@ -89,7 +89,7 @@ An important caveat in the evaluation process is the quality of the annotation d
   <!-- ![test](../docs/images/labelImg_default_label.jpg) -->
 
 - Proceed with the labelling process, using the mouse to delimit rectangular boxes around **every target object** (the circulus in this case) present in each image
-  - It is **critical** that each bounding box delimits the <ins>entirety</ins> of the target object in the image, as accurately as possible, as exemplified below for circulus
+  - It is **critical** that each bounding box delimits the <ins>entirety</ins> of the target object in the image as accurately as possible, as exemplified below for labelling circuli
   <p align="center">
   <kbd>
   <img src="../docs/images/labelImg_object_delimiting.jpg" width="220"/>
