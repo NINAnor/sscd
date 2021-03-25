@@ -220,8 +220,9 @@ Core computational tasks were adapted from [this project][4], where background i
 A more detailed guide for evaluating the performance of SSCD's detectors is available [here][6].
 
 
+
 [4]: https://github.com/rafaelpadilla/Object-Detection-Metrics#how-to-use-this-project
-[5]: /docs/sscd_evaluate.md#evaluation-metrics-on-test-set
+[5]: /docs/sscd_evaluate.md#evaluation-metrics-on-test-set-on-latest-training
 [6]: /docs/sscd_evaluate.md
 
 
