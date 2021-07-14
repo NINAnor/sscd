@@ -207,7 +207,9 @@ def main():
     
     # parse the command line arguments
     args_parser = argparse.ArgumentParser(
-        description='*** DESCRIPTION TO DO ***')
+        description='*** DESCRIPTION TO DO ***',
+        formatter_class=argparse.MetavarTypeHelpFormatter
+        )
     args_parser.add_argument(
         "--img_dir",
         #dest= "img_dir",

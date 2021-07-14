@@ -78,7 +78,8 @@ def main():
     
     # parse the command line arguments
     args_parser = argparse.ArgumentParser(
-        description='*** Tool to perform evaluation of sscd performance on new images ***')
+        description='*** Tool to perform evaluation of sscd performance on new images ***',
+        formatter_class=argparse.MetavarTypeHelpFormatter)
     args_parser.add_argument(
         "--img_dir",
         required=True,
