@@ -5,8 +5,8 @@
 
 
 
- ## Table of Contents
-
+ Table of Contents
+ -------------
  - [Prerequisites](#Prerequisites)
  - [Installation](#Installation)
  - [How to run SSCD](#How-to-run-SSCD)
