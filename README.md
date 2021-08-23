@@ -3,7 +3,8 @@
 # SSCD
  Salmon Scale Circuli Detector (SSCD)
 
-<!-- The Salmon Scale Circuli Detector (SSCD) was developed....
+[//]: # (
+The Salmon Scale Circuli Detector [SSCD] was developed
 
 This repository provides set of tools to run the developed system, to monitor and evaluate its performance and to retrain it when/if necessary.
 
@@ -11,22 +12,22 @@ Developed with the ultimate purpose of automatically extract growth information 
 
 This tool is meant to be easily deployable...
 
-The system pipeline works as follows (i) detect focus, (ii) extract radial transects from focus, (iii) detect ciculi bands...
+The system pipeline works as follows i: detect focus, ii: extract radial transects from focus, iii: detect ciculi bands...
 
-### Current usage constraints
+Current usage constraints
   - One scale per image
   - scale orientation
   - original image resolutions
-  - Magnification
+  - Magnificatio
+)
 
- -->
 
  ### Table of Contents
- * [Prerequisites](#Prerequisites)
- * [Installation](#Installation)
- * [How to run SSCD](#How-to-run-SSCD)
- * [Evaluating SSCD's performance](#Evaluating-SSCDs-performance)
- * [SSCD Training](#SSCD-Training)
+ - [Prerequisites](#Prerequisites)
+ - [Installation](#Installation)
+ - [How to run SSCD](#How-to-run-SSCD)
+ - [Evaluating SSCD's performance](#Evaluating-SSCDs-performance)
+ - [SSCD Training](#SSCD-Training)
 
 ## Prerequisites
 
