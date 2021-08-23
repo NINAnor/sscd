@@ -6,12 +6,11 @@
 
 
  __Table of Contents__
-   - [Prerequisites](#Prerequisites)
-   - [Installation](#Installation)
-   - [How to run SSCD](#How-to-run-SSCD)
-   - [Evaluating SSCD's performance](#Evaluating-SSCDs-performance)
-   - [SSCD Training](#SSCD-Training)
-
+   - [Prerequisites](#markdown-header-prerequisites)
+   - [Installation](#markdown-header-installation)
+   - [How to run SSCD](#markdown-header-how-to-run-sscd)
+   - [Evaluating SSCD's performance](#markdown-header-evaluating-sscds-performance)
+   - [SSCD Training](#markdown-header-sscd-training)
 
 
 ## Prerequisites
