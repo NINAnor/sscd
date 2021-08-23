@@ -27,8 +27,6 @@ In order to install and use SSCD the following programmes need to be installed:
    - Conda (its lighter version [Miniconda][1] is recommended)
    - [Git][2]
 
-[1]: https://docs.conda.io/en/latest/miniconda.html{:target="_blank"} "Miniconda Installers"
-[2]: https://git-scm.com/downloads{:target="_blank"} "Git Installers"
 
 ## Installation
 <!-- Please take the following steps to install  -->
@@ -84,8 +82,6 @@ This step creates a Conda environment for the SSCD tool, with all the required p
   - Quick check: e.g. for the focus detector, the path to the directory comprising its weights MUST be `SSCD/data/yoloV3_checkpoints/focus_detector`
 
   - That's it: installation (probably) done!
-
-[3]: https://www.dropbox.com/sh/xm2zmoz7h9g5nqi/AACfwx7_JQmUkcNK8ePXetkta?dl=0
 
 
 ## How to run SSCD
@@ -211,20 +207,13 @@ The following directory tree represents how the outputs from SSCD are structured
 
 ## Evaluating SSCD's performance
 
-Evaluating the performance of the SCCD is crucial to identify degradation in the system's capacity to produce reliable detections of circuli bands, and subsequently provide accurate intercirculi spacings. Consistent drops in evaluation metrics on new images, compared to [those][5] obtained when the system was last trained, indicates the system needs to be retrained with fresh images.
+Evaluating the performance of the SCCD is crucial to identify degradation in the system's capacity to produce reliable detections of circuli bands, and subsequently provide accurate intercirculi spacings. Consistent drops in evaluation metrics on new images, compared to [those][5] obtained when the system was last trained, indicates the system needs to be [retrained](#training-sscd) with fresh images.
 
-The performance of each detector comprised in SSCD's pipeline can be evaluated via the `eval_detector.py` script. This tool combines outputs from the `sscd.py` script with annotation data (provided by the user) to produce standard object detection evaluation metrics.
+The performance of each detector comprised in SSCD's pipeline can be evaluated via the `eval_detector.py` function. This tool combines outputs from the `sscd.py` script with annotation data (provided by the user) to produce standard object detection evaluation metrics.
 
 Core computational tasks were adapted from [this project][4], where background information on evaluation methods for object detection algorithms and relevant performance metrics can also be found.
 
 A more detailed guide for evaluating the performance of SSCD's detectors is available [here][6].
-
-
-
-[4]: https://github.com/rafaelpadilla/Object-Detection-Metrics#how-to-use-this-project
-[5]: /docs/sscd_evaluate.md#evaluation-metrics-on-test-set-on-latest-training
-[6]: /docs/sscd_evaluate.md
-
 
 The following code chunk exemplifies the evaluation of the circulus detector in a jupyter session (under the sscd kernel):
 
@@ -283,7 +272,7 @@ Evaluation metrics are printed to the active console, and stored with other rele
     ├─── circulus_PRC.png
     ├─── evaluation_results.txt
     ├─── log_sscd_evaluation.log
-    └─── "results_by_image.csv"
+    └─── results_by_image.csv
 ```
 
 where:
@@ -316,9 +305,16 @@ where:
 > **Note of caution**
 >
 > Annotations are not ground truths in a strict sense. Target objects are marked manually and thence subject to human error and labelling ambiguity. Therefore, performance metrics are highly dependent, not only on the accuracy of the detector, but also on the quality of annotations used on the evaluation. Image plots contrasting detections against annotations should help scrutinise if apparent drops in performance metrics are being driven by a deteriorating detector, by poor labelling, or both.
+> Annotations are not ground truths in a strict sense. Target objects are marked manually and thence subject to human error and labelling ambiguity. Therefore, performance metrics are highly dependent not only on the accuracy of the detector, but also on the quality of annotations used on the evaluation. Image plots contrasting detections against annotations should help scrutinise if apparent drops in performance metrics are being driven by a deteriorating detector, by poor labelling, or both.
 
 
+## SSCD Training
 
+As mentioned above, retraining the SSCD's detectors might become necessary if/when performance levels on new set of scale images drop substantially from those observed after the latest training.
+
+Each detector is a [YOLOv3][10] (*You Only Look Once*) model trained for its specific detection task. YOLOv3 models were implemented using [Tensorflow 2](https://www.tensorflow.org/) (an open-source deep learning library developed by Google), based on the excellent repository by [Zihao Zhang][7].
+
+This [page][8] provides details on how to set up a workstation for (re)training the SSCD's detectors.
 
 <!--
 ### how to update conda environment
@@ -329,6 +325,18 @@ conda env update --name sscd --file condaenv_sscd.yml  --prune
 
 
 ### References (supporting code)
-- [YOLOv3 implementation in Tensorflow 2](https://github.com/zzh8829/yolov3-tf2)
-- [Diagonal crop](https://github.com/jobevers/diagonal-crop)
+- [YOLOv3 implementation in Tensorflow 2][7]
+- [Diagonal crop][9]
 - Object detection evaluation [tool](https://github.com/rafaelpadilla/Object-Detection-Metrics#how-to-use-this-project)
+
+
+[1]: https://docs.conda.io/en/latest/miniconda.html{:target="_blank"} "Miniconda Installers"
+[2]: https://git-scm.com/downloads{:target="_blank"} "Git Installers"
+[3]: https://www.dropbox.com/sh/xm2zmoz7h9g5nqi/AACfwx7_JQmUkcNK8ePXetkta?dl=0
+[4]: https://github.com/rafaelpadilla/Object-Detection-Metrics
+[5]: /docs/sscd_evaluate.md#evaluation-metrics-on-test-set-on-latest-training
+[6]: /docs/sscd_evaluate.md
+[7]: https://github.com/zzh8829/yolov3-tf2
+[8]: /docs/sscd_setup_for_training.md
+[9]: https://github.com/jobevers/diagonal-crop
+[10]: https://arxiv.org/pdf/1804.02767.pdf
