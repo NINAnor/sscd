@@ -73,6 +73,7 @@ An important caveat in the evaluation process is the quality of the annotation d
   ```
   python labelImg.py
   ```
+
 - Go to `File > Open Dir` and select the images' directory (here, `<some_path>/eval_circuli_detector/imgs`)
 
 - Go to `File > Change Save Dir`  (or `Ctrl + r`) and select the annotations directory (here, `<some_path>/eval_circuli_detector/anns`)
@@ -86,32 +87,10 @@ An important caveat in the evaluation process is the quality of the annotation d
   ![](../docs/images/labelImg_default_label.jpg)
 
 
-  <!-- <p align="center">
-  <kbd>
-  <img src="../docs/images/labelImg_PascalVOC.jpg" width="100"/>
-
-  </kbd>
-  </p>
-
-- On the righthand side panel, tick the box "use default label" and type `circulus` on the adjacent text box
-  <p align="center">
-  <kbd>
-  <img src="../docs/images/labelImg_default_label.jpg" width="250"/>
-  </kbd>
-  </p>
-
-  -->
-
 - Proceed with the labelling process, using the mouse to delimit rectangular boxes around **every target object** (the circulus in this case) present in each image
   - It is **critical** that each bounding box delimits the <ins>entirety</ins> of the target object in the image as accurately as possible, as exemplified below for labelling circuli
 
   ![](../docs/images//labelImg_object_delimiting.jpg)
-
-  <!-- <p align="center">
-  <kbd>
-  <img src="../docs/images/labelImg_object_delimiting.jpg" width="220"/>
-  </kbd>
-  </p> -->
 
   - Useful [hotkeys](https://github.com/tzutalin/labelImg#hotkeys) include:
     - `w` - create a new box
