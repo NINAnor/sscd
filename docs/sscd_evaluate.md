@@ -30,6 +30,7 @@ An important caveat in the evaluation process is the quality of the annotation d
 
 
 
+
 #### Annotation tools
 
 - There is a [panoply][1] of annotation tools available for labelling objects in images.
@@ -42,7 +43,10 @@ An important caveat in the evaluation process is the quality of the annotation d
 
 ## Evaluation walkthrough example
 
-  - We assume `sscd.py` has already been run on a set of images, and *LabelImg* has been correctly installed.
+  - In order to proceed with this example, it is assumed that:
+    1. Detection has already been run on a set of images via the `sscd.py` interface.
+    2. *LabelImg* has been correctly installed.
+
 
   - During the detection step, jpg images of scales and transects used in detection are stored in the subdirectory `<detections_output_dir>\jpegs`.
 
