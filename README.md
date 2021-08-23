@@ -110,11 +110,13 @@ This step creates a Conda environment for the SSCD tool, with all the required p
        --transect_angles 0 45 90 135 180 \
        --plot_detections True
     ```
-    and hit `Ctrl+Enter` to run.  
+    and hit `Ctrl+Enter` to run.
+
 
     4.2. Via the command prompt (messier because of Tensorflow's verbose logging messages)
 
     Run the following chunk of code directly into the command line
+
 
     ```
     > python sscd.py ^
