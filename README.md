@@ -1,3 +1,5 @@
+
+
 # SSCD
  Salmon Scale Circuli Detector (SSCD)
 
@@ -5,11 +7,11 @@
 
 This repository provides set of tools to run the developed system, to monitor and evaluate its performance and to retrain it when/if necessary.
 
-developed with the ultimate purpose of automatically extract growth information from scales, like number of circuli bands and intracirculi spacings.
+Developed with the ultimate purpose of automatically extract growth information from scales, like number of circuli bands and intracirculi spacings.
 
+This tool is meant to be easily deployable...
 
-this tool is meant to be easily deployable
-
+The system pipeline works as follows (i) detect focus, (ii) extract radial transects from focus, (iii) detect ciculi bands...
 
 ### Current usage constraints
   - One scale per image
