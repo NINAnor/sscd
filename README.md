@@ -112,11 +112,9 @@ This step creates a Conda environment for the SSCD tool, with all the required p
     ```
     and hit `Ctrl+Enter` to run.
 
-
     4.2. Via the command prompt (messier because of Tensorflow's verbose logging messages)
 
     Run the following chunk of code directly into the command line
-
 
     ```
     > python sscd.py ^
@@ -282,8 +280,7 @@ where:
 
 #### Definitions and Metrics:
   - Intersection Over Union (IOU):  the overlapping area between the detection bounding box and the annotation bounding box divided by the area of union between them:
-  <p align="center">
-  <img src="docs/images/iou.png" align="center"/></p>
+  ![](docs/images/iou.png)
 
 
   - IOU threshold (IOU<sub>thresh</sub>): determines if a detection is classified as True Positive or False Positive
