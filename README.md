@@ -17,9 +17,8 @@ The system pipeline works as follows (i) detect focus, (ii) extract radial trans
   - One scale per image
   - scale orientation
   - original image resolutions
-  - Magnification
+  - Magnification -->
 
- -->
 
  ### Table of Contents
  * [Prerequisites](#Prerequisites)
