@@ -3,8 +3,8 @@
 # SSCD
  Salmon Scale Circuli Detector (SSCD)
 
-[//]: # (
-The Salmon Scale Circuli Detector [SSCD] was developed
+
+<!-- The Salmon Scale Circuli Detector [SSCD] was developed
 
 This repository provides set of tools to run the developed system, to monitor and evaluate its performance and to retrain it when/if necessary.
 
@@ -18,17 +18,17 @@ Current usage constraints
   - One scale per image
   - scale orientation
   - original image resolutions
-  - Magnificatio
-)
+  - Magnification -->
 
 
  ### Table of Contents
- 
+
  - [Prerequisites](#Prerequisites)
  - [Installation](#Installation)
  - [How to run SSCD](#How-to-run-SSCD)
  - [Evaluating SSCD's performance](#Evaluating-SSCDs-performance)
  - [SSCD Training](#SSCD-Training)
+
 
 ## Prerequisites
 
@@ -284,6 +284,7 @@ Evaluation metrics are printed to the active console, and stored with other rele
 ```
 
 where:
+
   - `circulus_PRC.png` - Precision-Recall curve for the object class under evaluation
   - `evaluation_results.txt` - Main evaluation metrics
   - `log_sscd_evaluation.log` - logging messages generated during the evaluation process
