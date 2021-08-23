@@ -4,7 +4,7 @@ Created on Mon Jan 18 19:45:28 2021
 
 @author: Bruno Caneco
 
-Module for functions dealing with data/image preparation and processing
+Module for utility functions dealing with data/image preparation and processing
 
 """
 
@@ -97,7 +97,7 @@ def images_tiff_to_jpeg(input_imgs_dir, output_imgs_dir):
         list(tqdm(executor.map(tiff_to_jpg, img_input_fpaths, img_output_fpaths),
                   total=len(img_input_fpaths), ascii = True, ncols = 120))
         
-    return 0
+    #return 0
 
 
 
@@ -109,7 +109,7 @@ def pol2cart(radius, phi):
     return [x, y]
 
 
-
+# ------------------------------------------------------------------------------
 def get_transect_base_coords(focus_centre, transect_rad, transect_width):
      
     """
@@ -377,7 +377,53 @@ def pascal_to_evaltxt(ann_dir, ann_id, out_dir):
 
 
 
+# ---------------------------------------------------------------------------------
+def generate_label_map(labels_df: pd.DataFrame, output_dir, dict_filename, names_filename):
+    """
+    Generate a label map file of the classes of interest - i.e defines a mapping from string label names to 
+    integer class IDs. Function writes out label maps in two different formats
+            - as a dictionary encoded in a text file (.txt)
+            - as a NAMES file (.names), simply comprising one label name per line
+    
+    BC: Stolen and hacked from https://github.com/monocongo/cvdata/blob/master/src/cvdata/convert.py
 
+    Parameters
+    ----------
+    labels_df : pd.DataFrame
+        DataFrame comprising label names, one per row.
+    output_dir : str
+        output directory to which files will be written to
+    dict_filename : str
+        name of file to comprise the dict-style label map.
+    names_filename : str
+        name of file to comprise the NAMES-style label names.
+
+    Returns
+    -------
+    None.
+
+    """
+  
+    # make the directory where the files will saved to, in case it doesn't yet exist
+    os.makedirs(output_dir, exist_ok=True)
+
+    # dictionary of labels to indices that we'll populate and write out
+    label_indices = {}
+    
+    label_index = 1
+    for label in labels_df["class"].unique():
+        label_indices[label] = label_index
+        label_index += 1
+                
+    # write out dictionary
+    with open(os.path.join(output_dir, dict_filename), 'w') as f:
+        print(label_indices, file=f)
+        
+    # write out as NAMES  file
+    with open(os.path.join(output_dir, names_filename), 'w') as f:
+        f.writelines(labels_df["class"].unique())
+        
+# ---------------------------------------------------------------------------------
 
 
 
