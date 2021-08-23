@@ -6,11 +6,11 @@
 
 
  __Table of Contents__
- - [Prerequisites](#Prerequisites)
- - [Installation](#Installation)
- - [How to run SSCD](#How-to-run-SSCD)
- - [Evaluating SSCD's performance](#Evaluating-SSCDs-performance)
- - [SSCD Training](#SSCD-Training)
+   - [Prerequisites](#Prerequisites)
+   - [Installation](#Installation)
+   - [How to run SSCD](#How-to-run-SSCD)
+   - [Evaluating SSCD's performance](#Evaluating-SSCDs-performance)
+   - [SSCD Training](#SSCD-Training)
 
 
 
