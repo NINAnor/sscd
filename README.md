@@ -326,12 +326,11 @@ This [page][8] provides details on how to set up a workstation for (re)training 
 
 *[Training protocol][11] currently being written up.*
 
-<!--
-### how to update conda environment
-```
+[//] # (
+- how to update conda environment
 conda env update --name sscd --file condaenv_sscd.yml  --prune
+)
 
-``` -->
 
 
 ### References (supporting code)
