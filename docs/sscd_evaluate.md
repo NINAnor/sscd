@@ -74,10 +74,24 @@ An important caveat in the evaluation process is the quality of the annotation d
   python labelImg.py
   ```
 - Go to `File > Open Dir` and select the images' directory (here, `<some_path>/eval_circuli_detector/imgs`)
-- Go to `File > Change Save Dir`  (or `Ctrl + r`) and select the annotations directory (here, `<some_path>/eval_circuli_detector/anns`)
-- Make sure the PascalVOC option is selected
 
-![](../docs/images/labelImg_PascalVOC.jpg)
+- Go to `File > Change Save Dir`  (or `Ctrl + r`) and select the annotations directory (here, `<some_path>/eval_circuli_detector/anns`)
+
+- Make sure the PascalVOC option is selecte
+
+  ![](../docs/images/labelImg_PascalVOC.jpg)
+
+- On the righthand side panel, tick the box "use default label" and type `circulus` on the adjacent text box
+
+  ![](../docs/images/labelImg_default_label.jpg)
+
+
+  <!-- <p align="center">
+  <kbd>
+  <img src="../docs/images/labelImg_PascalVOC.jpg" width="100"/>
+
+  </kbd>
+  </p>
 
 - On the righthand side panel, tick the box "use default label" and type `circulus` on the adjacent text box
   <p align="center">
@@ -86,15 +100,18 @@ An important caveat in the evaluation process is the quality of the annotation d
   </kbd>
   </p>
 
-  <!-- ![test](../docs/images/labelImg_default_label.jpg) -->
+  -->
 
 - Proceed with the labelling process, using the mouse to delimit rectangular boxes around **every target object** (the circulus in this case) present in each image
   - It is **critical** that each bounding box delimits the <ins>entirety</ins> of the target object in the image as accurately as possible, as exemplified below for labelling circuli
-  <p align="center">
+
+  ![](../docs/images//labelImg_object_delimiting.jpg)
+
+  <!-- <p align="center">
   <kbd>
   <img src="../docs/images/labelImg_object_delimiting.jpg" width="220"/>
   </kbd>
-  </p>
+  </p> -->
 
   - Useful [hotkeys](https://github.com/tzutalin/labelImg#hotkeys) include:
     - `w` - create a new box
@@ -104,7 +121,6 @@ An important caveat in the evaluation process is the quality of the annotation d
     - `↑→↓←` - keyboard arrows: adjust position of selected box
     - `Ctrl + u` - load images from a directory
     - `Ctrl + r` - Set directory comprising the annotation files
-
 
 ### 3. Run evaluation (in a jupyter session)
 
@@ -135,12 +151,6 @@ An important caveat in the evaluation process is the quality of the annotation d
       --sep_plots True
   ```
 
-
-<!-- - Launch *LabelImg* by running the following command, **using the appropriate paths and directory names** (tip: use a text editor to help specifying the correct paths before copy-pasting it to the command line)
-
-  ```
-  python labelImg.py "<some_path>/evaluation_inputs/imgs" "<some_path>/evaluation_inputs/anns" "<path_to_SSC>/data/labelImg_sscd_classes.txt"
-  ``` -->
 
 
 [1]: https://www.simonwenkel.com/2019/07/19/list-of-annotation-tools-for-machine-learning-research.html
