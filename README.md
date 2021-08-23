@@ -19,7 +19,12 @@ this tool is meant to be easily deployable
 
  -->
 
-
+ ### Table of Contents
+ * [Prerequisites](#Prerequisites)
+ * [Installation](#Installation)
+ * [How to run SSCD](#How-to-run-SSCD)
+ * [Evaluating SSCD's performance](#Evaluating-SSCDs-performance)
+ * [SSCD Training](#SSCD-Training)
 
 ## Prerequisites
 
