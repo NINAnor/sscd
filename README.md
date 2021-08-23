@@ -322,6 +322,9 @@ Each detector is a [YOLOv3][10] (*You Only Look Once*) model trained for its spe
 
 This [page][8] provides details on how to set up a workstation for (re)training the SSCD's detectors.
 
+
+*[Training protocol][11] currently being written up.*
+
 <!--
 ### how to update conda environment
 ```
@@ -346,3 +349,4 @@ conda env update --name sscd --file condaenv_sscd.yml  --prune
 [8]: /docs/sscd_setup_for_training.md
 [9]: https://github.com/jobevers/diagonal-crop
 [10]: https://arxiv.org/pdf/1804.02767.pdf
+[11]: /docs/sscd_setup_for_training.md
