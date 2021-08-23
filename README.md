@@ -23,6 +23,7 @@ Current usage constraints
 
 
  ### Table of Contents
+ 
  - [Prerequisites](#Prerequisites)
  - [Installation](#Installation)
  - [How to run SSCD](#How-to-run-SSCD)
@@ -37,7 +38,6 @@ In order to install and use SSCD the following programmes need to be installed:
 
 
 ## Installation
-<!-- Please take the following steps to install  -->
 
 ### 1. Download/clone SSCD code from GitHub
 Two options:
