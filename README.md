@@ -5,8 +5,8 @@
 
 
 
- __Table of Contents__
- 
+ ### Table of Contents
+
    - [Prerequisites](#markdown-header-prerequisites)
    - [Installation](#markdown-header-installation)
    - [How to run SSCD](#markdown-header-how-to-run-sscd)
