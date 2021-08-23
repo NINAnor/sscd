@@ -130,9 +130,9 @@ This step creates a Conda environment for the SSCD tool, with all the required p
 
 | Argument               | Description                     | Type          | Default         |
 |------------------------|---------------------------------|---------------|-----------------|
-| `--img_dir`    | Directory path containing scale image files. <br> Expects TIF images  | str  |      |
+| `--img_dir`    | Directory path containing scale image files. Expects TIF images  | str  |      |
 | `--output_dir` | Directory path where outputs will be stored                           | str  |      |
-| `--transect_angles` | Choice of angle(s) for radial transects <br> in degrees (0-360)  | int (spaced) | `0 45 90 135 180` |
+| `--transect_angles` | Choice of angle(s) for radial transects in degrees (0-360)  | int (spaced) | `0 45 90 135 180` |
 | `--plot_dets`    | Option to generate images with detections, for visual inspection   | bool   | `True` |
 | `--transect_max_boxes` | Maximum number of detections per transect image              | int    | `200`  |
 
