@@ -16,7 +16,7 @@ The following table provides the evaluation metrics of each detector obtained on
 | Focus detector   | July 2020      | 103            |  0.5                 | 99.0%                  | 0.99            |
 | Circulus detector| December 2020  | 81             |  0.5                 | 95.2%                  | 0.94            |
 
-<br/>
+
 
 An important caveat in the evaluation process is the quality of the annotation data:
 
