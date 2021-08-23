@@ -76,6 +76,7 @@ An important caveat in the evaluation process is the quality of the annotation d
 - Go to `File > Open Dir` and select the images' directory (here, `<some_path>/eval_circuli_detector/imgs`)
 - Go to `File > Change Save Dir`  (or `Ctrl + r`) and select the annotations directory (here, `<some_path>/eval_circuli_detector/anns`)
 - Make sure the PascalVOC option is selected
+  ![](../docs/images/labelImg_PascalVOC.jpg)
   <p align="center">
   <kbd>
   <img src="../docs/images/labelImg_PascalVOC.jpg" width="100"/>
