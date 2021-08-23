@@ -5,8 +5,7 @@
 
 
 
- Table of Contents
- -------------
+ __Table of Contents__
  - [Prerequisites](#Prerequisites)
  - [Installation](#Installation)
  - [How to run SSCD](#How-to-run-SSCD)
@@ -117,13 +116,13 @@ This step creates a Conda environment for the SSCD tool, with all the required p
 
     Run the following chunk of code directly into the command line
 
-   ```
-   > python sscd.py ^
+    ```
+    > python sscd.py ^
       --img_dir "./data/example_scales" ^
       --output_dir "C:/SSCD_temp_outputs" ^
       --transect_angles 0 45 90 135 180  ^
       --plot_detections True
-   ```
+      ```
 
 
 
