@@ -122,7 +122,7 @@ This step creates a Conda environment for the SSCD tool, with all the required p
       --output_dir "C:/SSCD_temp_outputs" ^
       --transect_angles 0 45 90 135 180  ^
       --plot_detections True
-      ```
+    ```
 
 
 
