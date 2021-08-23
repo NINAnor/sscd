@@ -5,7 +5,7 @@ Created on Wed Feb  3 23:07:34 2021
 @author: Bruno Caneco
 
 Code stolen from package in https://github.com/jobevers/diagonal-crop. Package was
-converted into a single module to simplify sscd's code structure
+converted into a single module to simplify integration with sscd's code structure
 
 
 TODO
