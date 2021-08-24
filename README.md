@@ -25,7 +25,7 @@ In order to install and use SSCD the following programmes are required to be ins
 
 ## Installation
 
-### 1. Clone the SSCD code from Bitbucket
+#### 1. Clone the SSCD code from Bitbucket
 
 There are a few diferent ways to clone the SSCD repository from Bitbucket.
 Here is an example, assuming Sourcetree is available in the local system:
@@ -38,7 +38,7 @@ Here is an example, assuming Sourcetree is available in the local system:
 
 
 
-### 2. Set-up Conda environment for SSCD
+#### 2. Set-up Conda environment for SSCD
 This step creates a Conda environment for the SSCD tool, with all the required packages and python dependencies being automatically installed.
 
   - Open a conda prompt (**Start** > **Anaconda** > **Anaconda Prompt**)
@@ -59,7 +59,7 @@ This step creates a Conda environment for the SSCD tool, with all the required p
     ```
 
 
-### 3. Download YOLOv3 weights for focus and circuli detectors
+#### 3. Download YOLOv3 weights for focus and circuli detectors
 
   - Download the file `yoloV3_checkpoints.zip`, containing the trained yolo weights for the two detectors, from [this link][3] (790MB total size, so perhaps time for a break and a cuppa?)
 
@@ -67,7 +67,7 @@ This step creates a Conda environment for the SSCD tool, with all the required p
 
   - Quick check: e.g. for the focus detector, the path to the directory comprising its weights MUST be `SSCD/data/yoloV3_checkpoints/focus_detector`
 
-  - That's it: installation (probably) done!
+  - That's it: installation (hopefully) done!
 
 
 ## How to run SSCD
