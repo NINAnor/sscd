@@ -27,7 +27,7 @@ In order to install and use SSCD the following programmes are required to be ins
 
 ### 1. Clone the SSCD code from Bitbucket
 
-There are a few diferent ways to clone the SSCD repostory from Bitbucket.
+There are a few diferent ways to clone the SSCD repository from Bitbucket.
 Here is an example, assuming Sourcetree is available in the local system:
 
   * Click on the "Clone" button at the top right corner of this webpage
