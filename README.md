@@ -16,33 +16,26 @@
 
 ## Prerequisites
 
-In order to install and use SSCD the following programmes need to be installed:
-   - Conda (its lighter version [Miniconda][1] is recommended)
-   - [Git][2]
+In order to install and use SSCD the following programmes are required to be installed:
+
+  - Conda (its lighter version [Miniconda][1] is recommended)
+  - [Git][2]
+  - [Sourcetree](https://www.sourcetreeapp.com/) (or other Git client)
 
 
 ## Installation
 
-### 1. Download/clone SSCD code from GitHub
+### 1. Clone the SSCD code from Bitbucket
 
-Two options:
+There are a few diferent ways to clone the SSCD repostory from Bitbucket.
+Here is an example, assuming Sourcetree is available in the local system:
 
-  - Download the a zip file with the SSCD code
+  * Click on the "Clone" button at the top right corner of this webpage
+  * Hit the `Clone in Sourcetree` button
+  * Choose a suitable destination folder to hold the source code
+  (from now on referred to as the "SSCD directory")
+  * ... and Clone!
 
-    1. Go to https://github.com/bcaneco/SSCD
-    2. Hit the green dropdown button "Code" and select "Download ZIP"
-    3. Extract `SSCD-main.zip` to a directory of your choice
-    4. Rename the folder `SSCD-main` as `SSCD`
-
-
-  - Clone the GitHub repository
-
-    1. Open the command prompt
-    2. Go to a directory of your choice (which will comprise SSCD's code)
-    3. Clone the SSCD repository by typing the following
-    ```
-    > git clone https://github.com/bcaneco/SSCD.git
-    ```
 
 
 ### 2. Set-up Conda environment for SSCD
