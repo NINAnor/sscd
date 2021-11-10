@@ -30,7 +30,7 @@ In order to install and use SSCD the following programmes are required to be ins
 There are a few diferent ways to clone the SSCD repository from Bitbucket.
 Here is an example, assuming Sourcetree is available in the local system:
 
-  * Click on the "Clone" button at the top right corner of this webpage
+  * Click on the `Clone` button at the top right corner of this webpage
   * Hit the `Clone in Sourcetree` button
   * Choose a suitable destination folder to hold the source code
   (from now on referred to as the "SSCD directory")
@@ -57,6 +57,12 @@ This step creates a Conda environment for the SSCD tool, with all the required p
     ```
     > python -m ipykernel install --user --name sscd --display-name "SSCD"
     ```
+    >
+    > Note: To update the local SSCD environment with an updated version of the file `condaenv_sscd.yml` (issued e.g. to solve a conflict between dependencies), run the following two commands in the anaconda prompt:
+    >
+    > ```> conda activate sscd```
+    >
+    > ```> conda env update --file condaenv_sscd.yml --prune```
 
 
 #### 3. Download YOLOv3 weights for focus and circuli detectors
@@ -101,7 +107,7 @@ This step creates a Conda environment for the SSCD tool, with all the required p
        --img_dir "./data/example_scales"\
        --output_dir "C:/SSCD_temp_outputs"\
        --transect_angles 0 45 90 135 180 \
-       --plot_detections True
+       --plot_dets True
     ```
     and hit `Ctrl+Enter` to run.
 
@@ -114,7 +120,7 @@ This step creates a Conda environment for the SSCD tool, with all the required p
       --img_dir "./data/example_scales" ^
       --output_dir "C:/SSCD_temp_outputs" ^
       --transect_angles 0 45 90 135 180  ^
-      --plot_detections True
+      --plot_dets True
     ```
 
 
