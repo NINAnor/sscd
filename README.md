@@ -42,7 +42,7 @@ Here is an example, assuming Sourcetree is available in the local system:
 This step creates a Conda environment for the SSCD tool, with all the required packages and python dependencies being automatically installed.
 
   - Open a conda prompt (**Start** > **Anaconda** > **Anaconda Prompt**)
-  - Navigate to the SSCD directory
+  - Navigate to the SSCD directory (e.g. `cd c:/SSCD`)
   - Create SSCD environment:
       ```
       > conda env create -f condaenv_sscd.yml
@@ -57,12 +57,12 @@ This step creates a Conda environment for the SSCD tool, with all the required p
     ```
     > python -m ipykernel install --user --name sscd --display-name "SSCD"
     ```
-    >
-    > Note: To update the local SSCD environment with an updated version of the file `condaenv_sscd.yml` (issued e.g. to solve a conflict between dependencies), run the following two commands in the anaconda prompt:
-    >
-    > ```> conda activate sscd```
-    >
-    > ```> conda env update --file condaenv_sscd.yml --prune```
+
+  > Note: To update the local SSCD environment with an updated version of the file `condaenv_sscd.yml` (issued e.g. to solve a conflict between dependencies), open the Anaconda prompt, navigate to the SSCD directory (e.g. `cd c:/SSCD`) and run the following two commands:
+  >
+  > ```> conda activate sscd```
+  >
+  > ```> conda env update --file condaenv_sscd.yml --prune```
 
 
 #### 3. Download YOLOv3 weights for focus and circuli detectors
