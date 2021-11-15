@@ -75,7 +75,7 @@ This step creates a Conda environment for the SSCD tool, with all the required p
 
 The SSCD's Conda environment should be updated if the file  `condaenv_sscd.yml` is modified, e.g. to solve a conflict between package dependencies.
 
-Once the most recent version of `condaenv_sscd.yml` has been pushed to the local repository, there are two ways to update the SSCD environment:
+Once the most recent version of `condaenv_sscd.yml` has been pulled to the local repository, there are two ways to update the SSCD environment:
 
 1. Open the Anaconda prompt, navigate to the SSCD directory (e.g. `cd c:/SSCD`) and run the following two commands:
 ```
