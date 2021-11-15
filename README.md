@@ -89,7 +89,7 @@ Once the most recent version of `condaenv_sscd.yml` has been pushed to the local
 > conda activate base
 > conda remove --name sscd --all
 ```
-Type `y` followed by `Enter` when `Proceed ([y]/n)?` is prompted. Then re-install the environment from the updated `condaenv_sscd.yml` file
+Type `y` followed by `Enter` when `Proceed ([y]/n)?` is prompted. Then re-install the environment from the updated `condaenv_sscd.yml` file, by running the command:
 ```
 > conda env create -f condaenv_sscd.yml
 ```
