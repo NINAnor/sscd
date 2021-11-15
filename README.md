@@ -75,21 +75,16 @@ This step creates a Conda environment for the SSCD tool, with all the required p
 
 The SSCD's Conda environment should be updated if the file  `condaenv_sscd.yml` is modified, e.g. to solve a conflict between package dependencies.
 
-Once the most recent version of `condaenv_sscd.yml` has been pulled to the local repository, there are two ways to update the SSCD environment:
-
-1. Open the Anaconda prompt, navigate to the SSCD directory (e.g. `cd c:/SSCD`) and run the following two commands:
-```
-> conda activate sscd
-> conda env update --file condaenv_sscd.yml --prune
-```
-
-
-2. Alternatively, open the Anaconda prompt, navigate to the SSCD directory (e.g. `cd c:/SSCD`) and run the following commands to remove the current version of the environment:
+Once the most recent version of `condaenv_sscd.yml` has been pulled to the local repository, update the SSCD environment with the following steps:
+- Open the Anaconda prompt, navigate to the SSCD directory (e.g. `cd c:/SSCD`) and run the following commands to remove the current version of the environment:
 ```
 > conda activate base
 > conda remove --name sscd --all
 ```
-Type `y` followed by `Enter` when `Proceed ([y]/n)?` is prompted. Then re-install the environment from the updated `condaenv_sscd.yml` file, by running the command:
+
+- Type `y` followed by `Enter` when `Proceed ([y]/n)?` is prompted.
+
+- Re-install the environment from the updated `condaenv_sscd.yml` file, by running the command:
 ```
 > conda env create -f condaenv_sscd.yml
 ```
