@@ -25,7 +25,8 @@ class Evaluator:
     def GetPascalVOCMetrics(self,
                             boundingboxes,
                             IOUThreshold=0.5,
-                            method=MethodAveragePrecision.EveryPointInterpolation):
+                            method=MethodAveragePrecision.EveryPointInterpolation,
+                            get_details = False):
         """Get the metrics used by the VOC Pascal 2012 challenge.
         Get
         Args:
@@ -37,8 +38,12 @@ class Evaluator:
             in the official PASCAL VOC toolkit (EveryPointInterpolation), or applying the 11-point
             interpolatio as described in the paper "The PASCAL Visual Object Classes(VOC) Challenge"
             or EveryPointInterpolation"  (ElevenPointInterpolation);
+            get_details: If True, returns detailed evaluation data on detections and ground truths 
+            (e.g iou per detection, detected gts)
         Returns:
-            A list of dictionaries. Each dictionary contains information and metrics of each class.
+            A list of dictionaries andone or more Dataframes. 
+            
+            Each dictionary contains information and metrics of each class.
             The keys of each dictionary are:
             dict['class']: class representing the current dictionary;
             dict['precision']: array with the precision values;
@@ -49,6 +54,8 @@ class Evaluator:
             dict['total positives']: total number of ground truth positives;
             dict['total TP']: total number of True Positive detections;
             dict['total FP']: total number of False Negative detections;
+            
+            res_by_image: number TPs, FP, and FNs per class in each image
         """
         ret = []  # list containing metrics (precision, recall, average precision) of each class
         # List with all ground truths (Ex: [imageName,class,confidence=1, (bb coordinates XYX2Y2)])
@@ -60,6 +67,8 @@ class Evaluator:
         
         #breakpoint()
         res_by_image = pd.DataFrame()
+        dets_details = pd.DataFrame()
+        gts_details = pd.DataFrame()
         
         # Loop through all bounding boxes and separate them into GTs and detections
         for bb in boundingboxes.getBoundingBoxes():
@@ -96,6 +105,7 @@ class Evaluator:
             dects = sorted(dects, key=lambda conf: conf[2], reverse=True)
             TP = np.zeros(len(dects))
             FP = np.zeros(len(dects))
+            iou_max = np.zeros(len(dects))
             centerError = np.zeros(len(dects))
             # create dictionary with amount of gts for each image
             det = Counter([cc[0] for cc in gts])
@@ -125,7 +135,7 @@ class Evaluator:
                         cy_det = int((dects[d][3][3] + dects[d][3][1])/2)
                         cx_gt = int((gt[jmax][3][2] + gt[jmax][3][0])/2)
                         cy_gt = int((gt[jmax][3][3] + gt[jmax][3][1])/2)
-                        centerError[d] = ((cx_det-cx_gt)**2 + (cy_det-cy_gt)**2)**0.5
+                        centerError[d] = ((cx_det - cx_gt)**2 + (cy_det - cy_gt)**2)**0.5
                         #print(centerError[d])
                     else:
                         FP[d] = 1  # count as false positive
@@ -134,13 +144,48 @@ class Evaluator:
                 else:
                     FP[d] = 1  # count as false positive
                     # print("FP")
+                iou_max[d] = iouMax
+            
+            if get_details:
+                cl_dets_details = {
+                    "imageName" : [item[0] for item in dects], 
+                    "class" : c,
+                    "score" : [item[2] for item in dects],
+                    "cx_det" : [int((item[3][2] + item[3][0])/2) for item in dects],
+                    "cy_det" : [int((item[3][3] + item[3][1])/2) for item in dects],
+                    "iou_max" : iou_max,
+                    "TP" : TP, 
+                    "FP" : FP
+                    }
+            
+                cl_dets_details =  pd.DataFrame(cl_dets_details).sort_values(by=['imageName', 'cx_det'])
+                cl_dets_details['det_num'] = cl_dets_details.groupby('imageName',sort=False).cumcount() + 1
+                dets_details = dets_details.append(cl_dets_details)
+                   
+                cl_gts_hit = [x.tolist() for x in det.values()]       
+                cl_gts_hit = [int(item) for sublist in cl_gts_hit for item in sublist]
+            
+                cl_gts_details = {
+                    'imageName': [item[0] for item in gts],
+                    "class" : c,
+                    "cx_gt" : [int((item[3][2] + item[3][0])/2) for item in gts],
+                    "cy_gt" : [int((item[3][3] + item[3][1])/2) for item in gts],
+                    'detected': cl_gts_hit
+                    }
+            
+                cl_gts_details = pd.DataFrame(cl_gts_details).sort_values(by=['imageName', 'cx_gt'])
+                cl_gts_details['gt_num'] = cl_gts_details.groupby('imageName', sort=False).cumcount() + 1
+                gts_details = gts_details.append(cl_gts_details)
+                
+                
+            #breakpoint()
             
             # Count detections (TPs and FPs) by image
             num_dets_by_image = {
                 "imageName" : [item[0] for item in dects], 
                 "TP" : TP, 
                 "FP" : FP
-                }
+                }           
             
             num_dets_by_image = pd.DataFrame(num_dets_by_image).groupby("imageName").agg({"TP":"sum", "FP":"sum"})
                         
@@ -179,9 +224,11 @@ class Evaluator:
                 'mean center error': np.sum(centerError)/np.sum(TP)
             }
             ret.append(r)
-            
-        return ret, res_by_image
+        
 
+        return ret, res_by_image, dets_details, gts_details            
+        
+    
     def PlotPrecisionRecallCurve(self,
                                  boundingBoxes,
                                  IOUThreshold=0.5,
@@ -189,7 +236,8 @@ class Evaluator:
                                  showAP=False,
                                  showInterpolatedPrecision=False,
                                  savePath=None,
-                                 showGraphic=True):
+                                 showGraphic=True,
+                                 get_details = False):
         """PlotPrecisionRecallCurve
         Plot the Precision x Recall curve for a given class.
         Args:
@@ -222,7 +270,7 @@ class Evaluator:
             dict['total FP']: total number of False Negative detections;
         """
         
-        results, res_by_image = self.GetPascalVOCMetrics(boundingBoxes, IOUThreshold, method)
+        results, res_by_image, dets_details, gts_details = self.GetPascalVOCMetrics(boundingBoxes, IOUThreshold, method, get_details)
         result = None
         
         #breakpoint()
@@ -324,10 +372,11 @@ class Evaluator:
             if savePath is not None:
                 plt.savefig(os.path.join(savePath, classId + '_PRC.png'))
             if showGraphic is True:
-                plt.show()
+                plt.show(block = False)
+                #plt.show()
                 # plt.waitforbuttonpress()
                 plt.pause(0.05)
-        return results, res_by_image
+        return results, res_by_image, dets_details, gts_details
 
     @staticmethod
     def CalculateAveragePrecision(rec, prec):

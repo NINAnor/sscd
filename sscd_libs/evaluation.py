@@ -174,8 +174,7 @@ def getBoundingBoxes(directory,
 # ------------------------------------------------------------------------------
 def evaluate(gtFolder, detFolder, savePath, iouThreshold = 0.5, gtFormat = 'xywh', 
              detFormat = 'xywh', gtCoordinates = 'abs', detCoordinates = 'abs', 
-             imgSize = (0,0), showPlot = True
-             ):
+             imgSize = (0,0), showPlot = True, get_details = False):
 
     """
     Main function for evaluating of object detection model performance. Basically rewriting 
@@ -208,8 +207,11 @@ def evaluate(gtFolder, detFolder, savePath, iouThreshold = 0.5, gtFormat = 'xywh
         'absolute values (\'abs\') or relative to its image size (\'rel\'). The default is 'abs'.
     imgSize : TYPE, optional
         image size. Required if -gtcoords or -detcoords are \'rel\'. The default is None.
-    showPlot : TYPE, optional
+    showPlot : boolean, optional
         no plot is shown during execution. The default is True.
+    get_details: boolean, optional
+        If True, returns detailed evaluation data on detections and ground truths 
+        (e.g iou per detection, detected gts).
 
     Returns
     -------
@@ -256,14 +258,15 @@ def evaluate(gtFolder, detFolder, savePath, iouThreshold = 0.5, gtFormat = 'xywh
     
     #breakpoint()
     # Plot Precision x Recall curve
-    detections, res_by_image = evaluator.PlotPrecisionRecallCurve(
+    detections, res_by_image, dets_details, gts_details = evaluator.PlotPrecisionRecallCurve(
         allBoundingBoxes,  # Object containing all bounding boxes (ground truths and detections)
         IOUThreshold=iouThreshold,  # IOU threshold
         method=MethodAveragePrecision.EveryPointInterpolation,
         showAP=True,  # Show Average Precision in the title of the plot
         showInterpolatedPrecision=False,  # Don't plot the interpolated precision curve
         savePath=savePath,
-        showGraphic=showPlot)
+        showGraphic=showPlot, 
+        get_details=get_details)
     
     loggerText = ["Evaluation results:\n\n"]
     
@@ -323,5 +326,9 @@ def evaluate(gtFolder, detFolder, savePath, iouThreshold = 0.5, gtFormat = 'xywh
     
     # write-out results by image
     res_by_image.to_csv(os.path.join(savePath, 'results_by_image.csv'), index=None)
+    
+    if get_details:
+        dets_details.to_csv(os.path.join(savePath, 'det_details.csv'), index=None)
+        gts_details.to_csv(os.path.join(savePath, 'gt_details.csv'), index=None)
     
     return 0 #res_by_image

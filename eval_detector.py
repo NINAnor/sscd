@@ -128,11 +128,18 @@ def main():
         help="Option to generate separate image plots for detections and annotations. If False, "
         "draw both in the same plot"
     )
+    args_parser.add_argument(
+        "--get_details",
+        required=False,
+        type=boolean_string,
+        default = False,
+        help="Option to return datasets with evaulation details for detections and ground truths "
+    )
 
         
     args = vars(args_parser.parse_args())   
     
-    
+    #breakpoint()
     # --- Start runtime timer
     run_start = time()
         
@@ -332,19 +339,15 @@ def main():
                         
             ## end of loop
        
-            
-    
-    
     
     
     # ----------------------------------------------------- #
     # --               Perform evaluation                -- #
     # ----------------------------------------------------- #  
     
-    
     logger.info("Performing evaluation and computing metrics\n") 
     
-    #evalResults_by_image = evaluate(
+    #breakpoint()
     evaluate(
         gtFolder = anns_temp_dir, 
         detFolder = dets_temp_dir,
@@ -354,7 +357,8 @@ def main():
         detFormat ="xyrb",
         gtCoordinates = "abs",
         detCoordinates = "abs",
-        showPlot=True
+        showPlot=True,
+        get_details = args["get_details"]
         )
 
     logger.info("All outputs saved to %s", args["output_dir"]) 
@@ -362,7 +366,7 @@ def main():
     ## --- Summarise Run
     num_images = len(img_ids)   
     num_dets = len(dets_eval)
-    #num_anns = sum(evalResults_by_image.GT)
+    
     
     # calculate runtime duration (mins)
     run_duration = round((time() - run_start)/60, 2)
