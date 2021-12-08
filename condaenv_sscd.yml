@@ -1,13 +1,15 @@
 name: sscd
-
+channels:
+  - conda-forge
+  - defaults
 dependencies:
   - python<=3.7.12
   - pip<=21.0
   - Pillow<=8.3.2
   - tqdm<=4.56.0
+  - opencv<=4.5.3
   - jupyterlab<=3.2.2
   - matplotlib<=3.4.3
-  - opencv<=4.5.3
   - numpy<=1.21.4
   - pandas<=1.3.4
   - lxml<=4.6.4
