@@ -96,7 +96,6 @@ def detections_as_df(detections_tf, img_orig_wh, img_id, class_names):
     detections_df["img_prop"] = det_areas/(img_orig_wh[0]*img_orig_wh[1])   
        
     # calculate xcentre, sort data by it, and drop it, for consistency with previous version
-    #detections_df['xcentre'] = (detections_df['xmax'] + detections_df['xmin'])/2
     detections_df = detections_df.assign(xcentre = lambda x: (x.xmax + x.xmin)/2)
     detections_df.sort_values(by=['xcentre'], inplace = True, ignore_index =True)
     detections_df.drop('xcentre', axis = 1, inplace = True)
