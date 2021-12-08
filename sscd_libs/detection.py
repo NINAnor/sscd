@@ -87,7 +87,6 @@ def detections_as_df(detections_tf, img_orig_wh, img_id, class_names):
           })
     boxes_df = pd.DataFrame(boxes_abs, columns = ["xmin", "ymin", "xmax", "ymax"])
     
-    #breakpoint()
     
     # Concatenate into a single dataframe
     detections_df = pd.concat([id_classes_scores, boxes_df], axis=1)     
@@ -95,9 +94,12 @@ def detections_as_df(detections_tf, img_orig_wh, img_id, class_names):
     # add the proportion of image covered by each detection, if any present
     det_areas = (detections_df.xmax - detections_df.xmin)*(detections_df.ymax - detections_df.ymin)
     detections_df["img_prop"] = det_areas/(img_orig_wh[0]*img_orig_wh[1])   
-
-    # sort output by xmin
-    detections_df.sort_values(by=['xmin'], inplace = True, ignore_index =True)
+       
+    # calculate xcentre, sort data by it, and drop it, for consistency with previous version
+    #detections_df['xcentre'] = (detections_df['xmax'] + detections_df['xmin'])/2
+    detections_df = detections_df.assign(xcentre = lambda x: (x.xmax + x.xmin)/2)
+    detections_df.sort_values(by=['xcentre'], inplace = True, ignore_index =True)
+    detections_df.drop('xcentre', axis = 1, inplace = True)
         
     # Add detection incremental counter
     detections_df.insert(loc = 1, column = "detection_nr", value =  detections_df.index + 1)
