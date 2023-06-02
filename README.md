@@ -58,6 +58,33 @@ This step creates a Conda environment for the SSCD tool, with all the required p
     > python -m ipykernel install --user --name sscd --display-name "SSCD"
     ```
 
+##### Setting up Conda environment on OSE
+
+THere is a big issue with the installation on the OSE as the proxy server does not allow access to a large number of package requirements. To resolve this issue these have been downloaded externally and uploaded onto the OSE in a conda `custom channel` located \\isilonfl\OSE_FL_Data\James_Ounsley\python\sscd_pacakges\
+
+To allow conda to use this channel the following configuration option was applied
+
+```
+> conda config --set custom_channels.sscd_packages file://\\isilonfl\OSE_FL_Data\James_Ounsley\python\
+```
+
+A new .yml file was then created to include the channel sscd_packages as the first entry. This should tell conda to look at the local files on the server before trying to download them from the internet. However the pip installation subprocess was removed as this fails with the proxy server.
+
+```
+conda env create -f condaenv_sscd_ose.yml
+```
+
+
+The pip subprocess invoked by the conda install in the original .yml file will fail due to not being able to access the online repositories. The required pip packages for sscd have been save to \\isilonfl\OSE_FL_Data\James_Ounsley\python\pip_pacakges\.
+
+To install these packages, create the sscd environment as above, then activate the environment.
+
+From there install the packages requiring pip as follows (assuming \\isilon\OSE_FL_Data is mapped to Z:\):
+
+```
+> conda activate sscd
+> pip install --no-index --find-links=Z:\James_Ounsley\python\pip_packages\ tensorflow==2.7.0
+```
 
 #### 3. Download YOLOv3 weights for focus and circuli detectors
 
@@ -325,6 +352,16 @@ This [page][8] provides details on how to set up a workstation for (re)training 
 *[Training protocol][11] currently being written up.*
 
 
+### Troubleshooting
+
+#### pip Proxy settings
+
+in session
+
+```
+>set http_proxy=http://192.168.41.8:80
+>set https_proxy=http://192.168.41.8:80
+```
 
 ### References (supporting code)
 - [YOLOv3 implementation in Tensorflow 2][7]
