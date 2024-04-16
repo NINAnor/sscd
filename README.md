@@ -354,6 +354,31 @@ This [page][8] provides details on how to set up a workstation for (re)training 
 
 ### Troubleshooting
 
+#### Downloading packages for ose
+
+##### conda channel creatino
+
+Current work flow, use failed link from ose when trying to install to download the .tar.bz2 file on another machine. Use `conda build` to create the package
+
+
+```
+conda index [location of packages]
+```
+
+##### pip
+
+From the same architecture (windows)
+
+```
+pip download --python-version=37 --only-binary=:all: package_name
+```
+
+
+
+#### Writing to netork locations
+
+Missing library fsspec requires adding to channel to allow saving to isilon
+
 #### pip Proxy settings
 
 in session

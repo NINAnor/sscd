@@ -184,6 +184,7 @@ def main():
     logger.info("Fetching image ID's from each dataset")
         
     # images
+    
     img_filepaths = glob.glob(args["img_dir"] + os.path.sep + "*.jpg")
     if len(img_filepaths) == 0:
         FileNotFound_logAndOut("No JPG image files found in directory: {}".format(args["img_dir"]))
@@ -192,9 +193,14 @@ def main():
         
     
     # annotations   
+    # TODO: Handle case where already in txt format
     ann_filepaths = glob.glob(args["anns_dir"] + os.path.sep + "*.xml")
+    ann_format = "xml"
     if len(ann_filepaths) == 0:
-        FileNotFound_logAndOut("No XML annotation files found in directory: {}".format(args["anns_dir"]))
+        ann_filepaths = glob.glob(args["anns_dir"] + os.path.sep + "*.txt")
+        ann_format = "txt"
+    if len(ann_filepaths) == 0:
+        FileNotFound_logAndOut("No XML or TXT annotation files found in directory: {}".format(args["anns_dir"]))
         
     ann_ids =[Path(name).stem for name in ann_filepaths]
     
@@ -270,11 +276,13 @@ def main():
     logger.info("Preparing data for evaluation ")
     
     # --- Annotations (ground truth bounding boxes): convert from Pascal VOC xlm to txt files
-    anns_temp_dir = os.path.join(args["output_dir"], "temp", "gt_temp")
-    os.makedirs(anns_temp_dir, exist_ok=True)
     
-    for ann_id in ann_ids:
-        pascal_to_evaltxt(args["anns_dir"], ann_id, anns_temp_dir)
+    anns_temp_dir = args["anns_dir"]
+    if ann_format == "xml":
+        anns_temp_dir = os.path.join(args["output_dir"], "temp", "gt_temp")
+        os.makedirs(anns_temp_dir, exist_ok=True)
+        for ann_id in ann_ids:
+            pascal_to_evaltxt(args["anns_dir"], ann_id, anns_temp_dir)
     
     # generate empty text files for missing xlm annotation files
     for ann_id in ann_id_missing:
@@ -358,6 +366,7 @@ def main():
         gtCoordinates = "abs",
         detCoordinates = "abs",
         showPlot=True,
+        #imgSize = (3904,64),
         get_details = args["get_details"]
         )
 
