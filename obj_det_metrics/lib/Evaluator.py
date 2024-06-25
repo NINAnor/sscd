@@ -106,7 +106,7 @@ class Evaluator:
             TP = np.zeros(len(dects))
             FP = np.zeros(len(dects))
             iou_max = np.zeros(len(dects))
-            centerError = np.zeros(len(dects))
+            centerError = np.full(len(dects), fill_value = np.nan)
             # create dictionary with amount of gts for each image
             det = Counter([cc[0] for cc in gts])
             for key, val in det.items():
@@ -155,7 +155,8 @@ class Evaluator:
                     "cy_det" : [int((item[3][3] + item[3][1])/2) for item in dects],
                     "iou_max" : iou_max,
                     "TP" : TP, 
-                    "FP" : FP
+                    "FP" : FP,
+                    "center_error": centerError
                     }
             
                 cl_dets_details =  pd.DataFrame(cl_dets_details).sort_values(by=['imageName', 'cx_det'])
@@ -181,23 +182,25 @@ class Evaluator:
             #breakpoint()
             
             # Count detections (TPs and FPs) by image
-            num_dets_by_image = {
+            dets_summary_by_image = {
                 "imageName" : [item[0] for item in dects], 
                 "TP" : TP, 
-                "FP" : FP
+                "FP" : FP,
+                "MCE": centerError
                 }           
             
-            num_dets_by_image = pd.DataFrame(num_dets_by_image).groupby("imageName").agg({"TP":"sum", "FP":"sum"})
-                        
+            dets_summary_by_image = pd.DataFrame(dets_summary_by_image).groupby("imageName").agg({"TP":"sum", "FP":"sum", "MCE": np.nanmean})                       
+            
             # Count gts by image
             num_gts_by_image = Counter([item[0] for item in gts])
             num_gts_by_image = pd.DataFrame.from_dict(num_gts_by_image, orient='index').reset_index()
             num_gts_by_image.rename(columns={'index':'imageName', 0:'GT'}, inplace=True)
             
             # Calculate FN and tidy up for appending
-            c_res_by_image = pd.merge(num_dets_by_image, num_gts_by_image, on='imageName')
-            c_res_by_image["FN"] = c_res_by_image.GT - c_res_by_image.TP
+            c_res_by_image = pd.merge(dets_summary_by_image, num_gts_by_image, on='imageName')
+            c_res_by_image["FN"] = c_res_by_image.GT - c_res_by_image.TP            
             c_res_by_image["class"] = c
+            c_res_by_image = c_res_by_image[['imageName', 'GT', 'TP', 'FP', 'FN', 'MCE', "class"]]
             res_by_image = res_by_image.append(c_res_by_image)
                 
             # compute precision, recall and average precision
@@ -221,7 +224,7 @@ class Evaluator:
                 'total positives': npos,
                 'total TP': np.sum(TP),
                 'total FP': np.sum(FP),
-                'mean center error': np.sum(centerError)/np.sum(TP)
+                'mean center error': np.nansum(centerError)/np.sum(TP)
             }
             ret.append(r)
         

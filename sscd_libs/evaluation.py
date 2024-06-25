@@ -75,7 +75,7 @@ def ValidateImageSize(arg, argName, argInformed, errors):
         else:
             if not args[0].isdigit() or not args[1].isdigit():
                 errors.append(
-                    '%s. It must be in INdiaTEGER the format \'width,height\' (e.g. \'600,400\')' %
+                    '%s. It must be in INTEGER the format \'width,height\' (e.g. \'600,400\')' %
                     errorMsg)
             else:
                 ret = (int(args[0]), int(args[1]))
