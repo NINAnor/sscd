@@ -58,9 +58,9 @@ This step creates a Conda environment for the SSCD tool, with all the required p
     > python -m ipykernel install --user --name sscd --display-name "SSCD"
     ```
 
-##### Setting up Conda environment on OSE
+##### Setting up Conda environment on OSE (for internal SG installation only - skip to 3 otherwise)
 
-THere is a big issue with the installation on the OSE as the proxy server does not allow access to a large number of package requirements. To resolve this issue these have been downloaded externally and uploaded onto the OSE in a conda `custom channel` located \\isilonfl\OSE_FL_Data\James_Ounsley\python\sscd_pacakges\
+There is an issue with the installation on the OSE as the proxy server does not allow access to a large number of package requirements. To resolve this issue these have been downloaded externally and uploaded onto the OSE in a conda `custom channel` located \\isilonfl\OSE_FL_Data\James_Ounsley\python\sscd_pacakges\
 
 To allow conda to use this channel the following configuration option was applied
 
