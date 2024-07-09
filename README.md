@@ -394,7 +394,7 @@ in session
 - Object detection evaluation [tool](https://github.com/rafaelpadilla/Object-Detection-Metrics#how-to-use-this-project)
 
 
-[1]: https://docs.conda.io/en/latest/miniconda.html{:target="_blank"} "Miniconda Installers"
+[1]: https://docs.anaconda.com/miniconda/{:target="_blank"} "Miniconda Installers"
 [2]: https://git-scm.com/downloads{:target="_blank"} "Git Installers"
 [3]: https://www.dropbox.com/sh/xm2zmoz7h9g5nqi/AACfwx7_JQmUkcNK8ePXetkta?dl=0
 [4]: https://github.com/rafaelpadilla/Object-Detection-Metrics
