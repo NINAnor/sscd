@@ -1,0 +1,16 @@
+# Changes here will be overwritten by Copier
+_commit: v0.2.6
+_src_path: gh:ninanor/template-python
+author_name: Bruno Caneco
+debug: false
+default_branch_name: nina
+docker: false
+email: bruno@dmpstats.com
+notebook: true
+notebook_type: jupyter
+project_name: Salmon Scale Circuli Detector
+project_slug: sscd
+repo_name: sscd
+repo_org: ninanor
+template_type: python
+type_annotations: false
