@@ -35,9 +35,9 @@ An important caveat in the evaluation process is the quality of the annotation d
 
 - There is a [panoply][1] of annotation tools available for labelling objects in images.
 
-- For its simplicity, speed and ease of use, we recommend [*LabelImg*][2]. Installation instructions are described [here][4].
+- For its simplicity, speed and ease of use, we recommend [*LabelImg*][2]. Install it in your UV environment with `uv add labelImg` and see the [LabelImg documentation][4] for usage instructions.
 
->Note: the evaluation tool expects annotation files to be in Pascal VOC format. Thus, if using a different annotation software  without the option of Pascal VOC as an output format, annotations will need to be converted accordingly (e.g. this [python package][3] offers a range of format conversions).
+> Note: the evaluation tool expects annotation files to be in Pascal VOC format. Thus, if using a different annotation software without the option of Pascal VOC as an output format, annotations will need to be converted accordingly (e.g. this [python package][3] offers a range of format conversions).
 
 
 
@@ -68,21 +68,27 @@ An important caveat in the evaluation process is the quality of the annotation d
 
 ### 2. Label the images
 
-- Open an Anaconda Prompt, go to the *LabelImg* directory and launch it
+- If you haven't installed LabelImg yet, add it to your environment:
 
+  ```bash
+  uv add labelImg
   ```
-  python labelImg.py
+
+- Launch LabelImg:
+
+  ```bash
+  uv run labelimg
   ```
 
 - Go to `File > Open Dir` and select the images' directory (here, `<some_path>/eval_circuli_detector/imgs`)
 
-- Go to `File > Change Save Dir`  (or `Ctrl + r`) and select the annotations directory (here, `<some_path>/eval_circuli_detector/anns`)
+- Go to `File > Change Save Dir` (or `Ctrl + r`) and select the annotations directory (here, `<some_path>/eval_circuli_detector/anns`)
 
-- Make sure the PascalVOC option is selecte
+- Make sure the PascalVOC option is selected
 
   ![](../docs/images/labelImg_PascalVOC.jpg)
 
-- On the righthand side panel, tick the box "use default label" and type `circulus` on the adjacent text box
+- On the right-hand side panel, tick the box "use default label" and type `circulus` on the adjacent text box
 
   ![](../docs/images/labelImg_default_label.jpg)
 
@@ -103,23 +109,15 @@ An important caveat in the evaluation process is the quality of the annotation d
 
 ### 3. Run evaluation (in a jupyter session)
 
-- Open an Anaconda prompt and navigate to the SSCD directory
+- Launch Jupyter Lab (with the sscd kernel) from the SSCD directory:
 
-- Activate the SSCD environment:
-
-  ```
-  > conda activate sscd
+  ```bash
+  uv run --with jupyter jupyter lab
   ```
 
-- Launch Jupyter lab:
+- Open a new Notebook with the `sscd` kernel and run the following code:
 
-  ```
-  > jupyter lab
-  ```
-
-- Run the following code on a notebook, **using the appropriate paths and directory names**
-
-  ```
+  ```python
   %run eval_detector.py \
       --img_dir "<some_path>/eval_circuli_detector/imgs" \
       --anns_dir "<some_path>/eval_circuli_detector/anns" \
@@ -130,9 +128,22 @@ An important caveat in the evaluation process is the quality of the annotation d
       --sep_plots True
   ```
 
+Alternatively, you can run from the command line:
+
+```bash
+uv run python eval_detector.py \
+    --img_dir "<some_path>/eval_circuli_detector/imgs" \
+    --anns_dir "<some_path>/eval_circuli_detector/anns" \
+    --dets_csv "<some_path>/eval_circuli_detector/detections.csv" \
+    --iou_threshould 0.5 \
+    --output_dir "<some_path>/eval_circuli_detector/" \
+    --plot_dets_vs_anns True \
+    --sep_plots True
+```
+
 
 
 [1]: https://www.simonwenkel.com/2019/07/19/list-of-annotation-tools-for-machine-learning-research.html
 [2]: https://github.com/tzutalin/labelImg#labelimg
 [3]: https://github.com/monocongo/cvdata
-[4]: https://github.com/tzutalin/labelImg#windows--anaconda
+[4]: https://github.com/tzutalin/labelImg

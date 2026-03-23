@@ -1,5 +1,3 @@
-
-
 # SSCD
  Salmon Scale Circuli Detector (SSCD)
 
@@ -7,163 +5,106 @@
 
  __Table of Contents__
 
-   - [Prerequisites](#markdown-header-prerequisites)
-   - [Installation](#markdown-header-installation)
-   - [How to run SSCD](#markdown-header-how-to-run-sscd)
-   - [Evaluating SSCD's performance](#markdown-header-evaluating-sscds-performance)
-   - [SSCD Training](#markdown-header-sscd-training)
+   - [Prerequisites](#prerequisites)
+   - [Installation](#installation)
+   - [How to run SSCD](#how-to-run-sscd)
+   - [Evaluating SSCD's performance](#evaluating-sscds-performance)
+   - [SSCD Training](#sscd-training)
 
 
 ## Prerequisites
 
 In order to install and use SSCD the following programmes are required to be installed:
-
-  - Conda (its lighter version [Miniconda][1] is recommended)
+  - [uv](https://docs.astral.sh/uv/getting-started/installation/)
   - [Git][2]
-  - [Sourcetree](https://www.sourcetreeapp.com/) (or other Git client)
 
 
 ## Installation
 
-#### 1. Clone the SSCD code from Bitbucket
+#### 1. Clone the SSCD code repository
 
-There are a few diferent ways to clone the SSCD repository from Bitbucket.
-Here is an example, assuming Sourcetree is available in the local system:
-
-  * Click on the `Clone` button at the top right corner of this webpage
-  * Hit the `Clone in Sourcetree` button
-  * Choose a suitable destination folder to hold the source code
-  (from now on referred to as the "SSCD directory")
-  * ... and Clone!
-
-
-
-#### 2. Set-up Conda environment for SSCD
-This step creates a Conda environment for the SSCD tool, with all the required packages and python dependencies being automatically installed.
-
-  - Open a conda prompt (**Start** > **Anaconda** > **Anaconda Prompt**)
-  - Navigate to the SSCD directory (e.g. `cd c:/SSCD`)
-  - Create SSCD environment:
-      ```
-      > conda env create -f condaenv_sscd.yml
-      ```
-
-  - Activate the environment:
-    ```
-    > conda activate sscd
-    ```
-
-  - Add SSCD conda environment to Jupyter notebook
-    ```
-    > python -m ipykernel install --user --name sscd --display-name "SSCD"
-    ```
-
-##### Setting up Conda environment on OSE (for internal SG installation only - skip to 3 otherwise)
-
-There is an issue with the installation on the OSE as the proxy server does not allow access to a large number of package requirements. To resolve this issue these have been downloaded externally and uploaded onto the OSE in a conda `custom channel` located \\isilonfl\OSE_FL_Data\James_Ounsley\python\sscd_pacakges\
-
-To allow conda to use this channel the following configuration option was applied
-
-```
-> conda config --set custom_channels.sscd_packages file://\\isilonfl\OSE_FL_Data\James_Ounsley\python\
+```bash
+git clone <repository-url>
+cd sscd
 ```
 
-A new .yml file was then created to include the channel sscd_packages as the first entry. This should tell conda to look at the local files on the server before trying to download them from the internet. However the pip installation subprocess was removed as this fails with the proxy server.
+#### 2. Set-up the project environment
 
+This step creates a virtual environment for the SSCD tool, with all the required packages and Python dependencies being automatically installed.
+
+```bash
+uv sync --dev
 ```
-conda env create -f condaenv_sscd_ose.yml
+
+##### Register the Jupyter kernel
+
+Add the SSCD environment to Jupyter notebook:
+```bash
+uv run ipython kernel install --user --env VIRTUAL_ENV $(pwd)/.venv --name=sscd
 ```
+This registers this project environment as a kernel `sscd`, which is an isolated environment you can use to run your code.
+If the kernel is not available in the list of kernels, refresh the page and it should appear.
 
-
-The pip subprocess invoked by the conda install in the original .yml file will fail due to not being able to access the online repositories. The required pip packages for sscd have been save to \\isilonfl\OSE_FL_Data\James_Ounsley\python\pip_pacakges\.
-
-To install these packages, create the sscd environment as above, then activate the environment.
-
-From there install the packages requiring pip as follows (assuming \\isilon\OSE_FL_Data is mapped to Z:\):
-
-```
-> conda activate sscd
-> pip install --no-index --find-links=Z:\James_Ounsley\python\pip_packages\ tensorflow==2.7.0
-```
 
 #### 3. Download YOLOv3 weights for focus and circuli detectors
 
-  - Download the file `yoloV3_checkpoints.zip`, containing the trained yolo weights for the two detectors, from [this link][3] (790MB total size, so perhaps time for a break and a cuppa?)
+  Run the following command to download and extract the trained weights (~790 MB) into `data/yoloV3_checkpoints/`:
 
-  - Unzip `yoloV3_checkpoints.zip` **inside the subdirectory `SSCD/data/`**.
+  ```bash
+  uv run sscd-fetch weights
+  ```
 
-  - Quick check: e.g. for the focus detector, the path to the directory comprising its weights MUST be `SSCD/data/yoloV3_checkpoints/focus_detector`
-
-  - That's it: installation (hopefully) done!
-
+  That's it: installation (hopefully) done!
 
 
 #### 4. Updating the SSCD Environment
 
-The SSCD's Conda environment should be updated if the file  `condaenv_sscd.yml` is modified, e.g. to solve a conflict between package dependencies.
-
-Once the most recent version of `condaenv_sscd.yml` has been pulled to the local repository, update the SSCD environment with the following steps:
-
-- Open the Anaconda prompt, navigate to the SSCD directory (e.g. `cd c:/SSCD`) and run the following commands to remove the current version of the environment:
-```
-> conda activate base
-> conda remove --name sscd --all
+The SSCD's environment should be updated if project dependencies change (e.g. in `pyproject.toml`).
+Once the most recent version has been pulled to the local repository, update the SSCD environment with:
+```bash
+uv sync --dev
 ```
 
-- Type `y` followed by `Enter` when `Proceed ([y]/n)?` is prompted.
-
-- Re-install the environment from the updated `condaenv_sscd.yml` file, by running the command:
-```
-> conda env create -f condaenv_sscd.yml
+#### 5. How to install a package
+Run `uv add <package-name>` to install a package. For example:
+```bash
+uv add requests
 ```
 
 ## How to run SSCD
 
-1. Open an Anaconda prompt (e.g. on windows, **Start** > **Anaconda** > **Anaconda Prompt**)
+Two alternatives to run SSCD:
 
-2. Go to the SSCD directory
+### Via a Jupyter Notebook (**recommended**)
 
-3. Activate the SSCD environment:
+  - Launch Jupyter lab:
 
-  ```
-  > conda activate sscd
-  ```
+    ```bash
+    uv run --with jupyter jupyter lab
+    ```
 
-4. Two alternatives to run SSCD:
-
-    4.1. Via a Jupyter Notebook (**recommended**)
-
-    - Launch Jupyter lab:
-
-      ```
-      > jupyter lab
-      ```
-
-    - On Jupyter's File Browser, open `SSCD/docs/SSCD detection example usage.ipynb` and follow the instructions
-
-    - **Alternatively**, open a new Notebook with `SSCD` as its Kernel, copy-paste the following code to a cell
-
+  - On Jupyter's File Browser, open `SSCD/docs/SSCD detection example usage.ipynb` and follow the instructions
+  - **Alternatively**, open a new Notebook with `sscd` as its Kernel, copy-paste the following code to a cell
     ```
     %run sscd.py \
        --img_dir "./data/example_scales"\
-       --output_dir "C:/SSCD_temp_outputs"\
+       --output_dir "./SSCD_temp_outputs"\
        --transect_angles 0 45 90 135 180 \
        --plot_dets True
     ```
     and hit `Ctrl+Enter` to run.
 
-    4.2. Via the command prompt (messier because of Tensorflow's verbose logging messages)
+### Via the command line
 
-    Run the following chunk of code directly into the command line
+  Run the following:
 
-    ```
-    > python sscd.py ^
-      --img_dir "./data/example_scales" ^
-      --output_dir "C:/SSCD_temp_outputs" ^
-      --transect_angles 0 45 90 135 180  ^
-      --plot_dets True
-    ```
-
+  ```bash
+  uv run python sscd.py \
+    --img_dir "./data/example_scales" \
+    --output_dir "./SSCD_temp_outputs" \
+    --transect_angles 0 45 90 135 180  \
+    --plot_dets True
+  ```
 
 
 ### `sscd.py` inputs
@@ -171,17 +112,15 @@ Once the most recent version of `condaenv_sscd.yml` has been pulled to the local
 | Argument               | Description                     | Type          | Default         |
 |------------------------|---------------------------------|---------------|-----------------|
 | `--img_dir`    | Directory path containing scale image files. Expects TIF images  | str  |      |
-| `--output_dir` | Directory path where outputs will be stored                           | str  |      |
+| `--output_dir` | Directory path where outputs will be stored                      | str  |      |
 | `--transect_angles` | Choice of angle(s) for radial transects in degrees (0-360)  | int (spaced) | `0 45 90 135 180` |
 | `--plot_dets`    | Option to generate images with detections, for visual inspection   | bool   | `True` |
 | `--transect_max_boxes` | Maximum number of detections per transect image              | int    | `200`  |
 
 
-
 ### `sscd.py` outputs
 
 The following directory tree represents how the outputs from SSCD are structured:
-
 <!-- Tree obtained via "tree /F" in command line -->
 
 ```
@@ -237,10 +176,9 @@ The following directory tree represents how the outputs from SSCD are structured
 - In addition, images where detectors fail to locate the scale focus, or any circuli bands in a transect, are copied to a dedicated directory (e.g. `output_dir/detections/focus/imgs_with_no_detections`)
 
 
-
 ## Evaluating SSCD's performance
 
-Evaluating the performance of the SCCD is crucial to identify degradation in the system's capacity to produce reliable detections of circuli bands, and subsequently provide accurate intercirculi spacings. Consistent drops in evaluation metrics on new images, compared to [those][5] obtained when the system was last trained, indicates the system needs to be [retrained](#training-sscd) with fresh images.
+Evaluating the performance of the SCCD is crucial to identify degradation in the system's capacity to produce reliable detections of circuli bands, and subsequently provide accurate intercirculi spacings. Consistent drops in evaluation metrics on new images, compared to [those][5] obtained when the system was last trained, indicates the system needs to be [retrained](#sscd-training) with fresh images.
 
 The performance of each detector comprised in SSCD's pipeline can be evaluated via the `eval_detector.py` function. This tool combines outputs from the `sscd.py` script with annotation data (provided by the user) to produce standard object detection evaluation metrics.
 
@@ -249,28 +187,27 @@ Core computational tasks were adapted from [this project][4], where background i
 A more detailed guide for evaluating the performance of SSCD's detectors is available [here][6].
 
 The following code chunk exemplifies the evaluation of the circulus detector in a jupyter session (under the sscd kernel):
-
 ```
 %run eval_detector.py \
     --img_dir "./data/eval_example/imgs/" \
     --anns_dir "./data/eval_example/anns/" \
     --dets_csv "./data/eval_example/detections.csv"\
     --iou_threshould 0.5 \
-    --output_dir "C:/SSCD_temp_outputs"\
+    --output_dir "./SSCD_temp_outputs"\
     --plot_dets_vs_anns True \
     --sep_plots True
 ```
 
-Running the same case usage via the command line (copy-pasting):
+Running the same case usage via the command line:
 
-```
-python eval_detector.py ^
-    --img_dir "./data/eval_example/imgs/" ^
-    --anns_dir "./data/eval_example/anns/" ^
-    --dets_csv "./data/eval_example/detections.csv" ^
-    --iou_threshould 0.5 ^
-    --output_dir "C:/SSCD_temp_outputs" ^
-    --plot_dets_vs_anns True ^
+```bash
+uv run python eval_detector.py \
+    --img_dir "./data/eval_example/imgs/" \
+    --anns_dir "./data/eval_example/anns/" \
+    --dets_csv "./data/eval_example/detections.csv" \
+    --iou_threshould 0.5 \
+    --output_dir "./SSCD_temp_outputs" \
+    --plot_dets_vs_anns True \
     --sep_plots True
 ```
 
@@ -278,21 +215,19 @@ python eval_detector.py ^
 
 
 | Argument     | Description                                             | Type          | Default  |
-|--------------|-------------------------------------------------------- |---------------|----------|
-| `--img_dir`  | Directory path to images for evaluation. Expects JPEG images   | str    |          |
+|--------------|---------------------------------------------------------|---------------|----------|
+| `--img_dir`  | Directory path to images for evaluation. Expects JPEG images | str    |          |
 | `--anns_dir` | Directory path to annotation files. Expects XML files with Pascal VOC format  | str  |       |
 | `--dets_csv` | Filepath to CSV file containing detection bounding boxes, as outputted from `sscd.py`| str | |
 | `--iou_threshould` | IOU threshold (IOU<sub>thresh</sub>) determining if a detection is TP or FP (see "Metrics" section bellow) | float  | `0.5`  |
-| `--output_dir`| Directory path to evaluation outputs                          | str           |          |
+| `--output_dir`| Directory path to evaluation outputs | str           |          |
 | `--plot_dets_vs_anns` | Option to generate image plots contrasting detections with annotations | bool   | `True` |
 | `--sep_plots` | Option to produce separate plots for detections and annotations. If `False` draw both in the same plot (recommended for focus detections) | bool  | `False`  |
-
 
 
 ### `eval_detector.py` outputs
 
 Evaluation metrics are printed to the active console, and stored with other relevant outputs as follows (for the above example case):
-
 
 ```
 <output_dir>
@@ -320,8 +255,8 @@ where:
 
 #### Definitions and Metrics:
   - Intersection Over Union (IOU):  the overlapping area between the detection bounding box and the annotation bounding box divided by the area of union between them:
-  ![](docs/images/iou.png)
 
+    ![](docs/images/iou.png)
 
   - IOU threshold (IOU<sub>thresh</sub>): determines if a detection is classified as True Positive or False Positive
   - True Positive (TP): a correct detection (i.e. a detection with IOU &ge; IOU<sub>thresh</sub>)
@@ -334,11 +269,9 @@ where:
   - Mean Centre Error (MCE): average of Euclidian distances (in pixels) between the centres of TP detection boxes and respective annotation boxes
 
 
-
 > **Note of caution**
 >
 > Annotations are not ground truths in a strict sense. Target objects are marked manually and thence subject to human error and labelling ambiguity. Therefore, performance metrics are highly dependent not only on the accuracy of the detector, but also on the quality of annotations used on the evaluation. Image plots contrasting detections against annotations should help scrutinise if apparent drops in performance metrics are being driven by a deteriorating detector, by poor labelling, or both.
-
 
 ## SSCD Training
 
@@ -348,55 +281,47 @@ Each detector is a [YOLOv3][10] (*You Only Look Once*) model trained for its spe
 
 This [page][8] provides details on how to set up a workstation for (re)training the SSCD's detectors.
 
-
 *[Training protocol][11] currently being written up.*
 
 
-### Troubleshooting
+## Development
 
-#### Downloading packages for ose
-
-##### conda channel creatino
-
-Current work flow, use failed link from ose when trying to install to download the .tar.bz2 file on another machine. Use `conda build` to create the package
-
-
-```
-conda index [location of packages]
+### Update from template
+To update your project with the latest changes from the template, run:
+```bash
+uvx --with copier-template-extensions copier update --trust
 ```
 
-##### pip
-
-From the same architecture (windows)
-
-```
-pip download --python-version=37 --only-binary=:all: package_name
+You can keep your previous answers by using:
+```bash
+uvx --with copier-template-extensions copier update --trust --defaults
 ```
 
+### (Optional) pre-commit
+pre-commit is a set of tools that help you ensure code quality. It runs every time you make a commit.
 
-
-#### Writing to netork locations
-
-Missing library fsspec requires adding to channel to allow saving to isilon
-
-#### pip Proxy settings
-
-in session
-
+First, install pre-commit:
+```bash
+uv tool install pre-commit
 ```
->set http_proxy=http://192.168.41.8:80
->set https_proxy=http://192.168.41.8:80
+
+Then install pre-commit hooks:
+```bash
+pre-commit install
 ```
+
+To run pre-commit on all files:
+```bash
+pre-commit run --all-files
+```
+
 
 ### References (supporting code)
 - [YOLOv3 implementation in Tensorflow 2][7]
 - [Diagonal crop][9]
 - Object detection evaluation [tool](https://github.com/rafaelpadilla/Object-Detection-Metrics#how-to-use-this-project)
 
-
-[1]: https://docs.anaconda.com/miniconda/{:target="_blank"} "Miniconda Installers"
-[2]: https://git-scm.com/downloads{:target="_blank"} "Git Installers"
-[3]: https://www.dropbox.com/sh/xm2zmoz7h9g5nqi/AACfwx7_JQmUkcNK8ePXetkta?dl=0
+[2]: https://git-scm.com/downloads "Git Installers"
 [4]: https://github.com/rafaelpadilla/Object-Detection-Metrics
 [5]: /docs/sscd_evaluate.md#evaluation-metrics-on-test-set-on-latest-training
 [6]: /docs/sscd_evaluate.md

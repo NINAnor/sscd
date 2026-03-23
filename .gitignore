@@ -175,14 +175,12 @@ pyrightconfig.json
 
 # End of https://www.toptal.com/developers/gitignore/api/python
 
-data/yoloV3_checkpoints/focus_detector/yolov3_train_190.tf.index
-data/yoloV3_checkpoints/focus_detector/yolov3_train_190.tf.data-00001-of-00002
-data/yoloV3_checkpoints/focus_detector/yolov3_train_190.tf.data-00000-of-00002
-data/yoloV3_checkpoints/focus_detector/checkpoints_metadata.txt
-data/yoloV3_checkpoints/circuli_detector/yolov3_train_22.tf.data-00000-of-00002
-data/yoloV3_checkpoints/circuli_detector/yolov3_train_22.tf.data-00001-of-00002
-data/yoloV3_checkpoints/circuli_detector/yolov3_train_22.tf.index
-data/yoloV3_checkpoints/circuli_detector/checkpoints_metadata.txt
+data/yoloV3_checkpoints/
+data/yoloV3_checkpoints.zip
+data/training_example_data/
+data/training_example_data.zip
+data/transfer_learning/
+data/focus_detection/
 
 docs/SSCD testing.ipynb
 docs/SSCD detection example usage.ipynb
