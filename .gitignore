@@ -186,6 +186,7 @@ docs/SSCD testing.ipynb
 docs/SSCD detection example usage.ipynb
 docs/comments and ideas.md
 
+SSCD_temp_outputs/
 log_sscd_detection.log
 
 .Rproj.user
