@@ -6,7 +6,7 @@ authors = [
 # PEP 621 project metadata
 # See https://www.python.org/dev/peps/pep-0621/
 dependencies = [
-    "pillow>=10.2.0,<11.0.0",
+    "pillow>=12.3.0,<13.0.0",
     "opencv-python>=4.8.1.78,<5.0.0",
     "tqdm>=4.66.2,<5.0.0",
     "requests>=2.31.0,<3.0.0",
